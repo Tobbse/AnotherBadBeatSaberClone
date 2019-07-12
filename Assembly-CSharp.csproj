@@ -62,7 +62,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Game\Visual\MeshModifier\InvertMesh.cs" />
+    <Compile Include="Assets\Logic\DSP\AudioAnalyzerController.cs" />
+    <Compile Include="Assets\Logic\DSP\AudioAnalyzerPlain.cs" />
+    <Compile Include="Assets\Logic\DSP\AudioSampleProviderPlain.cs" />
+    <Compile Include="Assets\Logic\DSP\External\DSPLib.cs" />
+    <Compile Include="Assets\Logic\DSP\SpectrumPlotter.cs" />
+    <Compile Include="Assets\Logic\DSP\SpectrumProviderPlain.cs" />
+    <Compile Include="Assets\Logic\TimedBlocks\BlockDataControllerPlain.cs" />
+    <Compile Include="Assets\Logic\TimedBlocks\BlockDataPlain.cs" />
+    <Compile Include="Assets\Logic\TimedBlocks\TimedBlocksGameController.cs" />
+    <Compile Include="Assets\Logic\Visual\MeshModifier\InvertMesh.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scenes\Scripts\TestScript.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\AmbienceEmitter.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\AudioManager.cs" />
