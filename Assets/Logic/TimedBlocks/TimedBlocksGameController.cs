@@ -11,7 +11,7 @@ public class TimedBlocksGameController : MonoBehaviour
         _blockDataController = new BlockDataControllerPlain();
     }
 
-    public void setSpectrumData(FastList<SpectrumData> spectrumDataList)
+    public void setSpectrumData(FastList<PSpectrumData> spectrumDataList)
     {
         _blockDataController.createBlockData(spectrumDataList);
     }

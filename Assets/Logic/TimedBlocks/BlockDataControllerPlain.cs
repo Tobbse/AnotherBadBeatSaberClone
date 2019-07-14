@@ -3,9 +3,9 @@ using AudioAnalyzerPlain;
 
 public class BlockDataControllerPlain : ScriptableObject
 {
-    private FastList<SpectrumData> _spectrumDataList;
+    private FastList<PSpectrumData> _spectrumDataList;
 
-    public void createBlockData(FastList<SpectrumData> spectrumDataList)
+    public void createBlockData(FastList<PSpectrumData> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
 
