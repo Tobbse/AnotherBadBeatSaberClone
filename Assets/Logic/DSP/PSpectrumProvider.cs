@@ -4,7 +4,9 @@ using DSPLib;
 
 public class PSpectrumProvider
 {
-    private const int SPECTRUM_SAMPLE_SIZE = AudioAnalyzerPlain.PSpectrumAnalyzer.SPECTRUM_SAMPLE_SIZE;
+    public const int SPECTRUM_SAMPLE_SIZE = 1024;
+    public const int NUM_FREUQENCY_BINS = SPECTRUM_SAMPLE_SIZE / 2;
+
     private const DSP.Window.Type WINDOW_TYPE = DSP.Window.Type.Hamming;
 
     public static FastList<double[]> getSpectrums(float[] monoSamples)

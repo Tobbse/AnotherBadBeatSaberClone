@@ -550,6 +550,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1285458586}
     m_Modifications:
+    - target: {fileID: 1700265148678854, guid: 8a552ee8d4e985f4eb965c1dbd8cb815, type: 3}
+      propertyPath: m_Name
+      value: Point
+      objectReference: {fileID: 0}
     - target: {fileID: 377014659140559553, guid: 8a552ee8d4e985f4eb965c1dbd8cb815,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -559,10 +563,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ExtraPeakPoint
-      objectReference: {fileID: 0}
-    - target: {fileID: 1700265148678854, guid: 8a552ee8d4e985f4eb965c1dbd8cb815, type: 3}
-      propertyPath: m_Name
-      value: Point
       objectReference: {fileID: 0}
     - target: {fileID: 4536838457428552, guid: 8a552ee8d4e985f4eb965c1dbd8cb815, type: 3}
       propertyPath: m_LocalPosition.x
@@ -813,8 +813,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c690a155cd8c934428ff479c88b4c4e7, type: 3}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: 8bf9d13a79fc01549a66858440b82004, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

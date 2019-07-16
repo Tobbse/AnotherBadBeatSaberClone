@@ -9,6 +9,7 @@ public class MSpectrumPlotter : MonoBehaviour
     private FastList<PSpectrumData> _spectrumDataList;
     private FastList<Transform> _plotPoints;
     private bool _isReady = false;
+    private float _time = 0;
 
     void Start()
     {
@@ -44,6 +45,7 @@ public class MSpectrumPlotter : MonoBehaviour
     {
         if (_isReady && _hasRemainingSamples())
         {
+            _time += 0.02f;  // 50 ms fixed update
             _updatePlot();
         }
     }
@@ -61,6 +63,14 @@ public class MSpectrumPlotter : MonoBehaviour
 
     private void _updatePlot()
     {
+        if (_currentPlotIndex < 0 || _currentPlotIndex >= _spectrumDataList.Count)
+        {
+            return;
+        }
+        if (_spectrumDataList[_currentPlotIndex].time > _time)
+        {
+            return;
+        }
         if (_plotPoints.Count < DISPLAY_WINDOW_SIZE - 1)
             return;
 

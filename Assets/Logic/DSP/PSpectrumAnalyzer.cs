@@ -4,30 +4,42 @@ namespace AudioAnalyzerPlain
 {
     public class PSpectrumAnalyzer
     {
-        public const int SPECTRUM_SAMPLE_SIZE = 1024;
-        public const int BPM_INTERVAL = 2000;  // ms
-
-        private const int THRESHOLD_SIZE = 50;
-        private const float THRESHOLD_MULTIPLIER = 1.5f;
+        private const int SPECTRUM_SAMPLE_SIZE = PSpectrumProvider.SPECTRUM_SAMPLE_SIZE;
+        private const int THRESHOLD_SIZE = 20;
+        //private const float THRESHOLD_MULTIPLIER = 1.95f;
+        //private const float PEAK_DETECTION_MULTIPLIER = 1.85f;
+        private const float THRESHOLD_MULTIPLIER = 1.50f;
+        private const float PEAK_DETECTION_MULTIPLIER = 1.05f;
+        private const int NUM_FREQUENCY_BINS = SPECTRUM_SAMPLE_SIZE / 2;
 
         private FastList<PSpectrumData> _spectrumDataList;
         private FastList<double[]> _spectrumsList;
         private PPostAudioAnalyzer _postAudioAnalyzer;
-        private float[] _currentSpectrum;
-        private float[] _previousSpectrum;
-        private float _sampleRate = (float)AudioSettings.outputSampleRate;
         private int _indexToProcess;
         private bool _isReady = false;
+        private float[] _currentSpectrum;
+        private float[] _previousSpectrum;
+        private float[] _bpms;
+        private float _sampleRate = (float)AudioSettings.outputSampleRate;
+        private float _bpmInterval;
+        private float _timePerSample;
+        private float _timePerSpectrumData;
+        private float _spectrumDataPerBPMInterval;
 
         public PSpectrumAnalyzer(FastList<double[]> spectrumsList)
         {
             _spectrumsList = spectrumsList;
             _spectrumDataList = new FastList<PSpectrumData>();
 
-            _currentSpectrum = new float[SPECTRUM_SAMPLE_SIZE];
-            _previousSpectrum = new float[SPECTRUM_SAMPLE_SIZE];
+            _currentSpectrum = new float[spectrumsList[0].Length];
+            _previousSpectrum = new float[spectrumsList[0].Length];
 
             _indexToProcess = THRESHOLD_SIZE / 2;
+
+            _timePerSample = 1f / _sampleRate;
+            _timePerSpectrumData = _timePerSample * SPECTRUM_SAMPLE_SIZE; // We have only 512 frequency bins but need 1024 samples to achieve that.
+            _bpmInterval = 4.0f;
+            _spectrumDataPerBPMInterval = _bpmInterval / _timePerSpectrumData;
         }
 
         public FastList<PSpectrumData> getSpectrumDataList()
@@ -37,6 +49,8 @@ namespace AudioAnalyzerPlain
 
         public void analyzeSpectrumsList()
         {
+            _bpms = new float[_spectrumsList.Count];
+
             for (int i = 0; i < _spectrumsList.Count; i++)
             {
                 double[] doubleSpectrum = _spectrumsList[i];
@@ -65,17 +79,20 @@ namespace AudioAnalyzerPlain
             spectrumData.spectralFlux = calculateSpectralFlux();
             _spectrumDataList.Add(spectrumData);
 
+            _bpms[_indexToProcess] = _getBpm(_indexToProcess);
+
             // The amount of samples we've collected so far is high enough to be able to detect a peak.
             if (_spectrumDataList.Count >= THRESHOLD_SIZE)
             {
                 _spectrumDataList[_indexToProcess].threshold = _getFluxThreshold(_indexToProcess);
                 _spectrumDataList[_indexToProcess].prunedSpectralFlux = _getPrunedSpectralFlux(_indexToProcess);
 
+                // We do this because we need the next flux values to determin if a value is a peak.
                 int indexToDetectPeak = _indexToProcess - 1;
                 if (_isPeak(indexToDetectPeak))
                 {
                     _spectrumDataList[indexToDetectPeak].isPeak = true;
-                    _spectrumDataList[indexToDetectPeak].peakBPM = _getPeakBpm(indexToDetectPeak, _spectrumDataList[indexToDetectPeak].time);
+                    _spectrumDataList[indexToDetectPeak].peakBPM = _getAveragedBpm(indexToDetectPeak);
                     Debug.Log(" bpm: " + _spectrumDataList[indexToDetectPeak].peakBPM.ToString());
                     Debug.Log("time: " + _spectrumDataList[indexToDetectPeak].time.ToString());
                     Debug.Log("__________________________________");
@@ -84,36 +101,48 @@ namespace AudioAnalyzerPlain
             }
         }
 
-        private float _getPeakBpm(int beatIndex, float beatTime)
+        private float _getAveragedBpm(int currIndex) {
+            int indexDist = Mathf.CeilToInt(_spectrumDataPerBPMInterval);
+            int minIndex = currIndex - indexDist;
+            int maxIndex = currIndex - 1;
+
+            if (minIndex <= 0) minIndex = 0;
+            if (maxIndex <= 0) maxIndex = 0;
+            if (maxIndex >= _spectrumDataList.Count) maxIndex = _spectrumDataList.Count - 1;
+
+            int newIndexDist = maxIndex - minIndex;
+
+            float sum = 0.0f;
+            for (int i = minIndex; i < maxIndex; i++)
+            {
+                sum += _bpms[i];
+            }
+            return sum / newIndexDist;
+        }
+
+        private float _getBpm(int beatIndex)
         {
-            int beatCounter = 0;
-            float minTime = beatTime - (BPM_INTERVAL / 2);
-            float maxTime = beatTime + (BPM_INTERVAL / 2);
-            int searchIndex = beatIndex -1;
+            int beats = 0;
+            int indexDist = Mathf.CeilToInt(_spectrumDataPerBPMInterval);
+            int minIndex = beatIndex - indexDist;
+            int maxIndex = beatIndex -1;
+            int currentIndex = beatIndex - 1;
 
-            while (searchIndex >= 0)
+            if (minIndex <= 0) minIndex = 0;
+            if (maxIndex <= 0) maxIndex = 0;
+            if (maxIndex >= _spectrumDataList.Count) maxIndex = _spectrumDataList.Count - 1;
+
+            int newIndexDist = maxIndex - minIndex;
+            float newBpmInterval = newIndexDist * _timePerSpectrumData;
+
+            for (int i = minIndex; i < maxIndex; i++)
             {
-                PSpectrumData currentSearch = _spectrumDataList[searchIndex];
-                if (currentSearch.time < minTime) break;
-                if (currentSearch.isPeak) beatCounter += 1; 
-                searchIndex--;
-                //if (beatIndex - searchIndex > 100) break;
+                if (_spectrumDataList[i].isPeak)
+                {
+                    beats += 1;
+                }
             }
-
-            searchIndex = beatIndex + 1;
-            while (searchIndex < _spectrumDataList.Count)
-            {
-                PSpectrumData currentSearch = _spectrumDataList[searchIndex];
-                if (currentSearch.time > maxTime) break;
-                if (currentSearch.isPeak) beatCounter += 1;
-                searchIndex++;
-                //if (searchIndex - beatIndex > 100) break;
-            }
-
-            float multiplier = 60000.0f / (float)BPM_INTERVAL;
-            float bpm = beatCounter * multiplier;
-
-            return bpm;
+            return beats * (60 / newBpmInterval);
         }
 
         private void _setCurrentSpectrum(float[] spectrum)
@@ -128,16 +157,17 @@ namespace AudioAnalyzerPlain
             float sum = 0f;
 
             // Aggregate positive changes in spectrum data
-            for (int i = 0; i < SPECTRUM_SAMPLE_SIZE; i++)
+            for (int i = 0; i < NUM_FREQUENCY_BINS / 6.0f; i++)
             {
                 sum += Mathf.Max(0f, _currentSpectrum[i] - _previousSpectrum[i]);
+                //sum += _currentSpectrum[i];
             }
             return sum;
         }
 
-        private float _getTimeFromIndex(int index)
+        private float _getTimeFromIndex(int spectrumDataIndex)
         {
-            return ((1f / _sampleRate) * index);
+            return _timePerSpectrumData * spectrumDataIndex;
         }
 
         private float _getFluxThreshold(int index)
@@ -147,17 +177,17 @@ namespace AudioAnalyzerPlain
             int windowEndIndex = Mathf.Min(_spectrumDataList.Count - 1, index + THRESHOLD_SIZE / 2);
 
             // Add up our spectral flux over the window
-            float sum = 0f;
-            for (int i = windowStartIndex; i < windowEndIndex; i++)
-            {
+            float sum = 0.0f;
+            for (int i = windowStartIndex; i < windowEndIndex; i++) {
                 sum += _spectrumDataList[i].spectralFlux;
             }
-
+            
             // Return the average multiplied by our sensitivity multiplier
             float avg = sum / (windowEndIndex - windowStartIndex);
             return avg * THRESHOLD_MULTIPLIER;
         }
 
+        // Pruned Spectral Flux is 0 when the threshhold has not been reached.
         private float _getPrunedSpectralFlux(int index)
         {
             return Mathf.Max(0f, _spectrumDataList[index].spectralFlux - _spectrumDataList[index].threshold);
@@ -165,8 +195,12 @@ namespace AudioAnalyzerPlain
 
         private bool _isPeak(int index)
         {
-            if (_spectrumDataList[index].prunedSpectralFlux > _spectrumDataList[index + 1].prunedSpectralFlux &&
-                _spectrumDataList[index].prunedSpectralFlux > _spectrumDataList[index - 1].prunedSpectralFlux)
+            //float flux = _spectrumDataList[index].spectralFlux;
+            float prunedFlux = _spectrumDataList[index].prunedSpectralFlux;
+            if (prunedFlux > (_spectrumDataList[index + 1].prunedSpectralFlux * PEAK_DETECTION_MULTIPLIER) &&
+                prunedFlux > (_spectrumDataList[index - 1].prunedSpectralFlux * PEAK_DETECTION_MULTIPLIER))
+            //if (flux > (_spectrumDataList[index + 1].spectralFlux * PEAK_DETECTION_MULTIPLIER) &&
+            //    flux > (_spectrumDataList[index - 1].spectralFlux * PEAK_DETECTION_MULTIPLIER))
             {
                 return true;
             }

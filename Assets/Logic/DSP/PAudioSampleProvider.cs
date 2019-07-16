@@ -17,18 +17,17 @@ public static class PAudioSampleProvider
 
     private static float[] _getMonoSamples(float[] stereoSamples, int numChannels)
     {
-        float[] monoSamples = new float[stereoSamples.Length * numChannels];
+        float[] monoSamples = new float[stereoSamples.Length / numChannels];
         int numProcessed = 0;
-        float channelAverage = 0f;
-        for (int i = 0; i < stereoSamples.Length; i++)
+
+        for (int i = 0; i < stereoSamples.Length; i+= numChannels)
         {
-            channelAverage += stereoSamples[i];
-            if ((i + 1) % numChannels == 0)
-            {
-                monoSamples[numProcessed] = channelAverage / numChannels;
-                numProcessed++;
-                channelAverage = 0f;
+            float channelAverage = 0.0f;
+            for (int j = 0; j < numChannels; j++) {
+                channelAverage += stereoSamples[i + j];
             }
+            monoSamples[numProcessed] = channelAverage / numChannels;
+            numProcessed++;
         }
         return monoSamples;
     }
