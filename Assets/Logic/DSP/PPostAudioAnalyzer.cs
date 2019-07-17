@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
+using PSpectrumData;
 
 public class PPostAudioAnalyzer
 {
-    private FastList<PSpectrumData>  _spectrumDataList;
+    private FastList<SpectrumInfo>  _spectrumDataList;
 
-    public PPostAudioAnalyzer(FastList<PSpectrumData> spectrumDataList)
+    public PPostAudioAnalyzer(FastList<SpectrumInfo> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
     }
 
-    public FastList<PSpectrumData> findExtraBeats()
+    /*public FastList<SpectrumInfo> findExtraBeats()
     {
         float totalAverageFlux = _getAverageFluxForInterval(0, _spectrumDataList.Count - 1);
 
         for (int i = 0; i < _spectrumDataList.Count; i++)
         {
-            PSpectrumData spectrumData = _spectrumDataList[i];
+            SpectrumInfo spectrumData = _spectrumDataList[i];
 
             if (spectrumData.isPeak)
             {
@@ -30,22 +31,22 @@ public class PPostAudioAnalyzer
                     Debug.Log(previousBeatIndex);
                     if (previousBeatIndex != -1)
                     {
-                        PSpectrumData previousBeat = _spectrumDataList[previousBeatIndex];
+                        SpectrumInfo previousBeat = _spectrumDataList[previousBeatIndex];
                         float averageBpm = (previousBeat.peakBPM + spectrumData.peakBPM) / 2;
                         int newIndex = (i - previousBeatIndex) / 2;
                         _spectrumDataList[newIndex].isPeak = true;
                         _spectrumDataList[newIndex].isExtraPeak = true;
                         _spectrumDataList[newIndex].peakBPM = averageBpm;
 
-                        /*float newTime = spectrumData.time - (previousBeat.time / 2);
-                        int closestPreviousIndex = _getNearestSpectrumDataIndex(newTime, i);
-                        if (closestPreviousIndex != 0)
-                        {
-                            _spectrumDataList[closestPreviousIndex].isPeak = true;
-                            _spectrumDataList[closestPreviousIndex].peakBPM = averageBpm;
-                            Debug.Log("Adding an additional previous beat!");
-                        }*/
-                    }
+                        //float newTime = spectrumData.time - (previousBeat.time / 2);
+                        //int closestPreviousIndex = _getNearestSpectrumDataIndex(newTime, i);
+                        //if (closestPreviousIndex != 0)
+                        //{
+                        //    _spectrumDataList[closestPreviousIndex].isPeak = true;
+                        //    _spectrumDataList[closestPreviousIndex].peakBPM = averageBpm;
+                        //    Debug.Log("Adding an additional previous beat!");
+                        //}
+}
                 }
                 if (PSpectrumAnalysisUtils.shouldBeExtraPeak(totalAverageFlux, afterAverageFlux))
                 {
@@ -60,15 +61,15 @@ public class PPostAudioAnalyzer
                         _spectrumDataList[newIndex].isExtraPeak = true;
                         _spectrumDataList[newIndex].peakBPM = averageBpm;
 
-                        /*float newTime = spectrumData.time + (nextBeat.time / 2);
-                        int closestNextIndex = _getNearestSpectrumDataIndex(newTime, i);
-                        if (closestNextIndex != 0)
-                        {
-                            _spectrumDataList[closestNextIndex].isPeak = true;
-                            _spectrumDataList[closestNextIndex].peakBPM = averageBpm;
-                            Debug.Log("Adding an additional next beat!");
-                        }*/
-                    }
+                        //float newTime = spectrumData.time + (nextBeat.time / 2);
+                        //int closestNextIndex = _getNearestSpectrumDataIndex(newTime, i);
+                        //if (closestNextIndex != 0)
+                        //{
+                        //    _spectrumDataList[closestNextIndex].isPeak = true;
+                        //    _spectrumDataList[closestNextIndex].peakBPM = averageBpm;
+                        //    Debug.Log("Adding an additional next beat!");
+                        //}
+}
                 }
             }
         }
@@ -162,6 +163,6 @@ public class PPostAudioAnalyzer
         fluxSum /= maxIndex - minIndex;
 
         return fluxSum;
-    }
+    }*/
 
 }

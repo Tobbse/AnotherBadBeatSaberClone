@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using AudioAnalyzerPlain;
+using PSpectrumData;
 
 public class BlockDataControllerPlain : ScriptableObject
 {
-    private FastList<PSpectrumData> _spectrumDataList;
+    private FastList<SpectrumInfo> _spectrumDataList;
 
-    public void createBlockData(FastList<PSpectrumData> spectrumDataList)
+    public void createBlockData(FastList<SpectrumInfo> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
 

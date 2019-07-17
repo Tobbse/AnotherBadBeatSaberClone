@@ -1,11 +1,20 @@
-﻿public class PSpectrumData
-{
-    public float time;
-    public float spectralFlux;
-    public float threshold;
-    public float prunedSpectralFlux;
-    public bool isPeak;
-    public bool isExtraPeak;
-    public float peakBPM = 0;
-    public float[] spectrum;
+﻿namespace PSpectrumData {
+    public class SpectrumInfo
+    {
+        public float[] spectrum;
+        public float time;
+        public bool hasPeak;
+        public FastList<SpectrumBandData> bandData = new FastList<SpectrumBandData>();
+    }
+
+    public class SpectrumBandData
+    {
+        public float spectralFlux;
+        public float threshold;
+        public float prunedSpectralFlux;
+        public float band;
+        public float peakBPM;
+        public bool isPeak;
+    }
+
 }

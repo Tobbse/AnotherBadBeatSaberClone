@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
-using AudioAnalyzerPlain;
+using PSpectrumData;
 
 public class MSpectrumPlotter : MonoBehaviour
 {
     public static int DISPLAY_WINDOW_SIZE = 300;
 
     private int _currentPlotIndex = 0;
-    private FastList<PSpectrumData> _spectrumDataList;
+    private FastList<SpectrumInfo> _spectrumDataList;
     private FastList<Transform> _plotPoints;
     private bool _isReady = false;
     private float _time = 0;
+    private int _bands;
 
     void Start()
     {
@@ -50,9 +51,10 @@ public class MSpectrumPlotter : MonoBehaviour
         }
     }
 
-    public void setSpectrumData(FastList<PSpectrumData> spectrumDataList)
+    public void setSpectrumData(FastList<SpectrumInfo> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
+        _bands = _spectrumDataList[0].bandData.Count;
         _isReady = true;
     }
 
@@ -95,14 +97,50 @@ public class MSpectrumPlotter : MonoBehaviour
             numPlotted++;
 
             Transform fluxPoint = _plotPoints[plotIndex].Find("FluxPoint");
-            Transform threshPoint = _plotPoints[plotIndex].Find("ThreshPoint");
-            Transform peakPoint = _plotPoints[plotIndex].Find("PeakPoint");
-            Transform extraPeakPoint = _plotPoints[plotIndex].Find("ExtraPeakPoint");
+            //Transform threshPoint = _plotPoints[plotIndex].Find("ThreshPoint");
 
-
-            if (_spectrumDataList[i].isExtraPeak)
+            FastList<Transform> peakPoints = new FastList<Transform>();
+            FastList<Transform> threshPoints = new FastList<Transform>();
+            for (int z = 0; z < _bands; z++)
             {
-                Debug.Log("");
+                peakPoints.Add(_plotPoints[plotIndex].Find("Peak" + z.ToString()));
+                peakPoints[z].gameObject.SetActive(false);
+                threshPoints.Add(_plotPoints[plotIndex].Find("Thresh" + z.ToString()));
+            }
+
+            SpectrumInfo info = _spectrumDataList[i];
+            /*if (!info.hasPeak)
+            {
+                float fluxSum = 0;
+                float threshSum = 0;
+                foreach (SpectrumBandData data in info.bandData)
+                {
+                    fluxSum += data.spectralFlux;
+                    threshSum += data.threshold;
+                }
+                _setPointHeight(fluxPoint, fluxSum);
+                //_setPointHeight(threshPoint, threshSum);
+            }*/
+
+            for (int j = 0; j < info.bandData.Count; j++)
+            {
+                SpectrumBandData bandData = info.bandData[j];
+                if (bandData.isPeak)
+                {
+                    _setPointHeight(peakPoints[j], bandData.spectralFlux);
+                    peakPoints[j].gameObject.SetActive(true);
+                }
+                _setPointHeight(threshPoints[j], bandData.threshold);
+            }
+
+
+            
+
+            //Transform extraPeakPoint = _plotPoints[plotIndex].Find("ExtraPeakPoint");
+
+
+            /*if (_spectrumDataList[i].isExtraPeak)
+            {
                 _setPointHeight(extraPeakPoint, _spectrumDataList[i].spectralFlux);
                 _setPointHeight(peakPoint, 0f);
                 _setPointHeight(fluxPoint, 0f);
@@ -119,7 +157,7 @@ public class MSpectrumPlotter : MonoBehaviour
                 _setPointHeight(extraPeakPoint, 0f);
                 _setPointHeight(peakPoint, -1000f);
             }
-            _setPointHeight(threshPoint, _spectrumDataList[i].threshold);
+            _setPointHeight(threshPoint, _spectrumDataList[i].threshold);*/
         }
 
         _currentPlotIndex += 1;
@@ -128,7 +166,7 @@ public class MSpectrumPlotter : MonoBehaviour
 
     private void _setPointHeight(Transform point, float height)
     {
-        float displayMultiplier = 0.06f;
+        float displayMultiplier = 0.06f + 2f;
 
         point.localPosition = new Vector3(point.localPosition.x, height * displayMultiplier, point.localPosition.z);
     }

@@ -4,25 +4,25 @@ using DSPLib;
 
 public class PSpectrumProvider
 {
-    public const int SPECTRUM_SAMPLE_SIZE = 1024;
-    public const int NUM_FREUQENCY_BINS = SPECTRUM_SAMPLE_SIZE / 2;
+    public const int SAMPLE_SIZE = 2048;
+    public const int NUM_BINS = (SAMPLE_SIZE / 2) + 1;
 
     private const DSP.Window.Type WINDOW_TYPE = DSP.Window.Type.Hamming;
 
     public static FastList<double[]> getSpectrums(float[] monoSamples)
     {
-        int iterations = monoSamples.Length / SPECTRUM_SAMPLE_SIZE;
+        int iterations = monoSamples.Length / SAMPLE_SIZE;
         FastList<double[]> spectrums = new FastList<double[]>();
 
         FFT fft = new FFT();
-        fft.Initialize((UInt32)SPECTRUM_SAMPLE_SIZE);
+        fft.Initialize((UInt32)SAMPLE_SIZE);
 
-        double[] sampleChunk = new double[SPECTRUM_SAMPLE_SIZE];
+        double[] sampleChunk = new double[SAMPLE_SIZE];
 
         for (int i = 0; i < iterations; i++)
         {
-            int startIndex = i * SPECTRUM_SAMPLE_SIZE;
-            int len = SPECTRUM_SAMPLE_SIZE;
+            int startIndex = i * SAMPLE_SIZE;
+            int len = SAMPLE_SIZE;
             int maxIndex = startIndex + len;
             if (maxIndex >= monoSamples.Length)
             {
@@ -33,8 +33,8 @@ public class PSpectrumProvider
                 break;
             }
 
-            Array.Copy(monoSamples, i * SPECTRUM_SAMPLE_SIZE, sampleChunk, 0, len);
-            double[] coefficients = DSP.Window.Coefficients(WINDOW_TYPE, (uint)SPECTRUM_SAMPLE_SIZE);
+            Array.Copy(monoSamples, i * SAMPLE_SIZE, sampleChunk, 0, len);
+            double[] coefficients = DSP.Window.Coefficients(WINDOW_TYPE, (uint)SAMPLE_SIZE);
             double[] scaledSpectrumChunk = DSP.Math.Multiply(sampleChunk, coefficients);
             double scaleFactor = DSP.Window.ScaleFactor.Signal(coefficients);
 

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using AudioAnalyzerPlain;
+using PSpectrumData;
 
 public class TimedBlocksGameController : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class TimedBlocksGameController : MonoBehaviour
         _blockDataController = new BlockDataControllerPlain();
     }
 
-    public void setSpectrumData(FastList<PSpectrumData> spectrumDataList)
+    public void setSpectrumData(FastList<SpectrumInfo> spectrumDataList)
     {
         _blockDataController.createBlockData(spectrumDataList);
     }
