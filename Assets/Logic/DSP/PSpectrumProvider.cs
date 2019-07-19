@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Numerics;
+using UnityEngine;
 using DSPLib;
+using PSpectrumData;
 
 public class PSpectrumProvider
 {
-    public const int SAMPLE_SIZE = 2048;
+    public const int SAMPLE_SIZE = 256;
     public const int NUM_BINS = (SAMPLE_SIZE / 2) + 1;
 
-    private const DSP.Window.Type WINDOW_TYPE = DSP.Window.Type.Hamming;
+    private float _timePerSample;
+    private float _timePerSpectrumData;
 
-    public static FastList<double[]> getSpectrums(float[] monoSamples)
+    public PSpectrumProvider(int audioClipSampleRate)
+    {
+        _timePerSample = 1f / audioClipSampleRate;
+        _timePerSpectrumData = (1.0f / audioClipSampleRate) * SAMPLE_SIZE; // Duration per sample * amount of samples per spectrum.
+    }
+
+    public FastList<double[]> getSpectrums(float[] monoSamples)
     {
         int iterations = monoSamples.Length / SAMPLE_SIZE;
         FastList<double[]> spectrums = new FastList<double[]>();
@@ -34,7 +43,7 @@ public class PSpectrumProvider
             }
 
             Array.Copy(monoSamples, i * SAMPLE_SIZE, sampleChunk, 0, len);
-            double[] coefficients = DSP.Window.Coefficients(WINDOW_TYPE, (uint)SAMPLE_SIZE);
+            double[] coefficients = DSP.Window.Coefficients(DSP.Window.Type.Hamming, (uint)SAMPLE_SIZE);
             double[] scaledSpectrumChunk = DSP.Math.Multiply(sampleChunk, coefficients);
             double scaleFactor = DSP.Window.ScaleFactor.Signal(coefficients);
 
@@ -46,6 +55,32 @@ public class PSpectrumProvider
             spectrums.Add(scaledFFTSpectrum);
         }
         return spectrums;
+    }
+
+    public FastList<SpectrumInfo> getSpectrumData(FastList<double[]> spectrums, int bands)
+    {
+        FastList<SpectrumInfo> spectrumDataList = new FastList<SpectrumInfo>();
+
+        for (int i = 0; i < spectrums.Count; i++)
+        {
+            SpectrumInfo data = new SpectrumInfo();
+            data.time = _getAudioClipTimeFromIndex(i);
+            data.hasPeak = false;
+            data.spectrum = System.Array.ConvertAll(spectrums[i], doubleVal => (float)doubleVal);
+
+            for (int j = 0; j < bands; j++)
+            {
+                SpectrumBandData bandData = new SpectrumBandData();
+                data.bandData.Add(bandData);
+            }
+            spectrumDataList.Add(data);
+        }
+        return spectrumDataList;
+    }
+
+    private float _getAudioClipTimeFromIndex(int spectrumDataIndex)
+    {
+        return _timePerSpectrumData * spectrumDataIndex;
     }
 
 }

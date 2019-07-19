@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 using AudioAnalyzerPlain;
 using PSpectrumData;
+using UnityEditor;
 
 public class MAudioAnalyzerController : MonoBehaviour
 {
-    public const int NUM_BANDS = 12;
-
-    private AudioSource _audioSource;
     private PAnalyzerConfig _analyzerConfig;
-    private float[] _samples;
-    private FastList<double[]> _spectrumsList;
     private PSpectrumAnalyzer _spectrumAnalyzer;
     private MSpectrumPlotter _spectrumPlotter;
     private FastList<SpectrumInfo> _spectrumDataList;
@@ -18,13 +14,16 @@ public class MAudioAnalyzerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _analyzerConfig = new PAnalyzerConfig(NUM_BANDS);
-        _samples = PAudioSampleProvider.getMonoSamples(_audioSource);
-        _spectrumsList = PSpectrumProvider.getSpectrums(_samples);
-        _spectrumAnalyzer = new PSpectrumAnalyzer(_spectrumsList, _analyzerConfig);
+        AudioImporter importer = new AudioImporter();
+        AudioSource audioSource = GetComponent<AudioSource>();
+        _analyzerConfig = new PAnalyzerConfig(audioSource.clip.frequency);
+        PSpectrumProvider audioProvider = new PSpectrumProvider(_analyzerConfig.ClipSampleRate);
 
-        // Starts analysis.
+        float[] samples = PAudioSampleProvider.getMonoSamples(audioSource);
+        FastList<double[]> spectrumsList = audioProvider.getSpectrums(samples);
+        _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _analyzerConfig.Bands);
+
+        _spectrumAnalyzer = new PSpectrumAnalyzer(spectrumsList, _analyzerConfig, _spectrumDataList);
         _spectrumAnalyzer.analyzeSpectrumsList();
     }
 

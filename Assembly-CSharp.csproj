@@ -69,7 +69,6 @@
     <Compile Include="Assets\Logic\DSP\PAudioSampleProvider.cs" />
     <Compile Include="Assets\Logic\DSP\PBeatConfig.cs" />
     <Compile Include="Assets\Logic\DSP\PBeatDetector.cs" />
-    <Compile Include="Assets\Logic\DSP\PDynamicBeatDetector.cs" />
     <Compile Include="Assets\Logic\DSP\PLogarithmUtils.cs" />
     <Compile Include="Assets\Logic\DSP\PPostAudioAnalyzer.cs" />
     <Compile Include="Assets\Logic\DSP\PSpectrumAnalysisUtils.cs" />

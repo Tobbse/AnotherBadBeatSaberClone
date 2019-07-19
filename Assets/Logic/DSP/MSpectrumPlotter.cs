@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using PSpectrumData;
+using System;
+using System.Collections;
 
 public class MSpectrumPlotter : MonoBehaviour
 {
@@ -9,8 +11,8 @@ public class MSpectrumPlotter : MonoBehaviour
     private FastList<SpectrumInfo> _spectrumDataList;
     private FastList<Transform> _plotPoints;
     private bool _isReady = false;
-    private float _time = 0;
     private int _bands;
+    private float _lastTime;
 
     void Start()
     {
@@ -40,14 +42,28 @@ public class MSpectrumPlotter : MonoBehaviour
 
             _plotPoints.Add(pointTransform);
         }
+
+        for (int i = 0; i < DISPLAY_WINDOW_SIZE; i++) // This does not work, why not?
+        {
+            for (int j = 0; j < _bands; j++)
+            {
+                _setPointHeight(_plotPoints[i].Find("Peak" + j.ToString()), -1000);
+            }
+        }
     }
 
     void FixedUpdate()
     {
         if (_isReady && _hasRemainingSamples())
         {
-            _time += 0.02f;  // 50 ms fixed update
+            float newTime = Time.time;
+            Debug.Log(newTime - _lastTime);
+            _lastTime = newTime;
+
             _updatePlot();
+        } else
+        {
+            Debug.Log("not enough samples!");
         }
     }
 
@@ -56,6 +72,14 @@ public class MSpectrumPlotter : MonoBehaviour
         _spectrumDataList = spectrumDataList;
         _bands = _spectrumDataList[0].bandData.Count;
         _isReady = true;
+        _lastTime = Time.time;
+
+        //StartCoroutine(waiter());
+    }
+
+    IEnumerator waiter()
+    {
+        yield return new WaitForSecondsRealtime(3);
     }
 
     private bool _hasRemainingSamples()
@@ -65,18 +89,26 @@ public class MSpectrumPlotter : MonoBehaviour
 
     private void _updatePlot()
     {
+        if (_currentPlotIndex == 0)
+        {
+            Transform audioAnalyzer = GameObject.Find("AudioAnalyzer").transform;
+            AudioSource audio = audioAnalyzer.GetComponent<AudioSource>();
+            audio.Play();
+        }
         if (_currentPlotIndex < 0 || _currentPlotIndex >= _spectrumDataList.Count)
         {
             return;
         }
-        if (_spectrumDataList[_currentPlotIndex].time > _time)
+        /*if (_spectrumDataList[_currentPlotIndex].time > _time)
+        {
+            return;
+        }*/
+        if (_plotPoints.Count < DISPLAY_WINDOW_SIZE - 1)
         {
             return;
         }
-        if (_plotPoints.Count < DISPLAY_WINDOW_SIZE - 1)
-            return;
 
-        int numPlotted = 0;
+        int plotIndex = 0;
         int windowStart = 0;
         int windowEnd = 0;
 
@@ -93,9 +125,6 @@ public class MSpectrumPlotter : MonoBehaviour
 
         for (int i = windowStart; i < windowEnd; i++)
         {
-            int plotIndex = numPlotted;
-            numPlotted++;
-
             Transform fluxPoint = _plotPoints[plotIndex].Find("FluxPoint");
             //Transform threshPoint = _plotPoints[plotIndex].Find("ThreshPoint");
 
@@ -104,11 +133,12 @@ public class MSpectrumPlotter : MonoBehaviour
             for (int z = 0; z < _bands; z++)
             {
                 peakPoints.Add(_plotPoints[plotIndex].Find("Peak" + z.ToString()));
-                peakPoints[z].gameObject.SetActive(false);
+                peakPoints[z].gameObject.SetActive(false); // TODO why does this not work?
                 threshPoints.Add(_plotPoints[plotIndex].Find("Thresh" + z.ToString()));
             }
 
             SpectrumInfo info = _spectrumDataList[i];
+            
             /*if (!info.hasPeak)
             {
                 float fluxSum = 0;
@@ -131,33 +161,11 @@ public class MSpectrumPlotter : MonoBehaviour
                     peakPoints[j].gameObject.SetActive(true);
                 }
                 _setPointHeight(threshPoints[j], bandData.threshold);
+                 (peakPoints[j].GetComponent<Renderer>() as Renderer).material.color = Color.red;
             }
-
-
-            
 
             //Transform extraPeakPoint = _plotPoints[plotIndex].Find("ExtraPeakPoint");
-
-
-            /*if (_spectrumDataList[i].isExtraPeak)
-            {
-                _setPointHeight(extraPeakPoint, _spectrumDataList[i].spectralFlux);
-                _setPointHeight(peakPoint, 0f);
-                _setPointHeight(fluxPoint, 0f);
-            }
-            else if (_spectrumDataList[i].isPeak)
-            {
-                _setPointHeight(peakPoint, _spectrumDataList[i].spectralFlux);
-                _setPointHeight(extraPeakPoint, -1000f);
-                _setPointHeight(fluxPoint, 0f);
-            }
-            else
-            {
-                _setPointHeight(fluxPoint, _spectrumDataList[i].spectralFlux);
-                _setPointHeight(extraPeakPoint, 0f);
-                _setPointHeight(peakPoint, -1000f);
-            }
-            _setPointHeight(threshPoint, _spectrumDataList[i].threshold);*/
+            plotIndex++;
         }
 
         _currentPlotIndex += 1;
@@ -166,7 +174,7 @@ public class MSpectrumPlotter : MonoBehaviour
 
     private void _setPointHeight(Transform point, float height)
     {
-        float displayMultiplier = 0.06f + 2f;
+        float displayMultiplier = 0.06f * 10;
 
         point.localPosition = new Vector3(point.localPosition.x, height * displayMultiplier, point.localPosition.z);
     }
