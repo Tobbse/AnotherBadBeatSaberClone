@@ -26,18 +26,22 @@ namespace AudioAnalyzerPlain
         {
             FastList<PBeatConfig> beatConfigs = _config.BeatConfigs;
 
+            // Loop over the defined frequency bands.
             for (int i = 0; i < beatConfigs.Count; i++)
             {
-                PBeatDetector beatDetector = new PBeatDetector(beatConfigs[i], _spectrumDataList, _config);
+                POnsetDetector beatDetector = new POnsetDetector(beatConfigs[i], _spectrumDataList, _config);
+
+                // Loop over the spectrums to get spectral flux.
                 for (int j = 0; j < _spectrumsList.Count; j++)
                 {
-                    beatDetector.getFluxValues();
+                    beatDetector.getNextFluxValue();
                 }
                 beatDetector.resetIndex();
 
-                for (int j = 0; j < _spectrumsList.Count; j++)
+                // Analyze spectrums by looping over the flux values to get the threshold.
+                for (int z = 0; z < _spectrumsList.Count; z++)
                 {
-                    beatDetector.analyzeSpectrum();
+                    beatDetector.analyzeNextSpectrum();
                 }
                 _spectrumDataList = beatDetector.getSpectrumDataList();
             }

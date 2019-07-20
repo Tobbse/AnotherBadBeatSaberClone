@@ -4,7 +4,7 @@
     public int startIndex;
     public int endIndex; // End index is NOT included
     public int thresholdSize;
-    public int beatTime;
+    public int beatBlockCounter;
     public float startFrequency;
     public float endFrequency;
     public float tresholdMult;
@@ -17,7 +17,7 @@
         startFrequency = startFrequencyP;
         endFrequency = endFrequencyP;
         thresholdSize = thresholdSizeP;
-        beatTime = beatTimeP;
+        beatBlockCounter = beatTimeP;
         tresholdMult = tresholdMultP;
     }
 

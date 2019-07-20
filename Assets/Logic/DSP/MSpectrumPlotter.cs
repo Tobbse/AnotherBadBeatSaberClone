@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using PSpectrumData;
-using System;
 using System.Collections;
 
 public class MSpectrumPlotter : MonoBehaviour
 {
-    public static int DISPLAY_WINDOW_SIZE = 300;
+    public const string SHOW_PRUNED = "SHOW_PRUNED";
+    public const string SHOW_PEAKS = "SHOW_PEAKS";
 
-    private int _currentPlotIndex = 0;
+    private const int DISPLAY_WINDOW_SIZE = 300;
+
     private FastList<SpectrumInfo> _spectrumDataList;
     private FastList<Transform> _plotPoints;
     private bool _isReady = false;
-    private int _bands;
     private float _lastTime;
+    private int _spectrumIndex = 0;
+    private int _bands;
+    private string _type;
 
     void Start()
     {
@@ -63,120 +66,130 @@ public class MSpectrumPlotter : MonoBehaviour
             _updatePlot();
         } else
         {
-            Debug.Log("not enough samples!");
+            Debug.Log("not enough samples or no samples left!");
         }
     }
 
-    public void setSpectrumData(FastList<SpectrumInfo> spectrumDataList)
+    public void setDataAndStart(FastList<SpectrumInfo> spectrumDataList, string type)
     {
         _spectrumDataList = spectrumDataList;
+        _type = type;
         _bands = _spectrumDataList[0].bandData.Count;
-        _isReady = true;
         _lastTime = Time.time;
-
-        //StartCoroutine(waiter());
-    }
-
-    IEnumerator waiter()
-    {
-        yield return new WaitForSecondsRealtime(3);
+        _isReady = true;
     }
 
     private bool _hasRemainingSamples()
     {
-        return _currentPlotIndex <= _spectrumDataList.Count;
+        return _spectrumIndex < _spectrumDataList.Count;
     }
 
     private void _updatePlot()
     {
-        if (_currentPlotIndex == 0)
+        if (_spectrumIndex == 0)
         {
             Transform audioAnalyzer = GameObject.Find("AudioAnalyzer").transform;
             AudioSource audio = audioAnalyzer.GetComponent<AudioSource>();
             audio.Play();
         }
-        if (_currentPlotIndex < 0 || _currentPlotIndex >= _spectrumDataList.Count)
+        switch (_type)
         {
-            return;
+            case SHOW_PEAKS:
+                _showPeaks();
+                break;
+
+            case SHOW_PRUNED:
+                _showPruned();
+                break;
         }
-        /*if (_spectrumDataList[_currentPlotIndex].time > _time)
+        _spectrumIndex++;
+    }
+
+    private void _showPeaks()
+    {
+        for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
         {
-            return;
-        }*/
-        if (_plotPoints.Count < DISPLAY_WINDOW_SIZE - 1)
-        {
-            return;
-        }
+            SpectrumInfo info = _getInfo(pointIndex);
 
-        int plotIndex = 0;
-        int windowStart = 0;
-        int windowEnd = 0;
-
-        if (_currentPlotIndex > 0)
-        {
-            windowStart = Mathf.Max(0, _currentPlotIndex - DISPLAY_WINDOW_SIZE / 2);
-            windowEnd = Mathf.Min(_currentPlotIndex + DISPLAY_WINDOW_SIZE / 2, _spectrumDataList.Count - 1);
-        }
-        else
-        {
-            windowStart = Mathf.Max(0, _spectrumDataList.Count - DISPLAY_WINDOW_SIZE - 1);
-            windowEnd = Mathf.Min(windowStart + DISPLAY_WINDOW_SIZE, _spectrumDataList.Count);
-        }
-
-        for (int i = windowStart; i < windowEnd; i++)
-        {
-            Transform fluxPoint = _plotPoints[plotIndex].Find("FluxPoint");
-            //Transform threshPoint = _plotPoints[plotIndex].Find("ThreshPoint");
-
-            FastList<Transform> peakPoints = new FastList<Transform>();
-            FastList<Transform> threshPoints = new FastList<Transform>();
-            for (int z = 0; z < _bands; z++)
-            {
-                peakPoints.Add(_plotPoints[plotIndex].Find("Peak" + z.ToString()));
-                peakPoints[z].gameObject.SetActive(false); // TODO why does this not work?
-                threshPoints.Add(_plotPoints[plotIndex].Find("Thresh" + z.ToString()));
-            }
-
-            SpectrumInfo info = _spectrumDataList[i];
-            
-            /*if (!info.hasPeak)
-            {
-                float fluxSum = 0;
-                float threshSum = 0;
-                foreach (SpectrumBandData data in info.bandData)
-                {
-                    fluxSum += data.spectralFlux;
-                    threshSum += data.threshold;
-                }
-                _setPointHeight(fluxPoint, fluxSum);
-                //_setPointHeight(threshPoint, threshSum);
-            }*/
-
-            for (int j = 0; j < info.bandData.Count; j++)
+            for (int j = 0; j < _bands; j++)
             {
                 SpectrumBandData bandData = info.bandData[j];
-                if (bandData.isPeak)
-                {
-                    _setPointHeight(peakPoints[j], bandData.spectralFlux);
-                    peakPoints[j].gameObject.SetActive(true);
-                }
-                _setPointHeight(threshPoints[j], bandData.threshold);
-                 (peakPoints[j].GetComponent<Renderer>() as Renderer).material.color = Color.red;
+
+                Transform peak = _plotPoints[pointIndex].Find("Peak" + j.ToString());
+                peak.gameObject.SetActive(false); // TODO why does this not work?
+
+                Transform thresh = _plotPoints[pointIndex].Find("Thresh" + j.ToString());
+
+                Color peakColor = bandData.isPeak ? Color.red : Color.white;
+                //float peakHeight = bandData.isPeak ? bandData.spectralFlux : -100.0f;
+                float peakHeight = bandData.isPeak ? 1.0f : -100.0f;
+
+                _setPointHeight(peak, peakHeight);
+                peak.gameObject.SetActive(bandData.isPeak);
+                (peak.GetComponent<Renderer>() as Renderer).material.color = peakColor;
+
+                _setPointHeight(thresh, bandData.threshold);
             }
-
-            //Transform extraPeakPoint = _plotPoints[plotIndex].Find("ExtraPeakPoint");
-            plotIndex++;
         }
+    }
 
-        _currentPlotIndex += 1;
+    private void _showPruned()
+    {
+        for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
+        {
+            SpectrumInfo info = _getInfo(pointIndex);
 
+            for (int j = 0; j < _bands; j++)
+            {
+                SpectrumBandData bandData = info.bandData[j];
+                bool isZero = bandData.prunedSpectralFlux == 0;
+
+                Transform pruned = _plotPoints[pointIndex].Find("Pruned" + j.ToString());
+                float currentHeight = (pruned.GetComponent<Renderer>() as Renderer).bounds.size.y;
+                float newHeight = isZero ? 0.0005f : bandData.prunedSpectralFlux;
+                Vector3 rescale = pruned.localScale;
+                rescale.y = newHeight * rescale.y / currentHeight;
+                pruned.localScale = rescale;
+            }
+        }
     }
 
     private void _setPointHeight(Transform point, float height)
     {
-        float displayMultiplier = 0.06f * 10;
+        float displayMultiplier = 0.06f * 2;
 
         point.localPosition = new Vector3(point.localPosition.x, height * displayMultiplier, point.localPosition.z);
+    }
+
+    private bool _areSomePointsOOB()
+    {
+        return _spectrumIndex > (_spectrumDataList.Count - 1 - DISPLAY_WINDOW_SIZE);
+    }
+
+    private SpectrumInfo _getInfo(int pointIndex)
+    {
+        int pointDataIndex = _spectrumIndex + pointIndex;
+        bool isOutOfBounds = pointDataIndex > _spectrumDataList.Count - 1;
+        SpectrumInfo info = isOutOfBounds ? _getEmptySpectrumInfo() : _spectrumDataList[pointDataIndex];
+        return info;
+    }
+
+    private SpectrumInfo _getEmptySpectrumInfo()
+    {
+        SpectrumInfo emptyInfo = new SpectrumInfo();
+        emptyInfo.hasPeak = false;
+
+        for (int i = 0; i < _bands; i++)
+        {
+            SpectrumBandData bandData = new SpectrumBandData();
+            bandData.band = i;
+            bandData.isPeak = false;
+            bandData.spectralFlux = 0.0f;
+            bandData.prunedSpectralFlux = 0.0f;
+            bandData.threshold = 0.0f;
+            emptyInfo.bandData.Add(bandData);
+        }
+        return emptyInfo;
     }
 
 }

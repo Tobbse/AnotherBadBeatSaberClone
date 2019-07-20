@@ -6,7 +6,7 @@ using PSpectrumData;
 
 public class PSpectrumProvider
 {
-    public const int SAMPLE_SIZE = 256;
+    public const int SAMPLE_SIZE = 1024;
     public const int NUM_BINS = (SAMPLE_SIZE / 2) + 1;
 
     private float _timePerSample;

@@ -11,7 +11,6 @@ public class MAudioAnalyzerController : MonoBehaviour
     private FastList<SpectrumInfo> _spectrumDataList;
     private bool _started;
 
-    // Start is called before the first frame update
     void Start()
     {
         AudioImporter importer = new AudioImporter();
@@ -27,7 +26,7 @@ public class MAudioAnalyzerController : MonoBehaviour
         _spectrumAnalyzer.analyzeSpectrumsList();
     }
 
-    // Update is called once per frame
+    // TODO would be nicer to pass a callback instead of checking isReady ever frame.
     void Update()
     {
         if (_spectrumAnalyzer == null) return;
@@ -37,7 +36,7 @@ public class MAudioAnalyzerController : MonoBehaviour
             _started = true;
             _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
             _spectrumPlotter = GetComponent<MSpectrumPlotter>();
-            _spectrumPlotter.setSpectrumData(_spectrumDataList);
+            _spectrumPlotter.setDataAndStart(_spectrumDataList, MSpectrumPlotter.SHOW_PEAKS);
 
             TimedBlocksGameController timedBlocksGameController = GameObject.Find("TimedBlocksGameController").GetComponent< TimedBlocksGameController>();
             timedBlocksGameController.setSpectrumData(_spectrumDataList);
