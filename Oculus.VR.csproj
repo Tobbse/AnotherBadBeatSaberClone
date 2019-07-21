@@ -351,6 +351,9 @@
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/AudioImporter/NAudio/NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="netstandard">
       <HintPath>D:/Program Files (x86)/Unity/2019.1.9f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
     </Reference>
