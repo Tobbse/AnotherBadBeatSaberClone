@@ -273,3 +273,5 @@ E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\UnityEditor.UI
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Assembly-CSharp.dll
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Assembly-CSharp.pdb
+E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\NAudio.dll
+E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\NAudio.xml

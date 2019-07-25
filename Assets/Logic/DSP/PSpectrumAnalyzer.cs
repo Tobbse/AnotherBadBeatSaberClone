@@ -1,6 +1,7 @@
 ﻿using PSpectrumData;
+using System;
 
-namespace AudioAnalyzerPlain
+namespace PAudioAnalyzer
 {
     public class PSpectrumAnalyzer
     {
@@ -8,7 +9,6 @@ namespace AudioAnalyzerPlain
         private FastList<double[]> _spectrumsList;
         private PAnalyzerConfig _config;
         private PPostAudioAnalyzer _postAudioAnalyzer;
-        private bool _isReady = false;
 
         public PSpectrumAnalyzer(FastList<double[]> spectrumsList, PAnalyzerConfig config, FastList<SpectrumInfo> spectrumDataList)
         {
@@ -22,7 +22,7 @@ namespace AudioAnalyzerPlain
             return _spectrumDataList;
         }
 
-        public void analyzeSpectrumsList()
+        public void analyzeSpectrumsList(Action callback)
         {
             FastList<PBeatConfig> beatConfigs = _config.BeatConfigs;
 
@@ -49,12 +49,7 @@ namespace AudioAnalyzerPlain
             //_postAudioAnalyzer = new PPostAudioAnalyzer(_spectrumDataList);
             //_spectrumDataList = _postAudioAnalyzer.findExtraBeats();
 
-            _isReady = true;
-        }
-
-        public bool isReady()
-        {
-            return _isReady;
+            callback();
         }
     }
 

@@ -81,12 +81,18 @@
     <Compile Include="Assets\Logic\DSP\PSpectrumAnalyzer.cs" />
     <Compile Include="Assets\Logic\DSP\PSpectrumData.cs" />
     <Compile Include="Assets\Logic\DSP\PSpectrumProvider.cs" />
-    <Compile Include="Assets\Logic\PAudioLoaderButton.cs" />
+    <Compile Include="Assets\Logic\Game\GameStart.cs" />
+    <Compile Include="Assets\Logic\GlobalStorage.cs" />
+    <Compile Include="Assets\Logic\JsonSerializer.cs" />
+    <Compile Include="Assets\Logic\LoadingScreen\AudioLoadingScreenController.cs" />
+    <Compile Include="Assets\Logic\PGlobalStorageConstants.cs" />
+    <Compile Include="Assets\Logic\PSaveable.cs" />
     <Compile Include="Assets\Logic\TimedBlocks\BlockDataControllerPlain.cs" />
     <Compile Include="Assets\Logic\TimedBlocks\BlockDataPlain.cs" />
     <Compile Include="Assets\Logic\TimedBlocks\TimedBlocksGameController.cs" />
     <Compile Include="Assets\Logic\UI\MainMenu.cs" />
-    <Compile Include="Assets\Logic\UI\Options.cs" />
+    <Compile Include="Assets\Logic\UI\OptionsMenu.cs" />
+    <Compile Include="Assets\Logic\UI\SingleplayerMenu.cs" />
     <Compile Include="Assets\Logic\UI\Sliders\ShowSliderValueAwesome.cs" />
     <Compile Include="Assets\Logic\UI\Sliders\ShowSliderValueFloat.cs" />
     <Compile Include="Assets\Logic\UI\Sliders\ShowSliderValueInt.cs" />
@@ -612,6 +618,9 @@
     <Reference Include="nunit.framework">
       <HintPath>D:/Program Files (x86)/Unity/2019.1.9f1/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/AudioImporter/NAudio/NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -620,9 +629,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
-      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/AudioImporter/NAudio/NAudio.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:/Program Files (x86)/Unity/2019.1.9f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

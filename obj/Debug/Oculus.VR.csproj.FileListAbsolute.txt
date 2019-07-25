@@ -269,3 +269,6 @@ E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.csproj.Co
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.csproj.CopyComplete
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.dll
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.pdb
+E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\NAudio.dll
+E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\NAudio.xml
+E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\Boo.Lang.dll

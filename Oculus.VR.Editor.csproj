@@ -283,6 +283,9 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio">
+      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/AudioImporter/NAudio/NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -297,9 +300,6 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
-      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/AudioImporter/NAudio/NAudio.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Program Files (x86)/Unity/2019.1.9f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

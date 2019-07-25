@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using AudioAnalyzerPlain;
+using PAudioAnalyzer;
 using PSpectrumData;
-using UnityEditor;
 
 public class MAudioAnalyzerController : MonoBehaviour
 {
@@ -13,35 +12,27 @@ public class MAudioAnalyzerController : MonoBehaviour
 
     void Start()
     {
-        AudioImporter importer = new AudioImporter();
         AudioSource audioSource = GetComponent<AudioSource>();
         _analyzerConfig = new PAnalyzerConfig(audioSource.clip.frequency);
         PSpectrumProvider audioProvider = new PSpectrumProvider(_analyzerConfig.ClipSampleRate);
 
-        float[] samples = PAudioSampleProvider.getMonoSamples(audioSource);
+        float[] samples = PAudioSampleProvider.getMonoSamples(audioSource.clip);
         FastList<double[]> spectrumsList = audioProvider.getSpectrums(samples);
         _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _analyzerConfig.Bands);
 
         _spectrumAnalyzer = new PSpectrumAnalyzer(spectrumsList, _analyzerConfig, _spectrumDataList);
-        _spectrumAnalyzer.analyzeSpectrumsList();
+        _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 
     // TODO would be nicer to pass a callback instead of checking isReady ever frame.
-    void Update()
+    private void done()
     {
-        if (_spectrumAnalyzer == null) return;
+        enabled = false;
+        _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
+        _spectrumPlotter = GetComponent<MSpectrumPlotter>();
+        _spectrumPlotter.setDataAndStart(_spectrumDataList, MSpectrumPlotter.SHOW_PEAKS);
 
-        if (!_started && _spectrumAnalyzer.isReady())
-        {
-            _started = true;
-            _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
-            _spectrumPlotter = GetComponent<MSpectrumPlotter>();
-            _spectrumPlotter.setDataAndStart(_spectrumDataList, MSpectrumPlotter.SHOW_PEAKS);
-
-            TimedBlocksGameController timedBlocksGameController = GameObject.Find("TimedBlocksGameController").GetComponent< TimedBlocksGameController>();
-            timedBlocksGameController.setSpectrumData(_spectrumDataList);
-            enabled = false;
-        }
+        TimedBlocksGameController timedBlocksGameController = GameObject.Find("TimedBlocksGameController").GetComponent< TimedBlocksGameController>();
+        timedBlocksGameController.setSpectrumData(_spectrumDataList);
     }
-
 }

@@ -278,3 +278,5 @@ E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.Scripts.E
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.Scripts.Editor.csproj.CopyComplete
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.Scripts.Editor.dll
 E:\Daten\coding_projects\Unity Projects\VR_Project\obj\Debug\Oculus.VR.Scripts.Editor.pdb
+E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\NAudio.dll
+E:\Daten\coding_projects\Unity Projects\VR_Project\Temp\bin\Debug\NAudio.xml

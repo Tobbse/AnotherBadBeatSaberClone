@@ -2,16 +2,16 @@
 
 public static class PAudioSampleProvider
 {
-    public static float[] getMonoSamples(AudioSource audioSource)
+    public static float[] getMonoSamples(AudioClip audioClip)
     {
-        return _getMonoSamples(_getSamples(audioSource), audioSource.clip.channels);
+        return _getMonoSamples(_getSamples(audioClip), audioClip.channels);
     }
 
-    public static float[] _getSamples(AudioSource audioSource)
+    public static float[] _getSamples(AudioClip audioClip)
     {
-        int numTotalSamples = audioSource.clip.samples * audioSource.clip.channels;
+        int numTotalSamples = audioClip.samples * audioClip.channels;
         float[] stereoSamples = new float[numTotalSamples];
-        audioSource.clip.GetData(stereoSamples, 0);
+        audioClip.GetData(stereoSamples, 0);
         return stereoSamples;
     }
 

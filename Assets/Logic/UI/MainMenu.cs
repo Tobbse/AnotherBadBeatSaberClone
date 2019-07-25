@@ -1,22 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void playGame()
+    public void clickSinglePlayer()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("SingleplayerMenu");
     }
 
-    public void loadOnsetTest()
+    public void clickMultiPlayer()
     {
-        SceneManager.LoadScene("Onset_Test");
+        Debug.Log("This does not do anything yet!");
     }
 
-    public void loadOptions()
+    public void clickOnsetTest()
     {
-        SceneManager.LoadScene("Options");
+        SceneManager.LoadScene("OnsetTest");
+    }
+
+    public void clickOptions()
+    {
+        SceneManager.LoadScene("OptionsMenu");
+    }
+
+    public void clickQuit()
+    {
+        Application.Quit();
     }
 }
