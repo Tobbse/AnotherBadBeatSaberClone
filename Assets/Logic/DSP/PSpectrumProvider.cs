@@ -57,20 +57,20 @@ public class PSpectrumProvider
         return spectrums;
     }
 
-    public FastList<SpectrumInfo> getSpectrumData(FastList<double[]> spectrums, int bands)
+    public FastList<PSpectrumInfo> getSpectrumData(FastList<double[]> spectrums, int bands)
     {
-        FastList<SpectrumInfo> spectrumDataList = new FastList<SpectrumInfo>();
+        FastList<PSpectrumInfo> spectrumDataList = new FastList<PSpectrumInfo>();
 
         for (int i = 0; i < spectrums.Count; i++)
         {
-            SpectrumInfo data = new SpectrumInfo();
+            PSpectrumInfo data = new PSpectrumInfo();
             data.time = _getAudioClipTimeFromIndex(i);
             data.hasPeak = false;
             data.spectrum = System.Array.ConvertAll(spectrums[i], doubleVal => (float)doubleVal);
 
             for (int j = 0; j < bands; j++)
             {
-                SpectrumBandData bandData = new SpectrumBandData();
+                PSpectrumBandData bandData = new PSpectrumBandData();
                 data.bandData.Add(bandData);
             }
             spectrumDataList.Add(data);
@@ -80,6 +80,7 @@ public class PSpectrumProvider
 
     private float _getAudioClipTimeFromIndex(int spectrumDataIndex)
     {
+        Debug.Log(_timePerSpectrumData * spectrumDataIndex);
         return _timePerSpectrumData * spectrumDataIndex;
     }
 

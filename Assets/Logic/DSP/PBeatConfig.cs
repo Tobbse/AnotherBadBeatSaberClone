@@ -20,5 +20,4 @@
         beatBlockCounter = beatTimeP;
         tresholdMult = tresholdMultP;
     }
-
 }

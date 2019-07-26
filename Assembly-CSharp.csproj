@@ -83,10 +83,11 @@
     <Compile Include="Assets\Logic\DSP\PSpectrumProvider.cs" />
     <Compile Include="Assets\Logic\Game\GameStart.cs" />
     <Compile Include="Assets\Logic\GlobalStorage.cs" />
-    <Compile Include="Assets\Logic\JsonSerializer.cs" />
     <Compile Include="Assets\Logic\LoadingScreen\AudioLoadingScreenController.cs" />
-    <Compile Include="Assets\Logic\PGlobalStorageConstants.cs" />
-    <Compile Include="Assets\Logic\PSaveable.cs" />
+    <Compile Include="Assets\Logic\Mesh\MeshModifier\InvertMesh.cs" />
+    <Compile Include="Assets\Logic\OLD\JsonSerializer.cs" />
+    <Compile Include="Assets\Logic\OLD\PGlobalStorageConstants.cs" />
+    <Compile Include="Assets\Logic\OLD\PSaveable.cs" />
     <Compile Include="Assets\Logic\TimedBlocks\BlockDataControllerPlain.cs" />
     <Compile Include="Assets\Logic\TimedBlocks\BlockDataPlain.cs" />
     <Compile Include="Assets\Logic\TimedBlocks\TimedBlocksGameController.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="Assets\Logic\UI\Sliders\ShowSliderValueAwesome.cs" />
     <Compile Include="Assets\Logic\UI\Sliders\ShowSliderValueFloat.cs" />
     <Compile Include="Assets\Logic\UI\Sliders\ShowSliderValueInt.cs" />
-    <Compile Include="Assets\Logic\Visual\MeshModifier\InvertMesh.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scenes\Scripts\TestScript.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\AmbienceEmitter.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\AudioManager.cs" />
@@ -386,6 +386,8 @@
     <Compile Include="Assets\Oculus\VoiceMod\Scripts\Helpers\OVRMicInput.cs" />
     <Compile Include="Assets\Oculus\VoiceMod\Scripts\OVRVoiceMod.cs" />
     <Compile Include="Assets\Oculus\VoiceMod\Scripts\OVRVoiceModContext.cs" />
+    <Compile Include="Assets\Prefabs\TimedBlockPrefab.cs" />
+    <Compile Include="Assets\Prefabs\TouchableCubePrefab.cs" />
     <None Include="Assets\Oculus\Avatar\Resources\Materials\Version1.5\Avatar_PC_SingleComponent.shader" />
     <None Include="Assets\Oculus\Avatar\Samples\CrossPlatform\Readme.txt" />
     <None Include="Assets\Oculus\SampleFramework\Core\CustomHands\Materials\Hands_DiffBump.shader" />

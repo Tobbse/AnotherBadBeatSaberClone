@@ -5,19 +5,19 @@ namespace PAudioAnalyzer
 {
     public class PSpectrumAnalyzer
     {
-        private FastList<SpectrumInfo> _spectrumDataList;
+        private FastList<PSpectrumInfo> _spectrumDataList;
         private FastList<double[]> _spectrumsList;
         private PAnalyzerConfig _config;
         private PPostAudioAnalyzer _postAudioAnalyzer;
 
-        public PSpectrumAnalyzer(FastList<double[]> spectrumsList, PAnalyzerConfig config, FastList<SpectrumInfo> spectrumDataList)
+        public PSpectrumAnalyzer(FastList<double[]> spectrumsList, PAnalyzerConfig config, FastList<PSpectrumInfo> spectrumDataList)
         {
             _spectrumsList = spectrumsList;
             _config = config;
             _spectrumDataList = spectrumDataList;
         }
 
-        public FastList<SpectrumInfo> getSpectrumDataList()
+        public FastList<PSpectrumInfo> getSpectrumDataList()
         {
             return _spectrumDataList;
         }

@@ -9,7 +9,7 @@ public class MSpectrumPlotter : MonoBehaviour
 
     private const int DISPLAY_WINDOW_SIZE = 300;
 
-    private FastList<SpectrumInfo> _spectrumDataList;
+    private FastList<PSpectrumInfo> _spectrumDataList;
     private FastList<Transform> _plotPoints;
     private bool _isReady = false;
     private float _lastTime;
@@ -70,7 +70,7 @@ public class MSpectrumPlotter : MonoBehaviour
         }
     }
 
-    public void setDataAndStart(FastList<SpectrumInfo> spectrumDataList, string type)
+    public void setDataAndStart(FastList<PSpectrumInfo> spectrumDataList, string type)
     {
         _spectrumDataList = spectrumDataList;
         _type = type;
@@ -109,11 +109,11 @@ public class MSpectrumPlotter : MonoBehaviour
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
         {
-            SpectrumInfo info = _getInfo(pointIndex);
+            PSpectrumInfo info = _getInfo(pointIndex);
 
             for (int j = 0; j < _bands; j++)
             {
-                SpectrumBandData bandData = info.bandData[j];
+                PSpectrumBandData bandData = info.bandData[j];
 
                 Transform peak = _plotPoints[pointIndex].Find("Peak" + j.ToString());
                 peak.gameObject.SetActive(false); // TODO why does this not work?
@@ -137,11 +137,11 @@ public class MSpectrumPlotter : MonoBehaviour
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
         {
-            SpectrumInfo info = _getInfo(pointIndex);
+            PSpectrumInfo info = _getInfo(pointIndex);
 
             for (int j = 0; j < _bands; j++)
             {
-                SpectrumBandData bandData = info.bandData[j];
+                PSpectrumBandData bandData = info.bandData[j];
                 bool isZero = bandData.prunedSpectralFlux == 0;
 
                 Transform pruned = _plotPoints[pointIndex].Find("Pruned" + j.ToString());
@@ -166,22 +166,22 @@ public class MSpectrumPlotter : MonoBehaviour
         return _spectrumIndex > (_spectrumDataList.Count - 1 - DISPLAY_WINDOW_SIZE);
     }
 
-    private SpectrumInfo _getInfo(int pointIndex)
+    private PSpectrumInfo _getInfo(int pointIndex)
     {
         int pointDataIndex = _spectrumIndex + pointIndex;
         bool isOutOfBounds = pointDataIndex > _spectrumDataList.Count - 1;
-        SpectrumInfo info = isOutOfBounds ? _getEmptySpectrumInfo() : _spectrumDataList[pointDataIndex];
+        PSpectrumInfo info = isOutOfBounds ? _getEmptySpectrumInfo() : _spectrumDataList[pointDataIndex];
         return info;
     }
 
-    private SpectrumInfo _getEmptySpectrumInfo()
+    private PSpectrumInfo _getEmptySpectrumInfo()
     {
-        SpectrumInfo emptyInfo = new SpectrumInfo();
+        PSpectrumInfo emptyInfo = new PSpectrumInfo();
         emptyInfo.hasPeak = false;
 
         for (int i = 0; i < _bands; i++)
         {
-            SpectrumBandData bandData = new SpectrumBandData();
+            PSpectrumBandData bandData = new PSpectrumBandData();
             bandData.band = i;
             bandData.isPeak = false;
             bandData.spectralFlux = 0.0f;

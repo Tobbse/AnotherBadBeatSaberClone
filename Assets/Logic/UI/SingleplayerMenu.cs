@@ -8,7 +8,10 @@ public class SingleplayerMenu : MonoBehaviour
 
     public void clickPlay()
     {
-        if (_path != null && _path.Length > 0) SceneManager.LoadScene("AudioLoadingScreen");
+        if (_path != null && _path.Length > 0)
+        {
+            SceneManager.LoadScene("AudioLoadingScreen");
+        }
     }
 
     public void clickBack()

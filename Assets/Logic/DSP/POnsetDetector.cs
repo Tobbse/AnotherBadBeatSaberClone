@@ -8,7 +8,7 @@ public class POnsetDetector
     //private const float BPM_INTERVAL = 4.0f; // 4 seconds is probably too much
     
     private PBeatConfig _beatConfig;
-    private FastList<SpectrumInfo> _spectrumData;
+    private FastList<PSpectrumInfo> _spectrumData;
     
     private float[] _currentSpectrum;
     private float[] _previousSpectrum;
@@ -25,7 +25,7 @@ public class POnsetDetector
     private int _maxIndex;
     private int _minIndex;
 
-    public POnsetDetector(PBeatConfig beatConfig, FastList<SpectrumInfo> spectrumData, PAnalyzerConfig config)
+    public POnsetDetector(PBeatConfig beatConfig, FastList<PSpectrumInfo> spectrumData, PAnalyzerConfig config)
     {
         _beatConfig = beatConfig;
         _spectrumData = spectrumData;
@@ -76,7 +76,7 @@ public class POnsetDetector
     _index++;
     }
 
-    public FastList<SpectrumInfo> getSpectrumDataList()
+    public FastList<PSpectrumInfo> getSpectrumDataList()
     {
         return _spectrumData;
     }

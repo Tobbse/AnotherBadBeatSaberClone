@@ -9,13 +9,32 @@ public class AudioLoadingScreenController : MonoBehaviour
 {
     private PAnalyzerConfig _analyzerConfig;
     private PSpectrumAnalyzer _spectrumAnalyzer;
-    private FastList<SpectrumInfo> _spectrumDataList;
+    private FastList<PSpectrumInfo> _spectrumDataList;
     private AudioClip _audioClip;
     private FastList<double[]> _spectrumsList;
     private float[] _monoSamples;
 
     void Start()
     {
+        if (SceneManager.GetActiveScene().isLoaded == false)
+        {
+            SceneManager.sceneLoaded += _onSceneLoaded;
+        } else
+        {
+            _init();
+        }
+    }
+
+    private void _onSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+    {
+        
+        _init();
+    }
+
+    private void _init()
+    {
+        Canvas canvas = FindObjectOfType<Canvas>();
+
         _audioClip = _loadAudioData(GlobalStorage.Instance.AudioPath);
         GlobalStorage.Instance.AudioClip = _audioClip;
 
@@ -28,17 +47,6 @@ public class AudioLoadingScreenController : MonoBehaviour
 
         _spectrumAnalyzer = new PSpectrumAnalyzer(_spectrumsList, _analyzerConfig, _spectrumDataList);
         _spectrumAnalyzer.analyzeSpectrumsList(done);
-    }
-
-    private void done()
-    {
-        _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
-
-        GlobalStorage.Instance.SpectrumInfo = _spectrumDataList;
-        GlobalStorage.Instance.AnalyzerConfig = _analyzerConfig;
-        GlobalStorage.Instance.SpectrumsList = _spectrumsList;
-
-        SceneManager.LoadScene("Game");
     }
 
     private AudioClip _loadAudioData(string path)
@@ -55,5 +63,16 @@ public class AudioLoadingScreenController : MonoBehaviour
         AudioClip audioClip = AudioClip.Create(path, numSamples, channels, systemSampleRate, false);
         audioClip.SetData(audioData, 0);
         return audioClip;
+    }
+
+    private void done()
+    {
+        _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
+
+        GlobalStorage.Instance.SpectrumInfo = _spectrumDataList;
+        GlobalStorage.Instance.AnalyzerConfig = _analyzerConfig;
+        GlobalStorage.Instance.SpectrumsList = _spectrumsList;
+
+        SceneManager.LoadScene("Game");
     }
 }

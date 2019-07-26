@@ -1,13 +1,13 @@
 ﻿namespace PSpectrumData {
-    public class SpectrumInfo
+    public class PSpectrumInfo
     {
         public float[] spectrum;
         public float time;
         public bool hasPeak;
-        public FastList<SpectrumBandData> bandData = new FastList<SpectrumBandData>();
+        public FastList<PSpectrumBandData> bandData = new FastList<PSpectrumBandData>();
     }
 
-    public class SpectrumBandData
+    public class PSpectrumBandData
     {
         public float spectralFlux;
         public float threshold;

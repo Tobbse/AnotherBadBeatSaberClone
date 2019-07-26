@@ -7,7 +7,7 @@ public class MAudioAnalyzerController : MonoBehaviour
     private PAnalyzerConfig _analyzerConfig;
     private PSpectrumAnalyzer _spectrumAnalyzer;
     private MSpectrumPlotter _spectrumPlotter;
-    private FastList<SpectrumInfo> _spectrumDataList;
+    private FastList<PSpectrumInfo> _spectrumDataList;
     private bool _started;
 
     void Start()
