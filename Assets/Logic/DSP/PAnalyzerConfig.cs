@@ -80,8 +80,8 @@ public class PAnalyzerConfig
     // TODO maybe also pass a parameter for pre- and after pruned flux multipliers to determine beats?
     private void _createBeatConfigs()
     {
-        _beatConfigs.Add(_makeConfig(0, 0, 6, 20, 5, 1.7f));
-        _beatConfigs.Add(_makeConfig(1, 30, 450, 20, 10, 2.9f));
+        _beatConfigs.Add(_makeConfig(0, 0, 6, 20, 5, 4.0f));
+        _beatConfigs.Add(_makeConfig(1, 30, 450, 20, 10, 2.5f));
     }
 
     private PBeatConfig _makeConfig(int band, int startIndex, int endIndex, int thresholdSize, int beatTime, float tresholdMult)

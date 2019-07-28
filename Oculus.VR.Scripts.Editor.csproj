@@ -269,7 +269,10 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="NAudio">
-      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/AudioImporter/NAudio/NAudio.dll</HintPath>
+      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/Logic/External/Dependencies/NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/Logic/External/Dependencies/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>E:/Daten/coding_projects/Unity Projects/VR_Project/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>

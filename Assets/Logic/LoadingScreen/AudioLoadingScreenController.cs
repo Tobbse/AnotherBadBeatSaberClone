@@ -2,17 +2,21 @@
 using PAudioAnalyzer;
 using PSpectrumData;
 using UnityEngine.SceneManagement;
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
+//using NAudio.Wave;
+//using NAudio.Wave.SampleProviders;
+using System.Collections;
 
 public class AudioLoadingScreenController : MonoBehaviour
 {
+    public AudioSource testAudioSource;
+
     private PAnalyzerConfig _analyzerConfig;
     private PSpectrumAnalyzer _spectrumAnalyzer;
     private FastList<PSpectrumInfo> _spectrumDataList;
     private AudioClip _audioClip;
     private FastList<double[]> _spectrumsList;
     private float[] _monoSamples;
+    private WWW _www;
 
     void Start()
     {
@@ -27,17 +31,17 @@ public class AudioLoadingScreenController : MonoBehaviour
 
     private void _onSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
-        
         _init();
     }
 
     private void _init()
     {
-        Canvas canvas = FindObjectOfType<Canvas>();
+        string path = GlobalStorage.Instance.AudioPath;
+        StartCoroutine(LoadMp3AudioClip(path));
+    }
 
-        _audioClip = _loadAudioData(GlobalStorage.Instance.AudioPath);
-        GlobalStorage.Instance.AudioClip = _audioClip;
-
+    private void _clipLoaded()
+    {
         _analyzerConfig = new PAnalyzerConfig(_audioClip.frequency);
         PSpectrumProvider audioProvider = new PSpectrumProvider(_analyzerConfig.ClipSampleRate);
 
@@ -49,7 +53,19 @@ public class AudioLoadingScreenController : MonoBehaviour
         _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 
-    private AudioClip _loadAudioData(string path)
+    private IEnumerator LoadMp3AudioClip(string path)
+    {
+        _audioClip = Mp3Loader.LoadMp3(path);
+        while(!_audioClip.isReadyToPlay)
+        {
+            yield return _audioClip;
+        }
+        _audioClip.LoadAudioData();
+        _clipLoaded();
+    }
+
+    // This currently does not work!
+    /*private AudioClip _loadResampledAudioData(string path)
     {
         AudioFileReader reader = new AudioFileReader(path);
         int channels = reader.WaveFormat.Channels;
@@ -63,12 +79,13 @@ public class AudioLoadingScreenController : MonoBehaviour
         AudioClip audioClip = AudioClip.Create(path, numSamples, channels, systemSampleRate, false);
         audioClip.SetData(audioData, 0);
         return audioClip;
-    }
+    }*/
 
     private void done()
     {
         _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
 
+        GlobalStorage.Instance.AudioClip = _audioClip;
         GlobalStorage.Instance.SpectrumInfo = _spectrumDataList;
         GlobalStorage.Instance.AnalyzerConfig = _analyzerConfig;
         GlobalStorage.Instance.SpectrumsList = _spectrumsList;

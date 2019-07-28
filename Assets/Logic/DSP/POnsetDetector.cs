@@ -72,6 +72,7 @@ public class POnsetDetector
             _beatBlockCounter = _beatConfig.beatBlockCounter;
             _spectrumData[_index].hasPeak = true;
             _spectrumData[_index].bandData[_band].isPeak = true;
+            _spectrumData[_index].peakBands.Add(_band);
         }
     _index++;
     }

@@ -4,6 +4,7 @@
         public float[] spectrum;
         public float time;
         public bool hasPeak;
+        public FastList<int> peakBands = new FastList<int>();
         public FastList<PSpectrumBandData> bandData = new FastList<PSpectrumBandData>();
     }
 

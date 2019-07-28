@@ -7,6 +7,9 @@ public class MSpectrumPlotter : MonoBehaviour
     public const string SHOW_PRUNED = "SHOW_PRUNED";
     public const string SHOW_PEAKS = "SHOW_PEAKS";
 
+    public GameObject pointPrefab;
+    public GameObject basePoint;
+
     private const int DISPLAY_WINDOW_SIZE = 300;
 
     private FastList<PSpectrumInfo> _spectrumDataList;
@@ -26,7 +29,8 @@ public class MSpectrumPlotter : MonoBehaviour
         for (int i = 0; i < DISPLAY_WINDOW_SIZE; i++)
         {
             //Instantiate points
-            GameObject point = Instantiate(Resources.Load("Point"), transform) as GameObject;
+            //GameObject point = Instantiate(Resources.Load("Point"), transform) as GameObject;
+            GameObject point = Instantiate(pointPrefab);
             Transform pointTransform = point.transform;
             Transform originalPointTransform = transform.Find("Point");
             // Applying original materials to all new sub points.
@@ -60,7 +64,7 @@ public class MSpectrumPlotter : MonoBehaviour
         if (_isReady && _hasRemainingSamples())
         {
             float newTime = Time.time;
-            Debug.Log(newTime - _lastTime);
+            //Debug.Log(newTime - _lastTime);
             _lastTime = newTime;
 
             _updatePlot();

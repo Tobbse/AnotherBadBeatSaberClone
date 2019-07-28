@@ -5,17 +5,18 @@ public class GlobalStorage : ScriptableObject
 {
     public static GlobalStorage Instance;
 
-    private AudioClip audioClip;
-    private FastList<PSpectrumInfo> spectrumInfo;
-    private PAnalyzerConfig analyzerConfig;
-    private FastList<double[]> spectrumsList;
-    private string audioPath;
+    // Audio Loading Storage
+    private AudioClip _audioClip;
+    private FastList<PSpectrumInfo> _spectrumInfo;
+    private PAnalyzerConfig _analyzerConfig;
+    private FastList<double[]> _spectrumsList;
+    private string _audioPath;
 
-    public AudioClip AudioClip { get => audioClip; set => audioClip = value; }
-    public FastList<PSpectrumInfo> SpectrumInfo { get => spectrumInfo; set => spectrumInfo = value; }
-    public PAnalyzerConfig AnalyzerConfig { get => analyzerConfig; set => analyzerConfig = value; }
-    public FastList<double[]> SpectrumsList { get => spectrumsList; set => spectrumsList = value; }
-    public string AudioPath { get => audioPath; set => audioPath = value; }
+    public AudioClip AudioClip { get => _audioClip; set => _audioClip = value; }
+    public FastList<PSpectrumInfo> SpectrumInfo { get => _spectrumInfo; set => _spectrumInfo = value; }
+    public PAnalyzerConfig AnalyzerConfig { get => _analyzerConfig; set => _analyzerConfig = value; }
+    public FastList<double[]> SpectrumsList { get => _spectrumsList; set => _spectrumsList = value; }
+    public string AudioPath { get => _audioPath; set => _audioPath = value; }
 
     void Awake()
     {

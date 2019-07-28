@@ -80,7 +80,7 @@ public class PSpectrumProvider
 
     private float _getAudioClipTimeFromIndex(int spectrumDataIndex)
     {
-        Debug.Log(_timePerSpectrumData * spectrumDataIndex);
+        //Debug.Log(_timePerSpectrumData * spectrumDataIndex);
         return _timePerSpectrumData * spectrumDataIndex;
     }
 

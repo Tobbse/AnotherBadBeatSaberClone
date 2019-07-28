@@ -7,8 +7,10 @@ public class TouchableCube : MonoBehaviour
     void FixedUpdate()
     {
         lifetimeCycles--;
-        if (lifetimeCycles < 0)
+        if (lifetimeCycles < 0 || gameObject.transform.position.x > 0)
         {
+            Debug.Log("You fucked up!");
+            PScoreTracker.Instance.miss();
             Destroy(gameObject);
         }
     }
