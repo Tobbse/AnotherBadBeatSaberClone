@@ -2,7 +2,7 @@
 using System.Numerics;
 using UnityEngine;
 using DSPLib;
-using PSpectrumData;
+using PSpectrumInfo;
 
 public class PSpectrumProvider
 {
@@ -57,21 +57,21 @@ public class PSpectrumProvider
         return spectrums;
     }
 
-    public FastList<PSpectrumInfo> getSpectrumData(FastList<double[]> spectrums, int bands)
+    public FastList<PAnalyzedSpectrumData> getSpectrumData(FastList<double[]> spectrums, int bands)
     {
-        FastList<PSpectrumInfo> spectrumDataList = new FastList<PSpectrumInfo>();
+        FastList<PAnalyzedSpectrumData> spectrumDataList = new FastList<PAnalyzedSpectrumData>();
 
         for (int i = 0; i < spectrums.Count; i++)
         {
-            PSpectrumInfo data = new PSpectrumInfo();
+            PAnalyzedSpectrumData data = new PAnalyzedSpectrumData();
             data.time = _getAudioClipTimeFromIndex(i);
             data.hasPeak = false;
             data.spectrum = System.Array.ConvertAll(spectrums[i], doubleVal => (float)doubleVal);
 
             for (int j = 0; j < bands; j++)
             {
-                PSpectrumBandData bandData = new PSpectrumBandData();
-                data.bandData.Add(bandData);
+                PBeatInfo bandData = new PBeatInfo();
+                data.beatData.Add(bandData);
             }
             spectrumDataList.Add(data);
         }

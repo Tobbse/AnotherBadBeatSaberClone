@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using PSpectrumData;
+using PSpectrumInfo;
+using PAnalyzerConfigs;
 
 public class GameStart : MonoBehaviour
 {
@@ -9,9 +10,9 @@ public class GameStart : MonoBehaviour
     public int cubesPerUpdate;
     public GameObject timedBlockPrefab;
 
-    private FastList<PSpectrumInfo> _fullSpectrumDataList;
-    private FastList<PSpectrumInfo> _beatSpectrumData = new FastList<PSpectrumInfo>();
-    private PAnalyzerConfig _analyzerConfig;
+    private FastList<PAnalyzedSpectrumData> _fullSpectrumDataList;
+    private FastList<PAnalyzedSpectrumData> _beatSpectrumData = new FastList<PAnalyzedSpectrumData>();
+    private TrackConfig _analyzerConfig;
     private FastList<double[]> _spectrumsList;
     private int _index = 0;
     private float _lastTime;
@@ -68,7 +69,7 @@ public class GameStart : MonoBehaviour
             _audioSource.Play();
         }
 
-        PSpectrumInfo info = _beatSpectrumData[_index];
+        PAnalyzedSpectrumData info = _beatSpectrumData[_index];
         /*'while (timePassed >= info.time)
         {
             _index++;
@@ -100,11 +101,11 @@ public class GameStart : MonoBehaviour
     }
 
     // TODO _timedBlockDistance could just be multiplied by the speed here, same with the speed!
-    private void _handleSpectrumInfo(PSpectrumInfo info)
+    private void _handleSpectrumInfo(PAnalyzedSpectrumData info)
     {
         foreach (int peak in info.peakBands)
         {
-            float spectralFlux = info.bandData[peak].spectralFlux;
+            float spectralFlux = info.beatData[peak].spectralFlux;
             _obj = Instantiate(timedBlockPrefab, new Vector3(_timedBlockDistance * -1, 1.5f + spectralFlux, -0.5f + peak), Quaternion.identity);
             if (peak == 0)
             {
@@ -124,7 +125,7 @@ public class GameStart : MonoBehaviour
         int beats = 0;
         for (int i = 0; i < _fullSpectrumDataList.Count; i++)
         {
-            PSpectrumInfo info = _fullSpectrumDataList[i];
+            PAnalyzedSpectrumData info = _fullSpectrumDataList[i];
             if (info.hasPeak)
             {
                 _beatSpectrumData.Add(info);

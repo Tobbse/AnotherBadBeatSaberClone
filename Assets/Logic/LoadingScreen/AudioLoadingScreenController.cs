@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 using PAudioAnalyzer;
-using PSpectrumData;
+using PSpectrumInfo;
 using UnityEngine.SceneManagement;
 //using NAudio.Wave;
 //using NAudio.Wave.SampleProviders;
 using System.Collections;
+using PAnalyzerConfigs;
 
 public class AudioLoadingScreenController : MonoBehaviour
 {
     public AudioSource testAudioSource;
 
-    private PAnalyzerConfig _analyzerConfig;
+    private TrackConfig _analyzerConfig;
     private PSpectrumAnalyzer _spectrumAnalyzer;
-    private FastList<PSpectrumInfo> _spectrumDataList;
+    private FastList<PAnalyzedSpectrumData> _spectrumDataList;
     private AudioClip _audioClip;
     private FastList<double[]> _spectrumsList;
     private float[] _monoSamples;
@@ -42,7 +43,7 @@ public class AudioLoadingScreenController : MonoBehaviour
 
     private void _clipLoaded()
     {
-        _analyzerConfig = new PAnalyzerConfig(_audioClip.frequency);
+        _analyzerConfig = new TrackConfig(_audioClip.frequency);
         PSpectrumProvider audioProvider = new PSpectrumProvider(_analyzerConfig.ClipSampleRate);
 
         _monoSamples = PAudioSampleProvider.getMonoSamples(_audioClip);
@@ -64,26 +65,12 @@ public class AudioLoadingScreenController : MonoBehaviour
         _clipLoaded();
     }
 
-    // This currently does not work!
-    /*private AudioClip _loadResampledAudioData(string path)
-    {
-        AudioFileReader reader = new AudioFileReader(path);
-        int channels = reader.WaveFormat.Channels;
-        int systemSampleRate = AudioSettings.outputSampleRate;
-        int numSamples = (int)(reader.Length / channels / (reader.WaveFormat.BitsPerSample / 8));
-        float[] audioData = new float[numSamples];
-
-        WdlResamplingSampleProvider resampler = new WdlResamplingSampleProvider(reader, systemSampleRate);
-        resampler.Read(audioData, 0, numSamples);
-
-        AudioClip audioClip = AudioClip.Create(path, numSamples, channels, systemSampleRate, false);
-        audioClip.SetData(audioData, 0);
-        return audioClip;
-    }*/
-
     private void done()
     {
-        _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
+        // TODO Now we have to write this shit into a json file instead of saving it into the static storage.
+
+
+        _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
 
         GlobalStorage.Instance.AudioClip = _audioClip;
         GlobalStorage.Instance.SpectrumInfo = _spectrumDataList;

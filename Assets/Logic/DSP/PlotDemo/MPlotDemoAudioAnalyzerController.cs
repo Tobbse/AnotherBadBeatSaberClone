@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
 using PAudioAnalyzer;
-using PSpectrumData;
+using PSpectrumInfo;
+using PAnalyzerConfigs;
 
-public class MAudioAnalyzerController : MonoBehaviour
+public class MPlotDemoAudioAnalyzerController : MonoBehaviour
 {
-    private PAnalyzerConfig _analyzerConfig;
+    private TrackConfig _analyzerConfig;
     private PSpectrumAnalyzer _spectrumAnalyzer;
     private MSpectrumPlotter _spectrumPlotter;
-    private FastList<PSpectrumInfo> _spectrumDataList;
+    private FastList<PAnalyzedSpectrumData> _spectrumDataList;
     private bool _started;
 
     void Start()
     {
         AudioSource audioSource = GetComponent<AudioSource>();
-        _analyzerConfig = new PAnalyzerConfig(audioSource.clip.frequency);
+        _analyzerConfig = new TrackConfig(audioSource.clip.frequency);
         PSpectrumProvider audioProvider = new PSpectrumProvider(_analyzerConfig.ClipSampleRate);
 
         float[] samples = PAudioSampleProvider.getMonoSamples(audioSource.clip);
@@ -24,11 +25,10 @@ public class MAudioAnalyzerController : MonoBehaviour
         _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 
-    // TODO would be nicer to pass a callback instead of checking isReady ever frame.
     private void done()
     {
         enabled = false;
-        _spectrumDataList = _spectrumAnalyzer.getSpectrumDataList();
+        _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
         _spectrumPlotter = GetComponent<MSpectrumPlotter>();
         _spectrumPlotter.setDataAndStart(_spectrumDataList, MSpectrumPlotter.SHOW_PEAKS);
 

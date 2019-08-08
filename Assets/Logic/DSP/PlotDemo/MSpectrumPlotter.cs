@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using PSpectrumData;
+using PSpectrumInfo;
 using System.Collections;
 
 public class MSpectrumPlotter : MonoBehaviour
@@ -12,7 +12,7 @@ public class MSpectrumPlotter : MonoBehaviour
 
     private const int DISPLAY_WINDOW_SIZE = 300;
 
-    private FastList<PSpectrumInfo> _spectrumDataList;
+    private FastList<PAnalyzedSpectrumData> _spectrumDataList;
     private FastList<Transform> _plotPoints;
     private bool _isReady = false;
     private float _lastTime;
@@ -74,11 +74,11 @@ public class MSpectrumPlotter : MonoBehaviour
         }
     }
 
-    public void setDataAndStart(FastList<PSpectrumInfo> spectrumDataList, string type)
+    public void setDataAndStart(FastList<PAnalyzedSpectrumData> spectrumDataList, string type)
     {
         _spectrumDataList = spectrumDataList;
         _type = type;
-        _bands = _spectrumDataList[0].bandData.Count;
+        _bands = _spectrumDataList[0].beatData.Count;
         _lastTime = Time.time;
         _isReady = true;
     }
@@ -113,11 +113,11 @@ public class MSpectrumPlotter : MonoBehaviour
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
         {
-            PSpectrumInfo info = _getInfo(pointIndex);
+            PAnalyzedSpectrumData info = _getInfo(pointIndex);
 
             for (int j = 0; j < _bands; j++)
             {
-                PSpectrumBandData bandData = info.bandData[j];
+                PBeatInfo bandData = info.beatData[j];
 
                 Transform peak = _plotPoints[pointIndex].Find("Peak" + j.ToString());
                 peak.gameObject.SetActive(false); // TODO why does this not work?
@@ -141,11 +141,11 @@ public class MSpectrumPlotter : MonoBehaviour
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
         {
-            PSpectrumInfo info = _getInfo(pointIndex);
+            PAnalyzedSpectrumData info = _getInfo(pointIndex);
 
             for (int j = 0; j < _bands; j++)
             {
-                PSpectrumBandData bandData = info.bandData[j];
+                PBeatInfo bandData = info.beatData[j];
                 bool isZero = bandData.prunedSpectralFlux == 0;
 
                 Transform pruned = _plotPoints[pointIndex].Find("Pruned" + j.ToString());
@@ -170,28 +170,28 @@ public class MSpectrumPlotter : MonoBehaviour
         return _spectrumIndex > (_spectrumDataList.Count - 1 - DISPLAY_WINDOW_SIZE);
     }
 
-    private PSpectrumInfo _getInfo(int pointIndex)
+    private PAnalyzedSpectrumData _getInfo(int pointIndex)
     {
         int pointDataIndex = _spectrumIndex + pointIndex;
         bool isOutOfBounds = pointDataIndex > _spectrumDataList.Count - 1;
-        PSpectrumInfo info = isOutOfBounds ? _getEmptySpectrumInfo() : _spectrumDataList[pointDataIndex];
+        PAnalyzedSpectrumData info = isOutOfBounds ? _getEmptySpectrumInfo() : _spectrumDataList[pointDataIndex];
         return info;
     }
 
-    private PSpectrumInfo _getEmptySpectrumInfo()
+    private PAnalyzedSpectrumData _getEmptySpectrumInfo()
     {
-        PSpectrumInfo emptyInfo = new PSpectrumInfo();
+        PAnalyzedSpectrumData emptyInfo = new PAnalyzedSpectrumData();
         emptyInfo.hasPeak = false;
 
         for (int i = 0; i < _bands; i++)
         {
-            PSpectrumBandData bandData = new PSpectrumBandData();
+            PBeatInfo bandData = new PBeatInfo();
             bandData.band = i;
             bandData.isPeak = false;
             bandData.spectralFlux = 0.0f;
             bandData.prunedSpectralFlux = 0.0f;
             bandData.threshold = 0.0f;
-            emptyInfo.bandData.Add(bandData);
+            emptyInfo.beatData.Add(bandData);
         }
         return emptyInfo;
     }

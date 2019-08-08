@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using PSpectrumData;
+using PSpectrumInfo;
 
 public class PPostAudioAnalyzer
 {
-    private FastList<PSpectrumInfo>  _spectrumDataList;
+    private FastList<PAnalyzedSpectrumData>  _spectrumDataList;
 
-    public PPostAudioAnalyzer(FastList<PSpectrumInfo> spectrumDataList)
+    public PPostAudioAnalyzer(FastList<PAnalyzedSpectrumData> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
     }

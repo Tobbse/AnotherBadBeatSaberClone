@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using PSpectrumData;
+using PSpectrumInfo;
 
 public class BlockDataControllerPlain : ScriptableObject
 {
-    private FastList<PSpectrumInfo> _spectrumDataList;
+    private FastList<PAnalyzedSpectrumData> _spectrumDataList;
 
-    public void createBlockData(FastList<PSpectrumInfo> spectrumDataList)
+    public void createBlockData(FastList<PAnalyzedSpectrumData> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
 
