@@ -9,12 +9,14 @@ namespace PAnalyzerConfigs {
         private float _sampleRate = (float)AudioSettings.outputSampleRate;
         private float _maxFreq;
         private float _hzPerBin;
+        private string _trackName;
 
-        public TrackConfig(int clipSampleRate)
+        public TrackConfig(int clipSampleRate, string trackName)
         {
             _maxFreq = _sampleRate / 2;
             _hzPerBin = _maxFreq / PSpectrumProvider.NUM_BINS;
             _clipSampleRate = clipSampleRate;
+            _trackName = trackName;
 
             _createAnalyzerConfigs();
             _bands = _analyzerConfigs.Count;
@@ -33,6 +35,11 @@ namespace PAnalyzerConfigs {
         public int ClipSampleRate
         {
             get { return _clipSampleRate; }
+        }
+
+        public string TrackName
+        {
+            get { return _trackName; }
         }
 
         private void _createAnalyzerConfigs() // TODO maybe also pass a parameter for pre- and after pruned flux multipliers to determine beats?

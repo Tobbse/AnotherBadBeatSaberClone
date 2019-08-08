@@ -2,16 +2,15 @@
 using PAudioAnalyzer;
 using PSpectrumInfo;
 using UnityEngine.SceneManagement;
-//using NAudio.Wave;
-//using NAudio.Wave.SampleProviders;
 using System.Collections;
 using PAnalyzerConfigs;
+using PMappingConfigs;
 
 public class AudioLoadingScreenController : MonoBehaviour
 {
     public AudioSource testAudioSource;
 
-    private TrackConfig _analyzerConfig;
+    private TrackConfig _trackConfig;
     private PSpectrumAnalyzer _spectrumAnalyzer;
     private FastList<PAnalyzedSpectrumData> _spectrumDataList;
     private AudioClip _audioClip;
@@ -43,14 +42,14 @@ public class AudioLoadingScreenController : MonoBehaviour
 
     private void _clipLoaded()
     {
-        _analyzerConfig = new TrackConfig(_audioClip.frequency);
-        PSpectrumProvider audioProvider = new PSpectrumProvider(_analyzerConfig.ClipSampleRate);
+        _trackConfig = new TrackConfig(_audioClip.frequency, _audioClip.name);
+        PSpectrumProvider audioProvider = new PSpectrumProvider(_trackConfig.ClipSampleRate);
 
         _monoSamples = PAudioSampleProvider.getMonoSamples(_audioClip);
         _spectrumsList = audioProvider.getSpectrums(_monoSamples);
-        _spectrumDataList = audioProvider.getSpectrumData(_spectrumsList, _analyzerConfig.Bands);
+        _spectrumDataList = audioProvider.getSpectrumData(_spectrumsList, _trackConfig.Bands);
 
-        _spectrumAnalyzer = new PSpectrumAnalyzer(_spectrumsList, _analyzerConfig, _spectrumDataList);
+        _spectrumAnalyzer = new PSpectrumAnalyzer(_spectrumsList, _trackConfig, _spectrumDataList, new PMappingContainer());
         _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 
@@ -68,13 +67,15 @@ public class AudioLoadingScreenController : MonoBehaviour
     private void done()
     {
         // TODO Now we have to write this shit into a json file instead of saving it into the static storage.
-
+        PJsonMappingHandler handler = new PJsonMappingHandler();
+        PMappingContainer mappingContainer = _spectrumAnalyzer.getBeatMappingContainer();
+        handler.writeFile(mappingContainer, _trackConfig);
 
         _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
 
         GlobalStorage.Instance.AudioClip = _audioClip;
         GlobalStorage.Instance.SpectrumInfo = _spectrumDataList;
-        GlobalStorage.Instance.AnalyzerConfig = _analyzerConfig;
+        GlobalStorage.Instance.AnalyzerConfig = _trackConfig;
         GlobalStorage.Instance.SpectrumsList = _spectrumsList;
 
         SceneManager.LoadScene("Game");

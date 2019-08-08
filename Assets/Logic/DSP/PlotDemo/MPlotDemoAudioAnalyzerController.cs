@@ -2,6 +2,7 @@
 using PAudioAnalyzer;
 using PSpectrumInfo;
 using PAnalyzerConfigs;
+using PMappingConfigs;
 
 public class MPlotDemoAudioAnalyzerController : MonoBehaviour
 {
@@ -14,14 +15,14 @@ public class MPlotDemoAudioAnalyzerController : MonoBehaviour
     void Start()
     {
         AudioSource audioSource = GetComponent<AudioSource>();
-        _analyzerConfig = new TrackConfig(audioSource.clip.frequency);
+        _analyzerConfig = new TrackConfig(audioSource.clip.frequency, audioSource.clip.name);
         PSpectrumProvider audioProvider = new PSpectrumProvider(_analyzerConfig.ClipSampleRate);
 
         float[] samples = PAudioSampleProvider.getMonoSamples(audioSource.clip);
         FastList<double[]> spectrumsList = audioProvider.getSpectrums(samples);
         _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _analyzerConfig.Bands);
 
-        _spectrumAnalyzer = new PSpectrumAnalyzer(spectrumsList, _analyzerConfig, _spectrumDataList);
+        _spectrumAnalyzer = new PSpectrumAnalyzer(spectrumsList, _analyzerConfig, _spectrumDataList, new PMappingContainer());
         _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 

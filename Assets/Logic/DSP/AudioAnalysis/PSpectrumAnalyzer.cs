@@ -1,6 +1,7 @@
 ﻿using PSpectrumInfo;
 using System;
 using PAnalyzerConfigs;
+using PMappingConfigs;
 
 namespace PAudioAnalyzer
 {
@@ -10,17 +11,24 @@ namespace PAudioAnalyzer
         private FastList<double[]> _spectrumData;
         private TrackConfig _trackConfig;
         private PPostAudioAnalyzer _postAudioAnalyzer;
+        private PMappingContainer _beatMappingContainer;
 
-        public PSpectrumAnalyzer(FastList<double[]> spectrumsList, TrackConfig trackConfig, FastList<PAnalyzedSpectrumData> spectrumDataList)
+        public PSpectrumAnalyzer(FastList<double[]> spectrumsList, TrackConfig trackConfig, FastList<PAnalyzedSpectrumData> spectrumDataList, PMappingContainer beatMappingContainer)
         {
             _spectrumData = spectrumsList;
             _trackConfig = trackConfig;
             _analyzedSpectrumData = spectrumDataList;
+            _beatMappingContainer = beatMappingContainer;
         }
 
         public FastList<PAnalyzedSpectrumData> getAnalyzedSpectrumData()
         {
             return _analyzedSpectrumData;
+        }
+
+        public PMappingContainer getBeatMappingContainer()
+        {
+            return _beatMappingContainer;
         }
 
         public void analyzeSpectrumsList(Action callback)
@@ -30,7 +38,7 @@ namespace PAudioAnalyzer
             // Loop over the defined frequency bands.
             for (int i = 0; i < beatConfigs.Count; i++)
             {
-                POnsetDetector beatDetector = new POnsetDetector(beatConfigs[i], _analyzedSpectrumData, _trackConfig);
+                POnsetDetector beatDetector = new POnsetDetector(beatConfigs[i], _analyzedSpectrumData, _trackConfig, _beatMappingContainer);
 
                 // Loop over the spectrums to get spectral flux.
                 for (int j = 0; j < _spectrumData.Count; j++)
