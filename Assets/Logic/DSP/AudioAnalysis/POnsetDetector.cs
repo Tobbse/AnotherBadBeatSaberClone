@@ -86,10 +86,10 @@ public class POnsetDetector
 
             PNoteConfig noteCfg = new PNoteConfig();
             noteCfg.time = time;
-            noteCfg.lineIndex = Random.Range(0, 3);
-            noteCfg.lineLayer = Random.Range(0, 3);
-            noteCfg.type = Random.Range(0, 3);
-            noteCfg.cutDirection = Random.Range(0, 3);
+            noteCfg.type = Random.Range(PNoteConfig.NOTE_TYPE_LEFT, PNoteConfig.NOTE_TYPE_RIGHT + 1);
+            noteCfg.lineIndex = noteCfg.type == PNoteConfig.NOTE_TYPE_LEFT ? Random.Range(PNoteConfig.LINE_INDEX_0, PNoteConfig.LINE_INDEX_1 + 1) : Random.Range(PNoteConfig.LINE_INDEX_2, PNoteConfig.LINE_INDEX_3 + 1);
+            noteCfg.lineLayer = Random.Range(PNoteConfig.LINE_LAYER_0, PNoteConfig.LINE_LAYER_3 + 1);
+            noteCfg.cutDirection = Random.Range(PNoteConfig.CUT_DIRECTION_TOP, PNoteConfig.CUT_DIRECTION_LEFT + 1);
             _beatMappingContainer.noteData.Add(noteCfg);
 
             if (Random.Range(0, 100) > 95)

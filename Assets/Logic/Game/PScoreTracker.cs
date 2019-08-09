@@ -25,6 +25,7 @@ public class PScoreTracker : ScriptableObject
 
     public void hit()
     {
+        GameObject.Find("HitSound").GetComponent<AudioSource>().Play();
         _score = _combo * POINTS_PER_HIT;
         _combo = Mathf.Min(MAX_COMBO, _combo);
         _hits += 1;
@@ -32,6 +33,9 @@ public class PScoreTracker : ScriptableObject
 
     public void miss()
     {
+        GameObject.Find("MissSound").GetComponent<AudioSource>().Play();
+        //audioSource.Play(); // TODO better use PlayOneShot here?!?
+        //Debug.Log("Missed block!");
         _combo = 1;
         _misses += 1;
     }

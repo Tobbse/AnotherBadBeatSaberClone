@@ -2,25 +2,22 @@
 using PMappingConfigs;
 using PJsonIOHandler;
 using PAnalyzerConfigs;
+using System.IO;
 
 public class PJsonMappingHandler : ScriptableObject
 {
-    public PJsonMappingHandler()
-    {
+    private const string BASE_FOLDER_PATH = "BeatMappings/";
 
-    }
-
-    public void writeFile(PMappingContainer beatMappingContainer, TrackConfig trackCfg)
+    public void writeFile(PMappingContainer beatMappingContainer, TrackConfig trackCfg, string difficulty)
     {
-        string version = "2.0.0";
-        string folderPath = "BeatMappings/" + trackCfg.TrackName;
+        string folderPath = _getFolderPath(trackCfg);
 
         PMappingJsonStringBuilder jsonBuilder = new PMappingJsonStringBuilder();
-        jsonBuilder.setData(beatMappingContainer, version);
+        jsonBuilder.setData(beatMappingContainer);
         string json = jsonBuilder.getJsonString();
-        string info = jsonBuilder.getInfoJsonString(version, trackCfg.TrackName);
+        string info = jsonBuilder.getInfoJsonString(trackCfg.TrackName);
 
-        PMappingJsonFileWriter.writeFile(json, folderPath, "/Easy.dat");
+        PMappingJsonFileWriter.writeFile(json, folderPath, difficulty + ".dat");
         PMappingJsonFileWriter.writeFile(info, folderPath, "/info.dat");
     }
 
@@ -29,4 +26,19 @@ public class PJsonMappingHandler : ScriptableObject
         return PMappingJsonFileReader.readMappingFile(filePath);
     }
 
+    public bool mappingExists(TrackConfig trackCfg, string difficulty)
+    {
+        string filePath = getFullPath(trackCfg, difficulty);
+        return File.Exists(filePath);
+    }
+
+    public string getFullPath(TrackConfig trackCfg, string difficulty)
+    {
+        return _getFolderPath(trackCfg) + difficulty + ".dat";
+    }
+
+    private string _getFolderPath(TrackConfig trackCfg)
+    {
+        return BASE_FOLDER_PATH + trackCfg.TrackName + "/";
+    }
 }

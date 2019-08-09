@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System;
 using PSpectrumInfo;
 using PAnalyzerConfigs;
+using PMappingConfigs;
 
 public class GameStart : MonoBehaviour
 {
@@ -26,16 +27,23 @@ public class GameStart : MonoBehaviour
     private GameObject _obj;
     private Rigidbody _rb;
     private PScoreTracker _scoreTracker;
+    private FastList<PEventConfig> _eventData;
+    private FastList<PNoteConfig> _noteData;
+    private FastList<PObstacleConfig> _obstacleData;
+    private FastList<PBookmarkConfig> _bookmarkData;
 
     void Start()
     {
-        /*for (int i = 0; i < 5000; i++)
-        {
-            GameObject cube = Instantiate<GameObject>(touchableCube, new Vector3(_random.Next(-50, 50), _random.Next(1, 50), _random.Next(-50, 50)), Quaternion.identity);
-        }*/
         enabled = false;
+
+        PMappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
+        _eventData = mappingContainer.eventData;
+        _noteData = mappingContainer.noteData;
+        _obstacleData = mappingContainer.obstacleData;
+        _bookmarkData = mappingContainer.bookmarkData;
+
         _fullSpectrumDataList = GlobalStorage.Instance.SpectrumInfo;
-        _analyzerConfig = GlobalStorage.Instance.AnalyzerConfig;
+        _analyzerConfig = GlobalStorage.Instance.TrackConfig;
         _spectrumsList = GlobalStorage.Instance.SpectrumsList;
         _filterBeats();
 
@@ -50,20 +58,16 @@ public class GameStart : MonoBehaviour
 
     void Update()
     {
-        /*for (int i = 0; i < cubesPerUpdate; i++)
-        {
-            GameObject cube = Instantiate<GameObject>(touchableCube, new Vector3(_random.Next(-50, 50), _random.Next(1, 50), _random.Next(-50, 50)), Quaternion.identity);
-        }*/
+        //_spawnRandomStuff();
 
         float timePassed = Time.time - _startTime;
-        //Debug.Log(timePassed);
 
         if (_timeframeReached && !_audioSource.isPlaying)
         {
             SceneManager.LoadScene("Score");
         }
 
-        if (timePassed > _timeframe && !_timeframeReached)
+        if (!_timeframeReached && timePassed > _timeframe)
         {
             _timeframeReached = true;
             _audioSource.Play();
@@ -138,5 +142,13 @@ public class GameStart : MonoBehaviour
             enabled = false;
         }
         _scoreTracker = new PScoreTracker(beats);
+    }
+
+    private void _spawnRandomStuff()
+    {
+        for (int i = 0; i < cubesPerUpdate; i++)
+        {
+            GameObject cube = Instantiate<GameObject>(touchableCube, new Vector3(_random.Next(-50, 50), _random.Next(1, 50), _random.Next(-50, 50)), Quaternion.identity);
+        }
     }
 }

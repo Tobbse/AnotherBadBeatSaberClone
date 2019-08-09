@@ -19,7 +19,7 @@ namespace PJsonIOHandler {
                 FileStream stream = File.Create(fullPath);
                 stream.Close();
             }
-
+            File.WriteAllText(fullPath, string.Empty);
 
             StreamWriter writer = new StreamWriter(fullPath, true);
             writer.WriteLine(json);

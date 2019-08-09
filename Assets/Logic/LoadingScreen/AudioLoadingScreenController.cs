@@ -16,7 +16,8 @@ public class AudioLoadingScreenController : MonoBehaviour
     private AudioClip _audioClip;
     private FastList<double[]> _spectrumsList;
     private float[] _monoSamples;
-    private WWW _www;
+    private PJsonMappingHandler _jsonMappingHandler;
+    private string _difficulty;
 
     void Start()
     {
@@ -36,6 +37,9 @@ public class AudioLoadingScreenController : MonoBehaviour
 
     private void _init()
     {
+        _jsonMappingHandler = new PJsonMappingHandler();
+        _difficulty = GlobalStorage.Instance.Difficulty;
+
         string path = GlobalStorage.Instance.AudioPath;
         StartCoroutine(LoadMp3AudioClip(path));
     }
@@ -43,14 +47,20 @@ public class AudioLoadingScreenController : MonoBehaviour
     private void _clipLoaded()
     {
         _trackConfig = new TrackConfig(_audioClip.frequency, _audioClip.name);
-        PSpectrumProvider audioProvider = new PSpectrumProvider(_trackConfig.ClipSampleRate);
 
+        if (_jsonMappingHandler.mappingExists(_trackConfig, _difficulty))
+        {
+            loadMappingFromCache();
+            Debug.Log("Loading track mapping from cache.");
+            return;
+        }
+
+        PSpectrumProvider audioProvider = new PSpectrumProvider(_trackConfig.ClipSampleRate);
         _monoSamples = PAudioSampleProvider.getMonoSamples(_audioClip);
         _spectrumsList = audioProvider.getSpectrums(_monoSamples);
         _spectrumDataList = audioProvider.getSpectrumData(_spectrumsList, _trackConfig.Bands);
-
         _spectrumAnalyzer = new PSpectrumAnalyzer(_spectrumsList, _trackConfig, _spectrumDataList, new PMappingContainer());
-        _spectrumAnalyzer.analyzeSpectrumsList(done);
+        _spectrumAnalyzer.analyzeSpectrumsList(analaysisFinished);
     }
 
     private IEnumerator LoadMp3AudioClip(string path)
@@ -64,19 +74,32 @@ public class AudioLoadingScreenController : MonoBehaviour
         _clipLoaded();
     }
 
-    private void done()
+    private void analaysisFinished()
     {
-        // TODO Now we have to write this shit into a json file instead of saving it into the static storage.
-        PJsonMappingHandler handler = new PJsonMappingHandler();
         PMappingContainer mappingContainer = _spectrumAnalyzer.getBeatMappingContainer();
-        handler.writeFile(mappingContainer, _trackConfig);
+        _jsonMappingHandler.writeFile(mappingContainer, _trackConfig, _difficulty);
 
         _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
 
         GlobalStorage.Instance.AudioClip = _audioClip;
         GlobalStorage.Instance.SpectrumInfo = _spectrumDataList;
-        GlobalStorage.Instance.AnalyzerConfig = _trackConfig;
+        GlobalStorage.Instance.TrackConfig = _trackConfig;
         GlobalStorage.Instance.SpectrumsList = _spectrumsList;
+        GlobalStorage.Instance.MappingContainer = mappingContainer;
+
+        SceneManager.LoadScene("Game");
+    }
+
+    private void loadMappingFromCache()
+    {
+        string mappingPath = _jsonMappingHandler.getFullPath(_trackConfig, GlobalStorage.Instance.Difficulty);
+
+        PMappingContainer mappingContainer = _jsonMappingHandler.readFile(mappingPath);
+
+        GlobalStorage.Instance.MappingPath = mappingPath;
+        GlobalStorage.Instance.AudioClip = _audioClip;
+        GlobalStorage.Instance.TrackConfig = _trackConfig;
+        GlobalStorage.Instance.MappingContainer = mappingContainer;
 
         SceneManager.LoadScene("Game");
     }

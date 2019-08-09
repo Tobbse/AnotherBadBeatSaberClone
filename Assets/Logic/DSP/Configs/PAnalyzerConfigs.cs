@@ -46,6 +46,8 @@ namespace PAnalyzerConfigs {
         {
             _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 5, 4.0f));
             _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 10, 2.5f));
+            //_analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 5, 5.0f));
+            //_analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 10, 3.5f));
         }
 
         private PAnalyzerBandConfig _makeConfig(int band, int startIndex, int endIndex, int thresholdSize, int beatTime, float tresholdMult)

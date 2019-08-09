@@ -4,6 +4,12 @@ using UnityEditor;
 
 public class SingleplayerMenu : MonoBehaviour
 {
+    public static string DIFFICULTY_EASY = "Easy";
+    public static string DIFFICULTY_NORMAL = "Normal";
+    public static string DIFFICULTY_HARD = "Hard";
+    public static string DIFFICULTY_EXPERT = "Expert";
+    public static string DIFFICULTY_EXPERT_PLUS = "ExpertPlus";
+
     private string _path;
 
     public void clickPlay()
@@ -28,7 +34,9 @@ public class SingleplayerMenu : MonoBehaviour
             Debug.Log("No File Selected!");
             return;
         }
+        // TODO add difficulty choice
         GlobalStorage global = new GlobalStorage();
+        GlobalStorage.Instance.Difficulty = DIFFICULTY_EASY;
         GlobalStorage.Instance.AudioPath = _path;
     }
 }

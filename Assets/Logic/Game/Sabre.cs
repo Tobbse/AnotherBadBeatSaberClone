@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class Sabre : MonoBehaviour
 {
-    public int _blockHitLayer;
+    public int blockHitLayer;
 
     private Vector3 _previousPosition;
     private Transform _hitTransform;
@@ -14,23 +15,44 @@ public class Sabre : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2.5f))
         {
             _hitTransform = hit.transform;
-            Vector3 direction = transform.position - _previousPosition;
-            float angle = Vector3.Angle(transform.position - _previousPosition, _hitTransform.up);
             int hitLayer = _hitTransform.gameObject.layer;
+            if (!isBlockLayer(hitLayer))
+            {
+                Debug.Log("HIT OBJECT BUT IT WAS A: " + _hitTransform.name);
+                return;
+            }
+            Rigidbody rigid = _hitTransform.GetComponent<Rigidbody>();
+            rigid.velocity = Vector3.zero;
+            rigid.useGravity = true;
+            _hitTransform.gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
 
+            
 
-            if (/*angle > 130 && */hitLayer == _blockHitLayer)
+            Vector3 sabreAngle = transform.position - _previousPosition;
+            Vector3 blockYAxis = hit.transform.up;
+            float hitAngle = Vector3.Angle(sabreAngle, blockYAxis);
+            bool correctHit = false;
+
+            //Debug.Log("Sabre Angle:   " + sabreAngle.ToString());
+            //Debug.Log("Block Y Axis:  " + blockYAxis.ToString());
+            //Debug.Log("Hit Angle:     " + hitAngle.ToString());
+
+            if (hitAngle > 130 && hitLayer == blockHitLayer)
             {
                 PScoreTracker.Instance.hit();
-                Debug.Log("You hit something!!!");
+                Debug.Log("Correct Hit!");
                 Destroy(hit.transform.gameObject);
-            }
-             else if (isBlockLayer(hitLayer))
+                correctHit = true;
+            } else
             {
-                PScoreTracker.Instance.hit();
-                Debug.Log("You hit a wrong block!!!");
+                PScoreTracker.Instance.miss();
+                Debug.Log("Incorrect Hit!");
                 Destroy(hit.transform.gameObject);
             }
+            
+            GameObject.Find("AngleText").GetComponent<TextMeshPro>().SetText(hitAngle.ToString());
+            GameObject.Find("HitText").GetComponent<TextMeshPro>().SetText(correctHit ? "CORRECT HIT": "wrong hit");
+            GameObject.Find("HitText").GetComponent<TextMeshPro>().color = correctHit ? Color.green : Color.red;
         }
         _previousPosition = transform.position;
     }

@@ -4,12 +4,13 @@ using System.Globalization;
 
 public class PMappingJsonStringBuilder : ScriptableObject
 {
+    private const string MAPPING_VERSION = "2.0.0";
+
     private FastList<PEventConfig> _events;
     private FastList<PNoteConfig> _notes;
     private FastList<PObstacleConfig> _obstacles;
     private FastList<PBookmarkConfig> _bookmarks;
     private string _json = "";
-    private string _version;
     private string _eventStr;
     private string _noteStr;
     private string _obstacleStr;
@@ -20,7 +21,7 @@ public class PMappingJsonStringBuilder : ScriptableObject
     {
     }
 
-    public void setData(PMappingContainer beatMappingContainer, string version)
+    public void setData(PMappingContainer beatMappingContainer)
     {
         _events = beatMappingContainer.eventData;
         _notes = beatMappingContainer.noteData;
@@ -35,15 +36,15 @@ public class PMappingJsonStringBuilder : ScriptableObject
         _addObstacleData();
         _addBookmarkData();
 
-        string start = "{\"_version\":\"" + _version + "\",\"_BPMChanges\": [],";
+        string start = "{\"_version\":\"" + MAPPING_VERSION + "\",\"_BPMChanges\": [],";
         _json = start + _json + "}";
 
         return _json;
     }
 
-    public string getInfoJsonString(string version, string trackName)
+    public string getInfoJsonString(string trackName)
     {
-        string start = "{" + "\"_version\":\"" + version + "\",";
+        string start = "{" + "\"_version\":\"" + MAPPING_VERSION + "\",";
         start += "\"_songName\":\"" + trackName + "\",";
         string rest = "\"_songSubName\":\"\",\"_songAuthorName\":\"UNKNOWN\",\"_levelAuthorName\":\"UNKNOWN\",\"_beatsPerMinute\":0,\"_songTimeOffset\":0,\"_shuffle\":0,\"_shufflePeriod\":0.0,\"_previewStartTime\":0.0,\"_previewDuration\":0.0,\"_songFilename\":\"UNKNOWN\",\"_coverImageFilename\":\"UNKNOWN\",\"_environmentName\":\"DefaultEnvironment\",\"_customData\":{\"_contributors\":[],\"_customEnvironment\":\"\",\"_customEnvironmentHash\":\"\"},\"_difficultyBeatmapSets\":[{\"_beatmapCharacteristicName\":\"Standard\",\"_difficultyBeatmaps\":[{\"_difficulty\":\"Normal\",\"_difficultyRank\":3,\"_beatmapFilename\":\"Normal.dat\",\"_noteJumpMovementSpeed\":10.0,\"_noteJumpStartBeatOffset\":0,\"_customData\":{\"_difficultyLabel\":\"\",\"_editorOffset\":0,\"_editorOldOffset\":0,\"_warnings\":[],\"_information\":[],\"_suggestions\":[],\"_requirements\":[]}}]}]}";
         return start + rest;
@@ -97,6 +98,7 @@ public class PMappingJsonStringBuilder : ScriptableObject
 
             notesStr = time + noteCfg.time.ToString(usa) + ",";
             notesStr += lineIndex + noteCfg.lineIndex.ToString(usa) + ",";
+            notesStr += lineLayer + noteCfg.lineLayer.ToString(usa) + ",";
             notesStr += type + noteCfg.type.ToString(usa) + ",";
             notesStr += cutDirection + noteCfg.cutDirection.ToString(usa) + ",";
 
