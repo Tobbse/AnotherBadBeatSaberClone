@@ -16,8 +16,8 @@ TagManager:
   - Left
   - Right
   - Sabres
-  - 
-  - 
+  - CollideOnlyWithPlayer
+  - Player
   - 
   - 
   - 

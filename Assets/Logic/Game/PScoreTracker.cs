@@ -24,6 +24,11 @@ public class PScoreTracker : ScriptableObject
         _totalBeats = totalBeats;
     }
 
+    public void resetComboCounter()
+    {
+        _combo = 1;
+    }
+
     public void hit()
     {
         GameObject.Find("HitSound").GetComponent<AudioSource>().Play();
@@ -42,7 +47,7 @@ public class PScoreTracker : ScriptableObject
 
         //audioSource.Play(); // TODO better use PlayOneShot here?!?
         //Debug.Log("Missed block!");
-        _combo = 1;
+        resetComboCounter();
         _misses += 1;
     }
 

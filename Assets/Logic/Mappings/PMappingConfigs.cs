@@ -44,8 +44,8 @@
     public class PObstacleConfig
     {
         public float time;
-        public float lineIndex;
-        public float type;
+        public int lineIndex;
+        public int type;
         public float duration;
         public float width;
     }

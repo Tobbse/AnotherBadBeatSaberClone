@@ -9,19 +9,20 @@ public class NewGameStart : MonoBehaviour
     public int cubesPerUpdate;
     public GameObject leftHandTimedBlockPrefab;
     public GameObject rightHandTimedBlockPrefab;
+    public GameObject obstacle;
 
     private TrackConfig _analyzerConfig;
-    private int _index = 0;
+    private int _noteIndex = 0;
+    private int _obstacleIndex = 0;
     private float _lastTime;
     private float _startTime;
     private System.Random _random = new System.Random();
-    private float _timeframe = 2.5f;
+    private float _timeframe = 2.2f;
     private bool _timeframeReached = false;
     private AudioSource _audioSource;
     private FastList<GameObject> _timedObjects = new FastList<GameObject>();
-    private float _timedBlockDistance = 18;
+    private float _timedBlockDistance = 15;
     private GameObject _obj;
-    private Rigidbody _rb;
     private PScoreTracker _scoreTracker;
     private FastList<PEventConfig> _eventData;
     private FastList<PNoteConfig> _noteData;
@@ -37,6 +38,7 @@ public class NewGameStart : MonoBehaviour
         enabled = false;
         _setupMappings();
 
+        PlayerData.Instance = new PlayerData();
         PMappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
         _eventData = mappingContainer.eventData;
         _noteData = mappingContainer.noteData;
@@ -97,16 +99,24 @@ public class NewGameStart : MonoBehaviour
             _audioSource.volume = 0.25f;
         }
 
-        for (int i = _index; i < _noteData.Count; i++)
+        for (int i = _noteIndex; i < _noteData.Count; i++)
         {
             if (_noteData[i].time <= timePassed)
             {
                 _handleNote(_noteData[i]);
-                _index++;
-            } else
-            {
-                break;
+                _noteIndex++;
             }
+            else break;
+        }
+
+        for (int i = _obstacleIndex; i < _obstacleData.Count; i++)
+        {
+            if (_obstacleData[i].time <= timePassed)
+            {
+                _handleObstacle(_obstacleData[i]);
+                _obstacleIndex++;
+            }
+            else break;
         }
     }
 
@@ -123,7 +133,26 @@ public class NewGameStart : MonoBehaviour
         int angle = _cutDirectionMapping[noteConfig.cutDirection];
         _obj.transform.Rotate(new Vector3(angle, 0, 0));
 
-        _rb = _obj.GetComponent<Rigidbody>();
-        _rb.velocity = new Vector3(_timedBlockDistance / _timeframe, 0, 0);
+        _obj.GetComponent<Rigidbody>().velocity = new Vector3(_timedBlockDistance / _timeframe, 0, 0);
+    }
+
+    private void _handleObstacle(PObstacleConfig obstacleConfig)
+    {
+        float length = _durationToWidth(obstacleConfig.duration);
+        float xPos = (_timedBlockDistance * -1) - (length / 2);
+        float yPos = 0;
+        float zPos = _horizontalMapping[obstacleConfig.lineIndex];
+
+        _obj = Instantiate(obstacle, new Vector3(xPos, yPos, zPos), Quaternion.identity);
+        _obj.layer = 11;
+        _obj.transform.localScale = new Vector3(length, 7.0f, obstacleConfig.width);
+
+        _obj.GetComponent<Rigidbody>().velocity = new Vector3(_timedBlockDistance / _timeframe, 0, 0);
+        int i = 0;
+    }
+
+    private float _durationToWidth(float duration)
+    {
+        return _timedBlockDistance / _timeframe * duration;
     }
 }

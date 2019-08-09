@@ -92,7 +92,7 @@ public class POnsetDetector
             noteCfg.cutDirection = Random.Range(PNoteConfig.CUT_DIRECTION_TOP, PNoteConfig.CUT_DIRECTION_LEFT + 1);
             _beatMappingContainer.noteData.Add(noteCfg);
 
-            if (Random.Range(0, 100) > 95)
+            if (Random.Range(0, 100) > 80)
             {
                 PObstacleConfig obstacleCfg = new PObstacleConfig();
                 obstacleCfg.time = time;
