@@ -27,7 +27,7 @@ RenderSettings:
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 59e9fddc38d83c84689eb3deb601b970, type: 2}
-  m_HaloStrength: 0.465
+  m_HaloStrength: 0
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -96,7 +96,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: e7b7ef6cd42319e478551d27e9ed4d8d,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -870,7 +871,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 246910008}
-  - component: {fileID: 246910009}
   - component: {fileID: 246910010}
   m_Layer: 0
   m_Name: GameStart
@@ -893,23 +893,6 @@ Transform:
   m_Father: {fileID: 1691677657}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &246910009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246910007}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 921045a3e20c12344b26f0bae0e60b04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  touchableCube: {fileID: 119281918999594524, guid: 90830482b007b414a8dc48d59e9d8b2b,
-    type: 3}
-  cubesPerUpdate: 5
-  timedBlockPrefab: {fileID: 119281918999594524, guid: 4613a6ab431b8b84088d7f72caa44e11,
-    type: 3}
 --- !u!114 &246910010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,8 +905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d462aa3aa3f75654c80affe23c4b36e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  touchableCube: {fileID: 119281918999594524, guid: 90830482b007b414a8dc48d59e9d8b2b,
-    type: 3}
   cubesPerUpdate: 5
   leftHandTimedBlockPrefab: {fileID: 119281918999594524, guid: 4613a6ab431b8b84088d7f72caa44e11,
     type: 3}
@@ -1566,8 +1547,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.437296, y: 3.2112706, z: 1.1278404}
-  m_Center: {x: 0.02348845, y: 0.17729805, z: 0.023317536}
+  m_Size: {x: 3.459547, y: 3.183575, z: 1.111652}
+  m_Center: {x: 0.02944111, y: 0.01189232, z: 0.03529807}
 --- !u!23 &954814697
 MeshRenderer:
   m_ObjectHideFlags: 0

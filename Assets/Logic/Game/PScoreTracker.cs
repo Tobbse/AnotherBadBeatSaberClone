@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class PScoreTracker : ScriptableObject
 {
@@ -26,7 +27,7 @@ public class PScoreTracker : ScriptableObject
     public void hit()
     {
         GameObject.Find("HitSound").GetComponent<AudioSource>().Play();
-        _score = _combo * POINTS_PER_HIT;
+        _score += _combo * POINTS_PER_HIT;
         _combo = Mathf.Min(MAX_COMBO, _combo);
         _hits += 1;
     }
@@ -34,6 +35,11 @@ public class PScoreTracker : ScriptableObject
     public void miss()
     {
         GameObject.Find("MissSound").GetComponent<AudioSource>().Play();
+
+        GameObject.Find("AngleText").GetComponent<TextMeshPro>().SetText("0");
+        GameObject.Find("HitText").GetComponent<TextMeshPro>().SetText("MISS");
+        GameObject.Find("HitText").GetComponent<TextMeshPro>().color = Color.red;
+
         //audioSource.Play(); // TODO better use PlayOneShot here?!?
         //Debug.Log("Missed block!");
         _combo = 1;

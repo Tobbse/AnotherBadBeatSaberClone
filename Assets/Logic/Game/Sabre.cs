@@ -18,15 +18,14 @@ public class Sabre : MonoBehaviour
             int hitLayer = _hitTransform.gameObject.layer;
             if (!isBlockLayer(hitLayer))
             {
-                Debug.Log("HIT OBJECT BUT IT WAS A: " + _hitTransform.name);
+                Debug.Log("Hit object from wrong layer: " + _hitTransform.name);
                 return;
             }
+
             Rigidbody rigid = _hitTransform.GetComponent<Rigidbody>();
             rigid.velocity = Vector3.zero;
             rigid.useGravity = true;
             _hitTransform.gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-
-            
 
             Vector3 sabreAngle = transform.position - _previousPosition;
             Vector3 blockYAxis = hit.transform.up;
@@ -37,7 +36,7 @@ public class Sabre : MonoBehaviour
             //Debug.Log("Block Y Axis:  " + blockYAxis.ToString());
             //Debug.Log("Hit Angle:     " + hitAngle.ToString());
 
-            if (hitAngle > 130 && hitLayer == blockHitLayer)
+            if (hitLayer == blockHitLayer && hitAngle > 120)
             {
                 PScoreTracker.Instance.hit();
                 Debug.Log("Correct Hit!");

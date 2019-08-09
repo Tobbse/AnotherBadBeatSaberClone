@@ -9,13 +9,8 @@ public class TimedBlock : MonoBehaviour
         lifetimeCycles--;
         if (lifetimeCycles < 0 || gameObject.transform.position.x > 5)
         {
-            Debug.Log("You fucked up!");
+            PScoreTracker.Instance.miss();
             Destroy(gameObject);
         }
-    }
-
-    public void OnDestroy()
-    {
-        PScoreTracker.Instance.miss();
     }
 }

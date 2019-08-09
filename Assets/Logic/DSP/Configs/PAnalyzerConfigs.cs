@@ -44,8 +44,8 @@ namespace PAnalyzerConfigs {
 
         private void _createAnalyzerConfigs() // TODO maybe also pass a parameter for pre- and after pruned flux multipliers to determine beats?
         {
-            _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 5, 4.0f));
-            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 10, 2.5f));
+            _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 5, 5.0f));
+            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 10, 3.5f));
             //_analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 5, 5.0f));
             //_analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 10, 3.5f));
         }
