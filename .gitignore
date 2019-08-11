@@ -9,6 +9,9 @@
 # Beat Mapping Cache
 /BeatMappings/
 
+# Build Files
+/Build/
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 

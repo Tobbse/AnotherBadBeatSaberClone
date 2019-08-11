@@ -6,7 +6,7 @@ using System.Collections;
 using PAnalyzerConfigs;
 using PMappingConfigs;
 
-public class AudioLoadingScreenController : MonoBehaviour
+public class PAudioLoadingScreenController : MonoBehaviour
 {
     public AudioSource testAudioSource;
 
@@ -20,22 +20,6 @@ public class AudioLoadingScreenController : MonoBehaviour
     private string _difficulty;
 
     void Start()
-    {
-        if (SceneManager.GetActiveScene().isLoaded == false)
-        {
-            SceneManager.sceneLoaded += _onSceneLoaded;
-        } else
-        {
-            _init();
-        }
-    }
-
-    private void _onSceneLoaded(Scene scene, LoadSceneMode sceneMode)
-    {
-        _init();
-    }
-
-    private void _init()
     {
         _jsonMappingHandler = new PJsonMappingHandler();
         _difficulty = GlobalStorage.Instance.Difficulty;

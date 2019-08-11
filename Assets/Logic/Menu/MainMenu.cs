@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using SimpleFileBrowser;
 
 public class MainMenu : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        FileBrowser.HideDialog();
+
         (playMenu.GetComponent<MonoBehaviour>() as PlayMenu).setBackCallback(_setMainMenuActive);
         (optionsMenu.GetComponent<MonoBehaviour>() as OptionsMenu).setBackCallback(_setMainMenuActive);
     }
