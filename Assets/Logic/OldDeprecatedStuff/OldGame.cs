@@ -5,7 +5,7 @@ using PSpectrumInfo;
 using PAnalyzerConfigs;
 using PMappingConfigs;
 
-public class GameStart : MonoBehaviour
+public class OldGame : MonoBehaviour
 {
     public GameObject touchableCube;
     public int cubesPerUpdate;

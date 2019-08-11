@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class Score : MonoBehaviour
+public class ScoreMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         GameObject.Find("HITS").GetComponent<Text>().text = "HITS: " + PScoreTracker.Instance.Hits.ToString();
@@ -14,9 +12,8 @@ public class Score : MonoBehaviour
         GameObject.Find("TOTAL").GetComponent<Text>().text = "TOTAL: " + PScoreTracker.Instance.TotalBeats.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void clickReturnToMain()
     {
-        
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System;
 
-public class SingleplayerMenu : MonoBehaviour
+public class PlayMenu : MonoBehaviour
 {
-    public static string DIFFICULTY_EASY = "Easy";
-    public static string DIFFICULTY_NORMAL = "Normal";
-    public static string DIFFICULTY_HARD = "Hard";
-    public static string DIFFICULTY_EXPERT = "Expert";
-    public static string DIFFICULTY_EXPERT_PLUS = "ExpertPlus";
-
     private string _path;
+    private Action _backButtonCallback;
+
+    public void setBackCallback(Action backButtonCallback)
+    {
+        _backButtonCallback = backButtonCallback;
+    }
 
     public void clickPlay()
     {
@@ -22,7 +23,9 @@ public class SingleplayerMenu : MonoBehaviour
 
     public void clickBack()
     {
-        SceneManager.LoadScene("MainMenu");
+        _backButtonCallback();
+        _path = null;
+        gameObject.SetActive(false);
     }
 
     public void clickLoadAudioFile()
@@ -36,7 +39,7 @@ public class SingleplayerMenu : MonoBehaviour
         }
         // TODO add difficulty choice
         GlobalStorage global = new GlobalStorage();
-        GlobalStorage.Instance.Difficulty = DIFFICULTY_EASY;
+        GlobalStorage.Instance.Difficulty = Game.DIFFICULTY_EASY;
         GlobalStorage.Instance.AudioPath = _path;
     }
 }

@@ -4,8 +4,15 @@ using PAnalyzerConfigs;
 using PMappingConfigs;
 using System.Collections.Generic;
 
-public class NewGameStart : MonoBehaviour
+public class Game : MonoBehaviour
+
 {
+    public static string DIFFICULTY_EASY = "Easy";
+    public static string DIFFICULTY_NORMAL = "Normal";
+    public static string DIFFICULTY_HARD = "Hard";
+    public static string DIFFICULTY_EXPERT = "Expert";
+    public static string DIFFICULTY_EXPERT_PLUS = "ExpertPlus";
+
     public int cubesPerUpdate;
     public GameObject leftHandTimedBlockPrefab;
     public GameObject rightHandTimedBlockPrefab;
@@ -87,9 +94,9 @@ public class NewGameStart : MonoBehaviour
             TimedBlock[] timedBlocks = Object.FindObjectsOfType<TimedBlock>();
             foreach (TimedBlock block in timedBlocks)
             {
-                GameObject.Destroy(block);
+                block.missBlock();
             }
-            SceneManager.LoadScene("Score");
+            SceneManager.LoadScene("ScoreMenu");
         }
 
         if (timePassed > _timeframe && !_timeframeReached)
@@ -138,6 +145,9 @@ public class NewGameStart : MonoBehaviour
 
     private void _handleObstacle(PObstacleConfig obstacleConfig)
     {
+        // TODO implement properly before using this. Currently the obstacles get destroyed when colliding with the player.
+        return;
+
         float length = _durationToWidth(obstacleConfig.duration);
         float xPos = (_timedBlockDistance * -1) - (length / 2);
         float yPos = 0;

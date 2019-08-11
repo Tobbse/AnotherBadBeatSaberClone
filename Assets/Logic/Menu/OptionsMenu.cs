@@ -1,18 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
-public class Options : MonoBehaviour
+public class OptionsMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Action _backButtonCallback;
+
+    public void setBackCallback(Action backButtonCallback)
     {
-        
+        _backButtonCallback = backButtonCallback;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void clickBack()
     {
-        
+        _backButtonCallback();
+        gameObject.SetActive(false);
     }
 }

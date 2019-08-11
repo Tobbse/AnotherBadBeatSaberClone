@@ -26,7 +26,7 @@ public class PlayerData : MonoBehaviour
 
     private void _gameOver()
     {
-        SceneManager.LoadScene("Score");
+        SceneManager.LoadScene("ScoreMenu");
     }
 
     void Awake()

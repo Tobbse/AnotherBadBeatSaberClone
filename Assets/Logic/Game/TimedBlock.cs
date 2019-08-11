@@ -7,10 +7,15 @@ public class TimedBlock : MonoBehaviour
     void FixedUpdate()
     {
         lifetimeCycles--;
-        if (lifetimeCycles < 0 || gameObject.transform.position.x > 5)
+        if (lifetimeCycles < 0 || gameObject.transform.position.x > 3) // TODO 3 is kind of arbitrary, check this again.
         {
-            PScoreTracker.Instance.miss();
-            Destroy(gameObject);
+            missBlock();
         }
+    }
+
+    public void missBlock()
+    {
+        PScoreTracker.Instance.miss();
+        Destroy(gameObject);
     }
 }

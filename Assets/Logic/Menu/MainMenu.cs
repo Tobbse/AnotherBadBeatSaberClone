@@ -3,14 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void clickSinglePlayer()
+    public GameObject mainMenu;
+    public GameObject playMenu;
+    public GameObject optionsMenu;
+
+    private void Start()
     {
-        SceneManager.LoadScene("SingleplayerMenu");
+        (playMenu.GetComponent<MonoBehaviour>() as PlayMenu).setBackCallback(_setMainMenuActive);
+        (optionsMenu.GetComponent<MonoBehaviour>() as OptionsMenu).setBackCallback(_setMainMenuActive);
     }
 
-    public void clickMultiPlayer()
+    public void clickPlay()
     {
-        Debug.Log("This does not do anything yet!");
+        playMenu.SetActive(true);
+        mainMenu.SetActive(false);
     }
 
     public void clickOnsetTest()
@@ -20,11 +26,17 @@ public class MainMenu : MonoBehaviour
 
     public void clickOptions()
     {
-        SceneManager.LoadScene("OptionsMenu");
+        optionsMenu.SetActive(true);
+        mainMenu.SetActive(false);
     }
 
     public void clickQuit()
     {
         Application.Quit();
+    }
+
+    private void _setMainMenuActive()
+    {
+        mainMenu.SetActive(true);
     }
 }

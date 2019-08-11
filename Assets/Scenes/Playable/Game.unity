@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75208673}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 2}
+  m_LocalPosition: {x: 1, y: 1, z: 2}
   m_LocalScale: {x: 0.3, y: 3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 292183502}
@@ -706,7 +706,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 217768707}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.025, z: 0.15}
+  m_LocalPosition: {x: 0, y: -0.025, z: 0.4}
   m_LocalScale: {x: 0.025, y: 0.025, z: 0.9}
   m_Children: []
   m_Father: {fileID: 1418355261}
@@ -810,7 +810,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233073255}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: -1.19, z: 0}
+  m_LocalPosition: {x: 3, y: -1.19, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 292183502}
@@ -1032,8 +1032,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 357709002}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: -2}
   m_LocalScale: {x: 0.29999998, y: 3, z: 0.29999998}
   m_Children: []
   m_Father: {fileID: 292183502}
@@ -1213,7 +1213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747974022}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2, y: 1.9, z: 0}
+  m_LocalPosition: {x: 3, y: 1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1418355257}
@@ -1543,7 +1543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 954814694}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.025, z: 0.15}
+  m_LocalPosition: {x: 0, y: -0.025, z: 0.4}
   m_LocalScale: {x: 0.025000028, y: 0.024999999, z: 0.9}
   m_Children: []
   m_Father: {fileID: 1418355259}
@@ -1745,7 +1745,7 @@ BoxCollider:
   m_GameObject: {fileID: 1287842554}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

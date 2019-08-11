@@ -24,6 +24,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/SingleplayerMenu.unity
     guid: 617d22114e6df3d4780548b9c8dfb965
   - enabled: 1
-    path: Assets/Scenes/Menus/Score.unity
+    path: Assets/Scenes/Menus/ScoreMenu.unity
     guid: 2cff33834eae8334fa4672a208313069
   m_configObjects: {}
