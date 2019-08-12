@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Collections;
 using System;
 using SimpleFileBrowser;
 using UnityEngine.UI;
 
 public class PlayMenu : MonoBehaviour
 {
+    public GameObject audioLoadingStart;
+    public GameObject loadingScreen;
+    public GameObject leftSaber;
+    public GameObject rightSaber;
+
     private string _path;
     private Action _backButtonCallback;
     private Button _playButton;
@@ -30,7 +33,12 @@ public class PlayMenu : MonoBehaviour
     {
         if (_path != null && _path.Length > 0)
         {
-            SceneManager.LoadScene("AudioLoadingScreen");
+            _setEnableButtons(false);
+            leftSaber.SetActive(false);
+            rightSaber.SetActive(false);
+            gameObject.SetActive(false);
+            loadingScreen.SetActive(true);
+            Instantiate(audioLoadingStart);
         }
     }
 
@@ -43,16 +51,16 @@ public class PlayMenu : MonoBehaviour
 
     public void clickLoadAudioFile()
     {
-        setEnableButtons(false);
+        _setEnableButtons(false);
 
         FileBrowser.SetDefaultFilter(".mp3");
         FileBrowser.SetFilters(false, new FileBrowser.Filter[] {new FileBrowser.Filter("Audio Files", ".mp3")});
-        FileBrowser.ShowLoadDialog(new FileBrowser.OnSuccess(_onAudioFilePicked), new FileBrowser.OnCancel(_onAudioFileCancelled), false, Application.dataPath + "/Resources/DSP_Test/Audio", "Choose Audio File to Play");
+        FileBrowser.ShowLoadDialog(new FileBrowser.OnSuccess(_onAudioFilePicked), new FileBrowser.OnCancel(_onAudioFileCancelled), false, Application.dataPath + "/Resources/Audio", "Choose Audio File to Play");
     }
 
     private void _onAudioFilePicked(string target)
     {
-        setEnableButtons(true);
+        _setEnableButtons(true);
         if (_path != null && _path.Length == 0)
         {
             Debug.Log("No File Selected!");
@@ -68,10 +76,10 @@ public class PlayMenu : MonoBehaviour
 
     private void _onAudioFileCancelled()
     {
-        setEnableButtons(true);
+        _setEnableButtons(true);
     }
 
-    private void setEnableButtons(bool value)
+    private void _setEnableButtons(bool value)
     {
         Button[] buttons = gameObject.GetComponentsInChildren<Button>();
         foreach (Button button in buttons)

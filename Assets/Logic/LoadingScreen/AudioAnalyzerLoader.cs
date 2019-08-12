@@ -6,7 +6,7 @@ using System.Collections;
 using AnalyzerConfigs;
 using MappingConfigs;
 
-public class AudioLoadingScreenController : MonoBehaviour
+public class AudioAnalyzerLoader : MonoBehaviour
 {
     public AudioSource testAudioSource;
 
@@ -18,6 +18,12 @@ public class AudioLoadingScreenController : MonoBehaviour
     private float[] _monoSamples;
     private JsonMappingHandler _jsonMappingHandler;
     private string _difficulty;
+
+    private void Awake()
+    {
+        GameObject playerMenu = GameObject.Find("PlayerMenu");
+        if (playerMenu != null) playerMenu.SetActive(false);
+    }
 
     void Start()
     {
