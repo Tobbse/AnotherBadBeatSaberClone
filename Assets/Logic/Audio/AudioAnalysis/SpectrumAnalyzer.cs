@@ -1,7 +1,7 @@
-﻿using PSpectrumInfo;
+﻿using AudioSpectrumInfo;
 using System;
-using AnalyzerConfigs;
-using MappingConfigs;
+using AudioAnalyzerConfigs;
+using BeatMappingConfigs;
 
 namespace PAudioAnalyzer
 {

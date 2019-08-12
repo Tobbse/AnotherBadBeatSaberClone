@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using PSpectrumInfo;
+using AudioSpectrumInfo;
 using System.Collections;
 
 public class SpectrumPlotter : MonoBehaviour

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using PAudioAnalyzer;
-using PSpectrumInfo;
-using AnalyzerConfigs;
-using MappingConfigs;
+using AudioSpectrumInfo;
+using AudioAnalyzerConfigs;
+using BeatMappingConfigs;
 
 public class PlotDemoAudioAnalyzerController : MonoBehaviour
 {

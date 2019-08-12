@@ -1,4 +1,4 @@
-﻿namespace PSpectrumInfo {
+﻿namespace AudioSpectrumInfo {
     public class AnalyzedSpectrumData
     {
         public float[] spectrum;

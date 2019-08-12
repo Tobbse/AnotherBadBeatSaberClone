@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using AnalyzerConfigs;
-using MappingConfigs;
+using AudioAnalyzerConfigs;
+using BeatMappingConfigs;
 using System.Collections.Generic;
 
 public class Game : MonoBehaviour
@@ -45,13 +45,15 @@ public class Game : MonoBehaviour
         enabled = false;
         _setupMappings();
 
-        PlayerData.Instance = new PlayerData();
         MappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
         _eventData = mappingContainer.eventData;
         _noteData = mappingContainer.noteData;
         _obstacleData = mappingContainer.obstacleData;
         _bookmarkData = mappingContainer.bookmarkData;
+
+        PlayerData.Instance = new PlayerData();
         _scoreTracker = new ScoreTracker(mappingContainer.noteData.Count);
+        _scoreTracker.setGameObjects();
 
         _analyzerConfig = GlobalStorage.Instance.TrackConfig;
 

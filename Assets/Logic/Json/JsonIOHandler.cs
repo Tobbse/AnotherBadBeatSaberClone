@@ -1,34 +1,50 @@
 ﻿using System.IO;
 using Newtonsoft.Json.Linq;
-using MappingConfigs;
+using BeatMappingConfigs;
 
 namespace JsonIOHandler {
 
-    public static class PMappingJsonFileWriter
+    public static class JsonFileWriter
     {
-        public static void writeFile(string json, string folderPath, string fileName)
+        public static void writeFile(string json, FileInfo fileInfo)
         {
-            string fullPath = folderPath + fileName;
+            string fullFilePath = fileInfo.FullName;
+            fileInfo.Directory.Create();
 
-            if (!Directory.Exists(folderPath))
+            if (!File.Exists(fileInfo.FullName))
             {
-                Directory.CreateDirectory(folderPath);
-            }
-            if (!File.Exists(fullPath))
-            {
-                FileStream stream = File.Create(fullPath);
+                FileStream stream = File.Create(fullFilePath);
                 stream.Close();
             }
-            File.WriteAllText(fullPath, string.Empty);
-
-            StreamWriter writer = new StreamWriter(fullPath, true);
+            File.WriteAllText(fullFilePath, string.Empty);
+            StreamWriter writer = new StreamWriter(fullFilePath, true);
             writer.WriteLine(json);
             writer.Close();
         }
     }
 
-    public static class PMappingJsonFileReader
+    public static class JsonMappingFileReader
     {
+        public static FastList<HighscoreData> readHighscoreFile(string filePath)
+        {
+            StreamReader reader = new StreamReader(filePath);
+            string text = reader.ReadToEnd();
+            reader.Close();
+
+            JObject obj = JObject.Parse(text);
+            JToken highscoreToken = obj["_highscores"];
+
+            FastList<HighscoreData> highscoreData = new FastList<HighscoreData>();
+            foreach (JToken child in highscoreToken.Children())
+            {
+                HighscoreData score = new HighscoreData();
+                score.score = child["_score"].Value<int>();
+                score.rank = child["_rank"].Value<int>();
+                highscoreData.Add(score);
+            }
+            return highscoreData;
+        }
+
         public static MappingContainer readMappingFile(string filePath)
         {
             StreamReader reader = new StreamReader(filePath);

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using PAudioAnalyzer;
-using PSpectrumInfo;
+using AudioSpectrumInfo;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using AnalyzerConfigs;
-using MappingConfigs;
+using AudioAnalyzerConfigs;
+using BeatMappingConfigs;
 
 public class AudioAnalyzerLoader : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class AudioAnalyzerLoader : MonoBehaviour
     private AudioClip _audioClip;
     private FastList<double[]> _spectrumsList;
     private float[] _monoSamples;
-    private JsonMappingHandler _jsonMappingHandler;
+    private JsonFileHandler _jsonFileHandler;
     private string _difficulty;
 
     private void Awake()
@@ -27,7 +27,7 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
     void Start()
     {
-        _jsonMappingHandler = new JsonMappingHandler();
+        _jsonFileHandler = new JsonFileHandler();
         _difficulty = GlobalStorage.Instance.Difficulty;
 
         string path = GlobalStorage.Instance.AudioPath;
@@ -38,7 +38,8 @@ public class AudioAnalyzerLoader : MonoBehaviour
     {
         _trackConfig = new TrackConfig(_audioClip.frequency, _audioClip.name);
 
-        if (GlobalStaticSettings.USE_CACHE && _jsonMappingHandler.mappingExists(_trackConfig, _difficulty))
+        string fullPath = _jsonFileHandler.getFullFilePath(JsonFileHandler.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
+        if (GlobalStaticSettings.USE_CACHE && _jsonFileHandler.fileExists(fullPath))
         {
             loadMappingFromCache();
             Debug.Log("Loading track mapping from cache.");
@@ -69,7 +70,7 @@ public class AudioAnalyzerLoader : MonoBehaviour
         MappingContainer mappingContainer = _spectrumAnalyzer.getBeatMappingContainer();
         mappingContainer.sortMappings(); // Because multiple band spectrums are analyzed sequentially, we have to sort the mappings by time.
 
-        _jsonMappingHandler.writeFile(mappingContainer, _trackConfig, _difficulty);
+        _jsonFileHandler.writeMappingFile(mappingContainer, _trackConfig.TrackName, _difficulty);
 
         _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
 
@@ -84,9 +85,9 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
     private void loadMappingFromCache()
     {
-        string mappingPath = _jsonMappingHandler.getFullPath(_trackConfig, GlobalStorage.Instance.Difficulty);
+        string mappingPath = _jsonFileHandler.getFullFilePath(JsonFileHandler.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.Instance.Difficulty);
 
-        MappingContainer mappingContainer = _jsonMappingHandler.readFile(mappingPath);
+        MappingContainer mappingContainer = _jsonFileHandler.readMappingFile(mappingPath);
 
         GlobalStorage.Instance.MappingPath = mappingPath;
         GlobalStorage.Instance.AudioClip = _audioClip;

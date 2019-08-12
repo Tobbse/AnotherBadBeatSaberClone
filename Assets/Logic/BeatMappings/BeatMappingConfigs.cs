@@ -1,4 +1,4 @@
-﻿namespace MappingConfigs {
+﻿namespace BeatMappingConfigs {
 
     public class MappingContainer
     {

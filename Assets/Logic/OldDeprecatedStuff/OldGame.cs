@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using PSpectrumInfo;
-using AnalyzerConfigs;
-using MappingConfigs;
+using AudioSpectrumInfo;
+using AudioAnalyzerConfigs;
+using BeatMappingConfigs;
 
 public class OldGame : MonoBehaviour
 {

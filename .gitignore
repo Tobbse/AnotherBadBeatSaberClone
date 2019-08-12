@@ -6,8 +6,8 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
-# Beat Mapping Cache
-/BeatMappings/
+# Beat Mapping and Highscores Cache
+/Assets/Resources/SongData/
 
 # Build Files
 /Build/

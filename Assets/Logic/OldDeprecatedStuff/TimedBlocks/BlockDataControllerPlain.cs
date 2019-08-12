@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using PSpectrumInfo;
+using AudioSpectrumInfo;
 
 public class BlockDataControllerPlain : ScriptableObject
 {

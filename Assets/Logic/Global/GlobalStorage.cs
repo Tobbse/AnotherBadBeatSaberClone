@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using PSpectrumInfo;
-using AnalyzerConfigs;
-using MappingConfigs;
+using AudioSpectrumInfo;
+using AudioAnalyzerConfigs;
+using BeatMappingConfigs;
 
 public class GlobalStorage : ScriptableObject
 {

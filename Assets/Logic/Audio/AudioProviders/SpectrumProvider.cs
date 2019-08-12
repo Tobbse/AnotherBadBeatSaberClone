@@ -2,7 +2,7 @@
 using System.Numerics;
 using UnityEngine;
 using DSPLib;
-using PSpectrumInfo;
+using AudioSpectrumInfo;
 
 public class SpectrumProvider
 {

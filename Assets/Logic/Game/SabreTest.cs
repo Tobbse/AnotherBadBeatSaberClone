@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using MappingConfigs;
+using BeatMappingConfigs;
 
 public class SabreTest : MonoBehaviour
 {

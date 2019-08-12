@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-namespace AnalyzerConfigs {
+
+namespace AudioAnalyzerConfigs {
 
     public class TrackConfig
     {

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using MappingConfigs;
+using BeatMappingConfigs;
 using System.Globalization;
 
-public class MappingJsonStringBuilder : ScriptableObject
+public class JsonMappingStringBuilder
 {
     private const string MAPPING_VERSION = "2.0.0";
 
@@ -16,10 +16,6 @@ public class MappingJsonStringBuilder : ScriptableObject
     private string _obstacleStr;
     private string _bookmarkStr;
     private CultureInfo usa = new CultureInfo("en-US");
-
-    public MappingJsonStringBuilder()
-    {
-    }
 
     public void setData(MappingContainer beatMappingContainer)
     {
