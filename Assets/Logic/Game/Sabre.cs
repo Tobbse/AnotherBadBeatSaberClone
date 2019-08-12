@@ -6,54 +6,73 @@ public class Sabre : MonoBehaviour
     public int blockHitLayer;
 
     private Vector3 _previousPosition;
-    private Transform _hitTransform;
+    private bool _useDebugRays;
+
+    private void Start()
+    {
+        _useDebugRays = GlobalStaticSettings.USE_SABRE_DEBUG_RAYS;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        float length = 1.4f; // Makes it a little bit longer than the 1.1 unit long saber.
+        Vector3 newPos = transform.position + (transform.forward * -0.55f); // Moving start of Ray back on the z axis of the object, so that we don't start from the middle. We want to use the whole saber.
+
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 1.7f))
+        if (_useDebugRays)
         {
-            _hitTransform = hit.transform;
-            int hitLayer = _hitTransform.gameObject.layer;
-            if (!isBlockLayer(hitLayer))
-            {
-                Debug.Log("Hit object from wrong layer: " + _hitTransform.name);
-                return;
-            }
+            Debug.DrawRay(newPos, transform.forward * length, Color.green);
+        }
+        if (Physics.Raycast(newPos, transform.forward, out hit, length))
+        {
+            _handleHit(hit.transform);
 
-            Rigidbody rigid = _hitTransform.GetComponent<Rigidbody>();
-            rigid.velocity = Vector3.zero;
-            rigid.useGravity = true;
-            _hitTransform.gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-
-            Vector3 sabreAngle = transform.position - _previousPosition;
-            Vector3 blockYAxis = hit.transform.up;
-            float hitAngle = Vector3.Angle(sabreAngle, blockYAxis);
-            bool correctHit = false;
-
-            //Debug.Log("Sabre Angle:   " + sabreAngle.ToString());
-            //Debug.Log("Block Y Axis:  " + blockYAxis.ToString());
-            //Debug.Log("Hit Angle:     " + hitAngle.ToString());
-
-            if (hitLayer == blockHitLayer && hitAngle > 120)
-            {
-                PScoreTracker.Instance.hit();
-                Debug.Log("Correct Hit!");
-                Destroy(hit.transform.gameObject);
-                correctHit = true;
-            } else
-            {
-                PScoreTracker.Instance.miss();
-                Debug.Log("Incorrect Hit!");
-                Destroy(hit.transform.gameObject);
-            }
-            
-            GameObject.Find("AngleText").GetComponent<TextMeshPro>().SetText(hitAngle.ToString());
-            GameObject.Find("HitText").GetComponent<TextMeshPro>().SetText(correctHit ? "CORRECT HIT": "wrong hit");
-            GameObject.Find("HitText").GetComponent<TextMeshPro>().color = correctHit ? Color.green : Color.red;
         }
         _previousPosition = transform.position;
+    }
+
+    private void _handleHit(Transform otheTransform)
+    {
+        int hitLayer = otheTransform.gameObject.layer;
+        if (!isBlockLayer(hitLayer))
+        {
+            Debug.Log("Hit object from wrong layer: " + otheTransform.name);
+            return;
+        }
+
+        // TODO cut it and make it fly away somehow.
+        Rigidbody rigid = otheTransform.GetComponent<Rigidbody>();
+        rigid.velocity = Vector3.zero;
+        rigid.useGravity = true;
+
+        Vector3 sabreAngle = transform.position - _previousPosition;
+        Vector3 blockYAxis = otheTransform.up;
+        float hitAngle = Vector3.Angle(sabreAngle, blockYAxis);
+        bool correctHit = false;
+
+        if (hitLayer == blockHitLayer && hitAngle > 120)
+        {
+            ScoreTracker.Instance.hit();
+            Debug.Log("Correct Hit!");
+            Destroy(otheTransform.gameObject);
+            correctHit = true;
+        }
+        else
+        {
+            ScoreTracker.Instance.miss();
+            Debug.Log("Incorrect Hit!");
+            Destroy(otheTransform.gameObject);
+        }
+
+        GameObject obj = GameObject.Find("AngleText");
+        if (obj != null) obj.GetComponent<TextMeshPro>().SetText(hitAngle.ToString());
+        obj = GameObject.Find("HitText");
+        if (obj != null)
+        {
+            obj.GetComponent<TextMeshPro>().SetText(correctHit ? "CORRECT HIT" : "wrong hit");
+            obj.GetComponent<TextMeshPro>().color = correctHit ? Color.green : Color.red;
+        }
     }
 
     private bool isBlockLayer(int hitLayer)

@@ -13,8 +13,12 @@ public class PlayMenu : MonoBehaviour
 
     private void Start()
     {
-        _playButton = GameObject.Find("PlayButton").GetComponent<Button>();
-        _playButton.enabled = false;
+        GameObject playButton = GameObject.Find("PlayButton");
+        if (playButton != null)
+        {
+            _playButton = GameObject.Find("PlayButton").GetComponent<Button>();
+            _playButton.enabled = false;
+        }
     }
 
     public void setBackCallback(Action backButtonCallback)

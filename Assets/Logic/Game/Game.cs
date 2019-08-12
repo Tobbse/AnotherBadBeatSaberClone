@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using PAnalyzerConfigs;
-using PMappingConfigs;
+using AnalyzerConfigs;
+using MappingConfigs;
 using System.Collections.Generic;
 
 public class Game : MonoBehaviour
@@ -30,11 +30,11 @@ public class Game : MonoBehaviour
     private FastList<GameObject> _timedObjects = new FastList<GameObject>();
     private float _timedBlockDistance = 15;
     private GameObject _obj;
-    private PScoreTracker _scoreTracker;
-    private FastList<PEventConfig> _eventData;
-    private FastList<PNoteConfig> _noteData;
-    private FastList<PObstacleConfig> _obstacleData;
-    private FastList<PBookmarkConfig> _bookmarkData;
+    private ScoreTracker _scoreTracker;
+    private FastList<EventConfig> _eventData;
+    private FastList<NoteConfig> _noteData;
+    private FastList<ObstacleConfig> _obstacleData;
+    private FastList<BookmarkConfig> _bookmarkData;
     private Dictionary<int, float> _verticalMapping = new Dictionary<int, float>();
     private Dictionary<int, float> _horizontalMapping = new Dictionary<int, float>();
     private Dictionary<int, int> _cutDirectionMapping = new Dictionary<int, int>();
@@ -46,12 +46,12 @@ public class Game : MonoBehaviour
         _setupMappings();
 
         PlayerData.Instance = new PlayerData();
-        PMappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
+        MappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
         _eventData = mappingContainer.eventData;
         _noteData = mappingContainer.noteData;
         _obstacleData = mappingContainer.obstacleData;
         _bookmarkData = mappingContainer.bookmarkData;
-        _scoreTracker = new PScoreTracker(mappingContainer.noteData.Count);
+        _scoreTracker = new ScoreTracker(mappingContainer.noteData.Count);
 
         _analyzerConfig = GlobalStorage.Instance.TrackConfig;
 
@@ -66,23 +66,23 @@ public class Game : MonoBehaviour
 
     private void _setupMappings()
     {
-        _verticalMapping[PNoteConfig.LINE_LAYER_0] = 0.0f;
-        _verticalMapping[PNoteConfig.LINE_LAYER_1] = 0.4f;
-        _verticalMapping[PNoteConfig.LINE_LAYER_2] = 0.8f;
-        _verticalMapping[PNoteConfig.LINE_LAYER_3] = 1.2f;
+        _verticalMapping[NoteConfig.LINE_LAYER_0] = 0.0f;
+        _verticalMapping[NoteConfig.LINE_LAYER_1] = 0.4f;
+        _verticalMapping[NoteConfig.LINE_LAYER_2] = 0.8f;
+        _verticalMapping[NoteConfig.LINE_LAYER_3] = 1.2f;
 
-        _horizontalMapping[PNoteConfig.LINE_INDEX_0] = -0.6f;
-        _horizontalMapping[PNoteConfig.LINE_INDEX_1] = -0.2f;
-        _horizontalMapping[PNoteConfig.LINE_INDEX_2] = 0.2f;
-        _horizontalMapping[PNoteConfig.LINE_INDEX_3] = 0.6f;
+        _horizontalMapping[NoteConfig.LINE_INDEX_0] = -0.6f;
+        _horizontalMapping[NoteConfig.LINE_INDEX_1] = -0.2f;
+        _horizontalMapping[NoteConfig.LINE_INDEX_2] = 0.2f;
+        _horizontalMapping[NoteConfig.LINE_INDEX_3] = 0.6f;
 
-        _cutDirectionMapping[PNoteConfig.CUT_DIRECTION_TOP] = 0;
-        _cutDirectionMapping[PNoteConfig.CUT_DIRECTION_RIGHT] = 90;
-        _cutDirectionMapping[PNoteConfig.CUT_DIRECTION_BOTTOM] = 180;
-        _cutDirectionMapping[PNoteConfig.CUT_DIRECTION_LEFT] = 270;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_TOP] = 0;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_RIGHT] = 90;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_BOTTOM] = 180;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_LEFT] = 270;
 
-        _blockTypeMapping[PNoteConfig.NOTE_TYPE_LEFT] = leftHandTimedBlockPrefab;
-        _blockTypeMapping[PNoteConfig.NOTE_TYPE_RIGHT] = rightHandTimedBlockPrefab;
+        _blockTypeMapping[NoteConfig.NOTE_TYPE_LEFT] = leftHandTimedBlockPrefab;
+        _blockTypeMapping[NoteConfig.NOTE_TYPE_RIGHT] = rightHandTimedBlockPrefab;
     }
 
     void Update()
@@ -128,8 +128,10 @@ public class Game : MonoBehaviour
     }
 
     // TODO _timedBlockDistance could just be multiplied by the speed here, same with the speed!
-    private void _handleNote(PNoteConfig noteConfig)
+    private void _handleNote(NoteConfig noteConfig)
     {
+        Debug.Log("Note time: " + noteConfig.time.ToString());
+
         float xPos = _timedBlockDistance * -1;
         float yPos = 2.0f + _verticalMapping[noteConfig.lineLayer];
         float zPos = _horizontalMapping[noteConfig.lineIndex];
@@ -143,10 +145,10 @@ public class Game : MonoBehaviour
         _obj.GetComponent<Rigidbody>().velocity = new Vector3(_timedBlockDistance / _timeframe, 0, 0);
     }
 
-    private void _handleObstacle(PObstacleConfig obstacleConfig)
+    private void _handleObstacle(ObstacleConfig obstacleConfig)
     {
         // TODO implement properly before using this. Currently the obstacles get destroyed when colliding with the player.
-        return;
+        if (!GlobalStaticSettings.USE_OBSTACLES) return;
 
         float length = _durationToWidth(obstacleConfig.duration);
         float xPos = (_timedBlockDistance * -1) - (length / 2);

@@ -6,10 +6,10 @@ public class ScoreMenu : MonoBehaviour
 {
     void Start()
     {
-        GameObject.Find("HITS").GetComponent<Text>().text = "HITS: " + PScoreTracker.Instance.Hits.ToString();
-        GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + PScoreTracker.Instance.Score.ToString();
-        GameObject.Find("MISSES").GetComponent<Text>().text = "MISSES: " + PScoreTracker.Instance.Misses.ToString();
-        GameObject.Find("TOTAL").GetComponent<Text>().text = "TOTAL: " + PScoreTracker.Instance.TotalBeats.ToString();
+        GameObject.Find("HITS").GetComponent<Text>().text = "HITS: " + ScoreTracker.Instance.Hits.ToString();
+        GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + ScoreTracker.Instance.Score.ToString();
+        GameObject.Find("MISSES").GetComponent<Text>().text = "MISSES: " + ScoreTracker.Instance.Misses.ToString();
+        GameObject.Find("TOTAL").GetComponent<Text>().text = "TOTAL: " + ScoreTracker.Instance.TotalBeats.ToString();
     }
 
     public void clickReturnToMain()

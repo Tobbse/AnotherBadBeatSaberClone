@@ -3,9 +3,9 @@ using PSpectrumInfo;
 
 public class PPostAudioAnalyzer
 {
-    private FastList<PAnalyzedSpectrumData>  _spectrumDataList;
+    private FastList<AnalyzedSpectrumData>  _spectrumDataList;
 
-    public PPostAudioAnalyzer(FastList<PAnalyzedSpectrumData> spectrumDataList)
+    public PPostAudioAnalyzer(FastList<AnalyzedSpectrumData> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
     }

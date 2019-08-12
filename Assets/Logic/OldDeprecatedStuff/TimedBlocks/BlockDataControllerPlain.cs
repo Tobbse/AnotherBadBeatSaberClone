@@ -3,9 +3,9 @@ using PSpectrumInfo;
 
 public class BlockDataControllerPlain : ScriptableObject
 {
-    private FastList<PAnalyzedSpectrumData> _spectrumDataList;
+    private FastList<AnalyzedSpectrumData> _spectrumDataList;
 
-    public void createBlockData(FastList<PAnalyzedSpectrumData> spectrumDataList)
+    public void createBlockData(FastList<AnalyzedSpectrumData> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
 

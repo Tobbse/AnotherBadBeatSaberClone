@@ -2,8 +2,8 @@
 using UnityEngine.SceneManagement;
 using System;
 using PSpectrumInfo;
-using PAnalyzerConfigs;
-using PMappingConfigs;
+using AnalyzerConfigs;
+using MappingConfigs;
 
 public class OldGame : MonoBehaviour
 {
@@ -11,8 +11,8 @@ public class OldGame : MonoBehaviour
     public int cubesPerUpdate;
     public GameObject timedBlockPrefab;
 
-    private FastList<PAnalyzedSpectrumData> _fullSpectrumDataList;
-    private FastList<PAnalyzedSpectrumData> _beatSpectrumData = new FastList<PAnalyzedSpectrumData>();
+    private FastList<AnalyzedSpectrumData> _fullSpectrumDataList;
+    private FastList<AnalyzedSpectrumData> _beatSpectrumData = new FastList<AnalyzedSpectrumData>();
     private TrackConfig _analyzerConfig;
     private FastList<double[]> _spectrumsList;
     private int _index = 0;
@@ -26,17 +26,17 @@ public class OldGame : MonoBehaviour
     private float _timedBlockDistance = 35;
     private GameObject _obj;
     private Rigidbody _rb;
-    private PScoreTracker _scoreTracker;
-    private FastList<PEventConfig> _eventData;
-    private FastList<PNoteConfig> _noteData;
-    private FastList<PObstacleConfig> _obstacleData;
-    private FastList<PBookmarkConfig> _bookmarkData;
+    private ScoreTracker _scoreTracker;
+    private FastList<EventConfig> _eventData;
+    private FastList<NoteConfig> _noteData;
+    private FastList<ObstacleConfig> _obstacleData;
+    private FastList<BookmarkConfig> _bookmarkData;
 
     void Start()
     {
         enabled = false;
 
-        PMappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
+        MappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
         _eventData = mappingContainer.eventData;
         _noteData = mappingContainer.noteData;
         _obstacleData = mappingContainer.obstacleData;
@@ -73,7 +73,7 @@ public class OldGame : MonoBehaviour
             _audioSource.Play();
         }
 
-        PAnalyzedSpectrumData info = _beatSpectrumData[_index];
+        AnalyzedSpectrumData info = _beatSpectrumData[_index];
         /*'while (timePassed >= info.time)
         {
             _index++;
@@ -105,7 +105,7 @@ public class OldGame : MonoBehaviour
     }
 
     // TODO _timedBlockDistance could just be multiplied by the speed here, same with the speed!
-    private void _handleSpectrumInfo(PAnalyzedSpectrumData info)
+    private void _handleSpectrumInfo(AnalyzedSpectrumData info)
     {
         foreach (int peak in info.peakBands)
         {
@@ -129,7 +129,7 @@ public class OldGame : MonoBehaviour
         int beats = 0;
         for (int i = 0; i < _fullSpectrumDataList.Count; i++)
         {
-            PAnalyzedSpectrumData info = _fullSpectrumDataList[i];
+            AnalyzedSpectrumData info = _fullSpectrumDataList[i];
             if (info.hasPeak)
             {
                 _beatSpectrumData.Add(info);
@@ -141,7 +141,7 @@ public class OldGame : MonoBehaviour
             Debug.LogException(new Exception("No beat was found in the file!"));
             enabled = false;
         }
-        _scoreTracker = new PScoreTracker(beats);
+        _scoreTracker = new ScoreTracker(beats);
     }
 
     private void _spawnRandomStuff()

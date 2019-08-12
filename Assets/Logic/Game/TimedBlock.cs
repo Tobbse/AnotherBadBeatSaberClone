@@ -6,8 +6,10 @@ public class TimedBlock : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GlobalStaticSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
+
         lifetimeCycles--;
-        if (lifetimeCycles < 0 || gameObject.transform.position.x > 3) // TODO 3 is kind of arbitrary, check this again.
+        if (lifetimeCycles < 0 || gameObject.transform.position.x > 6) // TODO 6 is kind of arbitrary, check this again.
         {
             missBlock();
         }
@@ -15,7 +17,7 @@ public class TimedBlock : MonoBehaviour
 
     public void missBlock()
     {
-        PScoreTracker.Instance.miss();
+        ScoreTracker.Instance.miss();
         Destroy(gameObject);
     }
 }
