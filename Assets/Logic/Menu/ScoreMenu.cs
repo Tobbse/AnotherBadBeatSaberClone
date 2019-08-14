@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 public class ScoreMenu : MonoBehaviour
 {
     private HighscoreData _currentScore;
@@ -21,13 +23,13 @@ public class ScoreMenu : MonoBehaviour
 
     private void _displayScore()
     {
-        GameObject.Find("HITS").GetComponent<Text>().text = "HITS: " + ScoreTracker.Instance.Hits.ToString();
-        GameObject.Find("MISSES").GetComponent<Text>().text = "MISSES: " + ScoreTracker.Instance.Misses.ToString();
-        GameObject.Find("BEATS").GetComponent<Text>().text = "BEATS: " + ScoreTracker.Instance.NumBeats.ToString();
+        GameObject.Find("HITS").GetComponent<TextMeshProUGUI>().text = "HITS: " + ScoreTracker.Instance.Hits.ToString();
+        GameObject.Find("MISSES").GetComponent<TextMeshProUGUI>().text = "MISSES: " + ScoreTracker.Instance.Misses.ToString();
+        GameObject.Find("BEATS").GetComponent<TextMeshProUGUI>().text = "BEATS: " + ScoreTracker.Instance.NumBeats.ToString();
 
-        GameObject.Find("SCORE").GetComponent<Text>().text = "SCORE: " + _currentScore.score;
-        GameObject.Find("RANK").GetComponent<Text>().text = "RANK: " + _currentScore.rank;
-        GameObject.Find("HIGHSCORE").GetComponent<Text>().text = "HIGHSCORE: " + _highscores[0].score;
+        GameObject.Find("SCORE").GetComponent<TextMeshProUGUI>().text = "SCORE: " + _currentScore.score;
+        GameObject.Find("RANK").GetComponent<TextMeshProUGUI>().text = "RANK: " + _currentScore.rank;
+        GameObject.Find("HIGHSCORE").GetComponent<TextMeshProUGUI>().text = "HIGHSCORE: " + _highscores[0].score;
 
     }
 

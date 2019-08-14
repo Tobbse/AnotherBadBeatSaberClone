@@ -16,8 +16,8 @@ public class Sabre : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float length = 1.4f; // Makes it a little bit longer than the 1.1 unit long saber.
-        Vector3 newPos = transform.position + (transform.forward * -0.55f); // Moving start of Ray back on the z axis of the object, so that we don't start from the middle. We want to use the whole saber.
+        float length = 1.7f; // Makes it a little bit longer than the 1.1 unit long saber.
+        Vector3 newPos = transform.position + (transform.forward * -0.65f); // Moving start of Ray back on the z axis of the object, so that we don't start from the middle. We want to use the whole saber.
 
         RaycastHit hit;
         if (_useDebugRays)
