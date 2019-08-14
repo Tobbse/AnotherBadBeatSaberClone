@@ -5,7 +5,7 @@ using BeatMappingConfigs;
 public class NoteSpawner : ScriptableObject
 {
     // TODO investigate: constant travel time and distance, or dynamic based on the bpm or something?
-    public const float BLOCK_DISTANCE = 20;
+    public const float BLOCK_DISTANCE = 20f;
     public const float BLOCK_TRAVEL_TIME = 2.5f;
 
     private GameObject _leftTimedBlock;

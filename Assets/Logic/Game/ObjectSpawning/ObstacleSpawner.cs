@@ -5,8 +5,8 @@ using BeatMappingConfigs;
 public class ObstacleSpawner : ScriptableObject
 {
     // TODO investigate: constant travel time and distance, or dynamic based on the bpm or something?
-    public const float OBSTACLE_DISTANCE = 40;
-    public const float OBSTACLE_TRAVEL_TIME = 5.0f;
+    public const float OBSTACLE_DISTANCE = 20f;
+    public const float OBSTACLE_TRAVEL_TIME = 2.5f;
 
     private GameObject _obstacle;
     private List<ObstacleConfig> _obstacleData;

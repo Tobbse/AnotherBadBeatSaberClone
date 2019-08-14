@@ -29,9 +29,9 @@ public class AudioAnalyzerLoader : MonoBehaviour
     void Start()
     {
         _jsonFileHandler = new JsonFileHandler();
-        _difficulty = GlobalStorage.Instance.Difficulty;
+        _difficulty = GlobalStorage.getInstance().Difficulty;
 
-        string path = GlobalStorage.Instance.AudioPath;
+        string path = GlobalStorage.getInstance().AudioPath;
         StartCoroutine(LoadMp3AudioClip(path));
     }
 
@@ -75,25 +75,25 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
         _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
 
-        GlobalStorage.Instance.AudioClip = _audioClip;
-        GlobalStorage.Instance.SpectrumInfo = _spectrumDataList;
-        GlobalStorage.Instance.TrackConfig = _trackConfig;
-        GlobalStorage.Instance.SpectrumsList = _spectrumsList;
-        GlobalStorage.Instance.MappingContainer = mappingContainer;
+        GlobalStorage.getInstance().AudioClip = _audioClip;
+        GlobalStorage.getInstance().SpectrumInfo = _spectrumDataList;
+        GlobalStorage.getInstance().TrackConfig = _trackConfig;
+        GlobalStorage.getInstance().SpectrumsList = _spectrumsList;
+        GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
         SceneManager.LoadScene("Game");
     }
 
     private void loadMappingFromCache()
     {
-        string mappingPath = _jsonFileHandler.getFullFilePath(JsonFileHandler.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.Instance.Difficulty);
+        string mappingPath = _jsonFileHandler.getFullFilePath(JsonFileHandler.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.getInstance().Difficulty);
 
         MappingContainer mappingContainer = _jsonFileHandler.readMappingFile(mappingPath);
 
-        GlobalStorage.Instance.MappingPath = mappingPath;
-        GlobalStorage.Instance.AudioClip = _audioClip;
-        GlobalStorage.Instance.TrackConfig = _trackConfig;
-        GlobalStorage.Instance.MappingContainer = mappingContainer;
+        GlobalStorage.getInstance().MappingPath = mappingPath;
+        GlobalStorage.getInstance().AudioClip = _audioClip;
+        GlobalStorage.getInstance().TrackConfig = _trackConfig;
+        GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
         SceneManager.LoadScene("Game");
     }

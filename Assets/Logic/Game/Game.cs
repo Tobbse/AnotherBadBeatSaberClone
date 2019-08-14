@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
     {
         enabled = false;
 
-        MappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
+        MappingContainer mappingContainer = GlobalStorage.getInstance().MappingContainer;
         _noteSpawner = new NoteSpawner(mappingContainer.noteData, leftTimedBlock, rightTimedBlock);
         _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, obstacle);
 
@@ -37,7 +37,7 @@ public class Game : MonoBehaviour
         scoreTracker.setGameObjects();
         ScoreTracker.Instance = scoreTracker;
 
-        AudioClip audioClip = GlobalStorage.Instance.AudioClip;
+        AudioClip audioClip = GlobalStorage.getInstance().AudioClip;
         gameObject.AddComponent<AudioSource>();
         _audioSource = gameObject.GetComponent<AudioSource>();
         _audioSource.clip = audioClip;

@@ -70,8 +70,8 @@ public class PlayMenu : MonoBehaviour
         _playButton.enabled = true;
 
         GlobalStorage global = new GlobalStorage();
-        GlobalStorage.Instance.Difficulty = Game.DIFFICULTY_EASY;
-        GlobalStorage.Instance.AudioPath = _path;
+        GlobalStorage.getInstance().Difficulty = Game.DIFFICULTY_EASY;
+        GlobalStorage.getInstance().AudioPath = _path;
     }
 
     private void _onAudioFileCancelled()

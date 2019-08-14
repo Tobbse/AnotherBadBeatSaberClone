@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
 
-    private const int MAX_HEALTH = 100;
+    private const float MAX_HEALTH = 100f;
 
-    private int health = MAX_HEALTH;
+    private float health = MAX_HEALTH;
+    private TextMeshPro _hitPointsText;
 
-    public void takeDamage(int damagePoints)
+    public void takeDamage(float damagePoints)
     {
+        if (_hitPointsText == null) _hitPointsText = GameObject.Find("HitPointsText").GetComponent<TextMeshPro>();
         health -= damagePoints;
         ScoreTracker.Instance.resetComboCounter();
-        if (health <= 0)
+        _hitPointsText.SetText(Mathf.CeilToInt(health).ToString() + " HP");
+
+        if (health <= 0f)
         {
             _gameOver();
         }
@@ -21,7 +26,7 @@ public class PlayerData : MonoBehaviour
 
     void Update()
     {
-        health = Mathf.Max(health + 1, MAX_HEALTH);
+        health = Mathf.Max(health + 0.1f, MAX_HEALTH);
     }
 
     private void _gameOver()

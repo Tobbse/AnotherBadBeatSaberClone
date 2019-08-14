@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class GlobalStorage : ScriptableObject
 {
-    public static GlobalStorage Instance;
+    private static GlobalStorage Instance;
 
     // Audio Loading Storage
     private AudioClip _audioClip;
@@ -27,16 +27,17 @@ public class GlobalStorage : ScriptableObject
     public string Difficulty { get => _difficulty; set => _difficulty = value; }
     public string MappingPath { get => _mappingPath; set => _mappingPath = value; }
 
-    void Awake()
+    public static GlobalStorage getInstance()
     {
         if (Instance == null)
         {
-            DontDestroyOnLoad(this);
-            Instance = this;
+            Instance = new GlobalStorage();
         }
-        else if (Instance != this)
-        {
-            Destroy(this);
-        }
+        return Instance;
+    }
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
     }
 }

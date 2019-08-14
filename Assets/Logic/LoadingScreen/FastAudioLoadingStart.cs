@@ -11,9 +11,8 @@ public class FastAudioLoadingStart : MonoBehaviour
     {
         string path = "E:/Daten/coding_projects/Unity Projects/VR_Project/Assets/Resources/Audio\\trancesystem.mp3";
 
-        GlobalStorage.Instance = new GlobalStorage();
-        GlobalStorage.Instance.Difficulty = Game.DIFFICULTY_EASY;
-        GlobalStorage.Instance.AudioPath = path;
+        GlobalStorage.getInstance().Difficulty = Game.DIFFICULTY_EASY;
+        GlobalStorage.getInstance().AudioPath = path;
 
         GlobalStaticSettings.USE_CACHE = false;
 

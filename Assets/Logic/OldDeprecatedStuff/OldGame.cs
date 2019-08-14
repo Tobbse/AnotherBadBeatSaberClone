@@ -37,18 +37,18 @@ public class OldGame : MonoBehaviour
     {
         enabled = false;
 
-        MappingContainer mappingContainer = GlobalStorage.Instance.MappingContainer;
+        MappingContainer mappingContainer = GlobalStorage.getInstance().MappingContainer;
         _eventData = mappingContainer.eventData;
         _noteData = mappingContainer.noteData;
         _obstacleData = mappingContainer.obstacleData;
         _bookmarkData = mappingContainer.bookmarkData;
 
-        _fullSpectrumDataList = GlobalStorage.Instance.SpectrumInfo;
-        _analyzerConfig = GlobalStorage.Instance.TrackConfig;
-        _spectrumsList = GlobalStorage.Instance.SpectrumsList;
+        _fullSpectrumDataList = GlobalStorage.getInstance().SpectrumInfo;
+        _analyzerConfig = GlobalStorage.getInstance().TrackConfig;
+        _spectrumsList = GlobalStorage.getInstance().SpectrumsList;
         _filterBeats();
 
-        AudioClip audioClip = GlobalStorage.Instance.AudioClip;
+        AudioClip audioClip = GlobalStorage.getInstance().AudioClip;
         gameObject.AddComponent<AudioSource>();
         _audioSource = gameObject.GetComponent<AudioSource>();
         _audioSource.clip = audioClip;

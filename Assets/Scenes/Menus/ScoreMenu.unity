@@ -814,7 +814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayTransform: {fileID: 1981324225}
   m_Cursor: {fileID: 1125755403}
-  joyPadClickButton: 8192
+  joyPadClickButton: 2097152
   gazeClickKey: 32
   performSphereCastForGazepointer: 0
   useRightStickScroll: 1

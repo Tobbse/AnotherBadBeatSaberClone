@@ -110,13 +110,13 @@ public class OnsetDetector
             noteCfg.cutDirection = Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
             _beatMappingContainer.noteData.Add(noteCfg);
 
-            if (Random.Range(0, 100) > 80)
+            if (Random.Range(0, 100) > 95)
             {
                 ObstacleConfig obstacleCfg = new ObstacleConfig();
                 obstacleCfg.time = time;
                 obstacleCfg.lineIndex = Random.Range(0, 3);
                 obstacleCfg.type = Random.Range(0, 3);
-                obstacleCfg.width = Random.Range(1, 4);
+                obstacleCfg.width = Random.Range(1, 3) * 0.5f;
                 obstacleCfg.duration = Random.Range(1, 4);
                 _beatMappingContainer.obstacleData.Add(obstacleCfg);
             }

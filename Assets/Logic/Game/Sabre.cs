@@ -65,6 +65,7 @@ public class Sabre : MonoBehaviour
             Destroy(otheTransform.gameObject);
         }
 
+        // TODO this is only for debugging, delete this later or do it properly.
         GameObject obj = GameObject.Find("AngleText");
         if (obj != null) obj.GetComponent<TextMeshPro>().SetText(hitAngle.ToString());
         obj = GameObject.Find("HitText");

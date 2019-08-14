@@ -69,8 +69,8 @@ public class HighscoreHandler
 
     private List<HighscoreData> _getHighscores()
     {
-        string shortFileName = GlobalStorage.Instance.TrackConfig.TrackName;
-        string difficulty = GlobalStorage.Instance.Difficulty;
+        string shortFileName = GlobalStorage.getInstance().TrackConfig.TrackName;
+        string difficulty = GlobalStorage.getInstance().Difficulty;
         string fullFilePath = _jsonFileHandler.getFullFilePath(JsonFileHandler.HIGHSCORE_FOLDER_PATH, shortFileName, difficulty);
 
         if (!File.Exists(fullFilePath)) {
@@ -81,8 +81,8 @@ public class HighscoreHandler
 
     private void _writeHighscores()
     {
-        string trackName = GlobalStorage.Instance.TrackConfig.TrackName;
-        string difficulty = GlobalStorage.Instance.Difficulty;
+        string trackName = GlobalStorage.getInstance().TrackConfig.TrackName;
+        string difficulty = GlobalStorage.getInstance().Difficulty;
         _jsonFileHandler.writeHighscoreFile(_highscoreData, trackName, difficulty);
     }
 }
