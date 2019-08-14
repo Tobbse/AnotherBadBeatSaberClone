@@ -3,13 +3,14 @@ using PAudioAnalyzer;
 using AudioSpectrumInfo;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
+using System.Collections.Generic;
 
 public class PlotDemoAudioAnalyzerController : MonoBehaviour
 {
     private TrackConfig _analyzerConfig;
     private SpectrumAnalyzer _spectrumAnalyzer;
     private SpectrumPlotter _spectrumPlotter;
-    private FastList<AnalyzedSpectrumData> _spectrumDataList;
+    private List<AnalyzedSpectrumData> _spectrumDataList;
     private bool _started;
 
     void Start()
@@ -19,7 +20,7 @@ public class PlotDemoAudioAnalyzerController : MonoBehaviour
         SpectrumProvider audioProvider = new SpectrumProvider(_analyzerConfig.ClipSampleRate);
 
         float[] samples = AudioSampleProvider.getMonoSamples(audioSource.clip);
-        FastList<double[]> spectrumsList = audioProvider.getSpectrums(samples);
+        List<double[]> spectrumsList = audioProvider.getSpectrums(samples);
         _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _analyzerConfig.Bands);
 
         _spectrumAnalyzer = new SpectrumAnalyzer(spectrumsList, _analyzerConfig, _spectrumDataList, new MappingContainer());

@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using AudioSpectrumInfo;
+using System.Collections.Generic;
 
 public class PPostAudioAnalyzer
 {
-    private FastList<AnalyzedSpectrumData>  _spectrumDataList;
+    private List<AnalyzedSpectrumData>  _spectrumDataList;
 
-    public PPostAudioAnalyzer(FastList<AnalyzedSpectrumData> spectrumDataList)
+    public PPostAudioAnalyzer(List<AnalyzedSpectrumData> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
     }
 
-    /*public FastList<SpectrumInfo> findExtraBeats()
+    /*public List<SpectrumInfo> findExtraBeats()
     {
         float totalAverageFlux = _getAverageFluxForInterval(0, _spectrumDataList.Count - 1);
 

@@ -6,6 +6,7 @@ public class Obstacle : MonoBehaviour
 
     private void Start()
     {
+        // TODO don't use find
         _player = GameObject.Find("Player");
     }
 

@@ -2,11 +2,12 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 
 public class ScoreMenu : MonoBehaviour
 {
     private HighscoreData _currentScore;
-    private FastList<HighscoreData> _highscores;
+    private List<HighscoreData> _highscores;
 
     void Start()
     {

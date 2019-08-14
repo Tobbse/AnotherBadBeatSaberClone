@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace AudioAnalyzerConfigs {
 
     public class TrackConfig
     {
-        private FastList<AnalyzerBandConfig> _analyzerConfigs = new FastList<AnalyzerBandConfig>();
+        private List<AnalyzerBandConfig> _analyzerConfigs = new List<AnalyzerBandConfig>();
         private int _bands;
         private int _clipSampleRate;
         private float _sampleRate = (float)AudioSettings.outputSampleRate;
@@ -23,7 +24,7 @@ namespace AudioAnalyzerConfigs {
             _bands = _analyzerConfigs.Count;
         }
 
-        public FastList<AnalyzerBandConfig> AnalyzerConfigs
+        public List<AnalyzerBandConfig> AnalyzerConfigs
         {
             get { return _analyzerConfigs; }
         }

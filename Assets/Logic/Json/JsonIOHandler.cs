@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json.Linq;
 using BeatMappingConfigs;
+using System.Collections.Generic;
 
 namespace JsonIOHandler {
 
@@ -25,7 +26,7 @@ namespace JsonIOHandler {
 
     public static class JsonMappingFileReader
     {
-        public static FastList<HighscoreData> readHighscoreFile(string filePath)
+        public static List<HighscoreData> readHighscoreFile(string filePath)
         {
             StreamReader reader = new StreamReader(filePath);
             string text = reader.ReadToEnd();
@@ -34,7 +35,7 @@ namespace JsonIOHandler {
             JObject obj = JObject.Parse(text);
             JToken highscoreToken = obj["_highscores"];
 
-            FastList<HighscoreData> highscoreData = new FastList<HighscoreData>();
+            List<HighscoreData> highscoreData = new List<HighscoreData>();
             foreach (JToken child in highscoreToken.Children())
             {
                 HighscoreData score = new HighscoreData();
@@ -53,10 +54,10 @@ namespace JsonIOHandler {
 
             JObject obj = JObject.Parse(text);
 
-            FastList<EventConfig> eventData = _getEventData(obj["_events"]);
-            FastList<NoteConfig> noteData = _getNoteData(obj["_notes"]);
-            FastList<ObstacleConfig> obstacleData = _getObstacleData(obj["_obstacles"]);
-            FastList<BookmarkConfig> bookmarkData = _getBookmarkData(obj["_bookmarks"]);
+            List<EventConfig> eventData = _getEventData(obj["_events"]);
+            List<NoteConfig> noteData = _getNoteData(obj["_notes"]);
+            List<ObstacleConfig> obstacleData = _getObstacleData(obj["_obstacles"]);
+            List<BookmarkConfig> bookmarkData = _getBookmarkData(obj["_bookmarks"]);
 
             MappingContainer container = new MappingContainer();
             container.eventData = eventData;
@@ -67,9 +68,9 @@ namespace JsonIOHandler {
             return container;
         }
 
-        private static FastList<EventConfig> _getEventData(JToken eventToken)
+        private static List<EventConfig> _getEventData(JToken eventToken)
         {
-            FastList<EventConfig> eventData = new FastList<EventConfig>(); 
+            List<EventConfig> eventData = new List<EventConfig>(); 
             foreach (JToken child in eventToken.Children())
             {
                 EventConfig eventConfig = new EventConfig();
@@ -81,9 +82,9 @@ namespace JsonIOHandler {
             return eventData;
         }
 
-        private static FastList<NoteConfig> _getNoteData(JToken noteToken)
+        private static List<NoteConfig> _getNoteData(JToken noteToken)
         {
-            FastList<NoteConfig> noteData = new FastList<NoteConfig>();
+            List<NoteConfig> noteData = new List<NoteConfig>();
             foreach (JToken child in noteToken.Children())
             {
                 NoteConfig noteConfig = new NoteConfig();
@@ -97,9 +98,9 @@ namespace JsonIOHandler {
             return noteData;
         }
 
-        private static FastList<ObstacleConfig> _getObstacleData(JToken obstacleToken)
+        private static List<ObstacleConfig> _getObstacleData(JToken obstacleToken)
         {
-            FastList<ObstacleConfig> obstacleData = new FastList<ObstacleConfig>();
+            List<ObstacleConfig> obstacleData = new List<ObstacleConfig>();
             foreach (JToken child in obstacleToken.Children())
             {
                 ObstacleConfig obstacleConfig = new ObstacleConfig();
@@ -113,9 +114,9 @@ namespace JsonIOHandler {
             return obstacleData;
         }
 
-        private static FastList<BookmarkConfig> _getBookmarkData(JToken bookmarkToken)
+        private static List<BookmarkConfig> _getBookmarkData(JToken bookmarkToken)
         {
-            FastList<BookmarkConfig> bookmarkData = new FastList<BookmarkConfig>();
+            List<BookmarkConfig> bookmarkData = new List<BookmarkConfig>();
             foreach (JToken child in bookmarkToken.Children())
             {
                 BookmarkConfig newConfig = new BookmarkConfig();

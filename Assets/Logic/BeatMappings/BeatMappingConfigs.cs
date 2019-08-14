@@ -1,11 +1,13 @@
-﻿namespace BeatMappingConfigs {
+﻿using System.Collections.Generic;
+
+namespace BeatMappingConfigs {
 
     public class MappingContainer
     {
-        public FastList<EventConfig> eventData = new FastList<EventConfig>();
-        public FastList<NoteConfig> noteData = new FastList<NoteConfig>();
-        public FastList<ObstacleConfig> obstacleData = new FastList<ObstacleConfig>();
-        public FastList<BookmarkConfig> bookmarkData = new FastList<BookmarkConfig>();
+        public List<EventConfig> eventData = new List<EventConfig>();
+        public List<NoteConfig> noteData = new List<NoteConfig>();
+        public List<ObstacleConfig> obstacleData = new List<ObstacleConfig>();
+        public List<BookmarkConfig> bookmarkData = new List<BookmarkConfig>();
 
         public void sortMappings()
         {

@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 public class JsonHighscoreStringBuilder
 {
-    private FastList<HighscoreData> _highscoreData;
+    private List<HighscoreData> _highscoreData;
     private string _json;
 
-    public void setData(FastList<HighscoreData> highscoreData)
+    public void setData(List<HighscoreData> highscoreData)
     {
         _highscoreData = highscoreData;
     }

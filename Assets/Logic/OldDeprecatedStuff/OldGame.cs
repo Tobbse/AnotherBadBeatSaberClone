@@ -4,6 +4,7 @@ using System;
 using AudioSpectrumInfo;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
+using System.Collections.Generic;
 
 public class OldGame : MonoBehaviour
 {
@@ -11,10 +12,10 @@ public class OldGame : MonoBehaviour
     public int cubesPerUpdate;
     public GameObject timedBlockPrefab;
 
-    private FastList<AnalyzedSpectrumData> _fullSpectrumDataList;
-    private FastList<AnalyzedSpectrumData> _beatSpectrumData = new FastList<AnalyzedSpectrumData>();
+    private List<AnalyzedSpectrumData> _fullSpectrumDataList;
+    private List<AnalyzedSpectrumData> _beatSpectrumData = new List<AnalyzedSpectrumData>();
     private TrackConfig _analyzerConfig;
-    private FastList<double[]> _spectrumsList;
+    private List<double[]> _spectrumsList;
     private int _index = 0;
     private float _lastTime;
     private float _startTime;
@@ -22,15 +23,15 @@ public class OldGame : MonoBehaviour
     private float _timeframe = 2.0f;
     private bool _timeframeReached = false;
     private AudioSource _audioSource;
-    private FastList<GameObject> _timedObjects = new FastList<GameObject>();
+    private List<GameObject> _timedObjects = new List<GameObject>();
     private float _timedBlockDistance = 35;
     private GameObject _obj;
     private Rigidbody _rb;
     private ScoreTracker _scoreTracker;
-    private FastList<EventConfig> _eventData;
-    private FastList<NoteConfig> _noteData;
-    private FastList<ObstacleConfig> _obstacleData;
-    private FastList<BookmarkConfig> _bookmarkData;
+    private List<EventConfig> _eventData;
+    private List<NoteConfig> _noteData;
+    private List<ObstacleConfig> _obstacleData;
+    private List<BookmarkConfig> _bookmarkData;
 
     void Start()
     {

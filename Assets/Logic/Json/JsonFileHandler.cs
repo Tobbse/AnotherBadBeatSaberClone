@@ -1,6 +1,7 @@
 ﻿using BeatMappingConfigs;
 using JsonIOHandler;
 using System.IO;
+using System.Collections.Generic;
 
 public class JsonFileHandler
 {
@@ -22,7 +23,7 @@ public class JsonFileHandler
         JsonFileWriter.writeFile(info, new FileInfo(infoFilePath));
     }
 
-    public void writeHighscoreFile(FastList<HighscoreData> highscoreData, string trackName, string difficulty)
+    public void writeHighscoreFile(List<HighscoreData> highscoreData, string trackName, string difficulty)
     {
         string folderPath = FileUtils.getFolderPath(HIGHSCORE_FOLDER_PATH, trackName);
         string highscoreFilePath = FileUtils.getFullPath(folderPath, difficulty);
@@ -39,7 +40,7 @@ public class JsonFileHandler
         return JsonMappingFileReader.readMappingFile(fullFilePath);
     }
 
-    public FastList<HighscoreData> readHighscoreFile(string fullFilePath)
+    public List<HighscoreData> readHighscoreFile(string fullFilePath)
     {
         return JsonMappingFileReader.readHighscoreFile(fullFilePath);
     }

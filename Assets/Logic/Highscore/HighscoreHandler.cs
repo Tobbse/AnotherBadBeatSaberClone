@@ -6,7 +6,7 @@ using System.IO;
 public class HighscoreHandler
 {
     private JsonFileHandler _jsonFileHandler;
-    private FastList<HighscoreData> _highscoreData;
+    private List<HighscoreData> _highscoreData;
     private HighscoreData _currentScore;
 
     public HighscoreHandler(int newScore)
@@ -20,7 +20,7 @@ public class HighscoreHandler
         if (_highscoreData == null)
         {
             _currentScore.rank = 1;
-            _highscoreData = new FastList<HighscoreData>();
+            _highscoreData = new List<HighscoreData>();
             _highscoreData.Add(_currentScore);
         } else
         {
@@ -34,7 +34,7 @@ public class HighscoreHandler
         get { return _currentScore; }
     }
 
-    public FastList<HighscoreData> getHighscores()
+    public List<HighscoreData> getHighscores()
     {
         return _highscoreData;
     }
@@ -67,7 +67,7 @@ public class HighscoreHandler
         }
     }
 
-    private FastList<HighscoreData> _getHighscores()
+    private List<HighscoreData> _getHighscores()
     {
         string shortFileName = GlobalStorage.Instance.TrackConfig.TrackName;
         string difficulty = GlobalStorage.Instance.Difficulty;

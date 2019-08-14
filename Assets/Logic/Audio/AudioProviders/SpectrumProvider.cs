@@ -3,6 +3,7 @@ using System.Numerics;
 using UnityEngine;
 using DSPLib;
 using AudioSpectrumInfo;
+using System.Collections.Generic;
 
 public class SpectrumProvider
 {
@@ -18,10 +19,10 @@ public class SpectrumProvider
         _timePerSpectrumData = (1.0f / audioClipSampleRate) * SAMPLE_SIZE; // Duration per sample * amount of samples per spectrum.
     }
 
-    public FastList<double[]> getSpectrums(float[] monoSamples)
+    public List<double[]> getSpectrums(float[] monoSamples)
     {
         int iterations = monoSamples.Length / SAMPLE_SIZE;
-        FastList<double[]> spectrums = new FastList<double[]>();
+        List<double[]> spectrums = new List<double[]>();
 
         FFT fft = new FFT();
         fft.Initialize((UInt32)SAMPLE_SIZE);
@@ -57,9 +58,9 @@ public class SpectrumProvider
         return spectrums;
     }
 
-    public FastList<AnalyzedSpectrumData> getSpectrumData(FastList<double[]> spectrums, int bands)
+    public List<AnalyzedSpectrumData> getSpectrumData(List<double[]> spectrums, int bands)
     {
-        FastList<AnalyzedSpectrumData> spectrumDataList = new FastList<AnalyzedSpectrumData>();
+        List<AnalyzedSpectrumData> spectrumDataList = new List<AnalyzedSpectrumData>();
 
         for (int i = 0; i < spectrums.Count; i++)
         {

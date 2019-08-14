@@ -2,6 +2,7 @@
 using AudioSpectrumInfo;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
+using System.Collections.Generic;
 
 public class OnsetDetector
 {
@@ -9,7 +10,7 @@ public class OnsetDetector
     private const float DETECTION_MULT_AFTER = 0.5f;
     
     private AnalyzerBandConfig _analyzerBandConfig;
-    private FastList<AnalyzedSpectrumData> _analyzedSpectrumData;
+    private List<AnalyzedSpectrumData> _analyzedSpectrumData;
     private MappingContainer _beatMappingContainer;
     private float[] _currentSpectrum;
     private float[] _previousSpectrum;
@@ -25,7 +26,7 @@ public class OnsetDetector
     private int _minIndex;
     private float _lastTime;
 
-    public OnsetDetector(AnalyzerBandConfig beatConfig, FastList<AnalyzedSpectrumData> spectrumData, TrackConfig config, MappingContainer beatMappingContainer)
+    public OnsetDetector(AnalyzerBandConfig beatConfig, List<AnalyzedSpectrumData> spectrumData, TrackConfig config, MappingContainer beatMappingContainer)
     {
         _analyzerBandConfig = beatConfig;
         _analyzedSpectrumData = spectrumData;
@@ -123,7 +124,7 @@ public class OnsetDetector
         _index++;
     }
 
-    public FastList<AnalyzedSpectrumData> getSpectrumDataList()
+    public List<AnalyzedSpectrumData> getSpectrumDataList()
     {
         return _analyzedSpectrumData;
     }

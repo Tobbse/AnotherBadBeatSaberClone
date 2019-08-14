@@ -2,18 +2,19 @@
 using System;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
+using System.Collections.Generic;
 
 namespace PAudioAnalyzer
 {
     public class SpectrumAnalyzer
     {
-        private FastList<AnalyzedSpectrumData> _analyzedSpectrumData;
-        private FastList<double[]> _spectrumData;
+        private List<AnalyzedSpectrumData> _analyzedSpectrumData;
+        private List<double[]> _spectrumData;
         private TrackConfig _trackConfig;
         private PPostAudioAnalyzer _postAudioAnalyzer;
         private MappingContainer _beatMappingContainer;
 
-        public SpectrumAnalyzer(FastList<double[]> spectrumsList, TrackConfig trackConfig, FastList<AnalyzedSpectrumData> spectrumDataList, MappingContainer beatMappingContainer)
+        public SpectrumAnalyzer(List<double[]> spectrumsList, TrackConfig trackConfig, List<AnalyzedSpectrumData> spectrumDataList, MappingContainer beatMappingContainer)
         {
             _spectrumData = spectrumsList;
             _trackConfig = trackConfig;
@@ -21,7 +22,7 @@ namespace PAudioAnalyzer
             _beatMappingContainer = beatMappingContainer;
         }
 
-        public FastList<AnalyzedSpectrumData> getAnalyzedSpectrumData()
+        public List<AnalyzedSpectrumData> getAnalyzedSpectrumData()
         {
             return _analyzedSpectrumData;
         }
@@ -33,7 +34,7 @@ namespace PAudioAnalyzer
 
         public void analyzeSpectrumsList(Action callback)
         {
-            FastList<AnalyzerBandConfig> beatConfigs = _trackConfig.AnalyzerConfigs;
+            List<AnalyzerBandConfig> beatConfigs = _trackConfig.AnalyzerConfigs;
 
             // Loop over the defined frequency bands.
             for (int i = 0; i < beatConfigs.Count; i++)

@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using BeatMappingConfigs;
 using System.Globalization;
+using System.Collections.Generic;
 
 public class JsonMappingStringBuilder
 {
     private const string MAPPING_VERSION = "2.0.0";
 
-    private FastList<EventConfig> _events;
-    private FastList<NoteConfig> _notes;
-    private FastList<ObstacleConfig> _obstacles;
-    private FastList<BookmarkConfig> _bookmarks;
+    private List<EventConfig> _events;
+    private List<NoteConfig> _notes;
+    private List<ObstacleConfig> _obstacles;
+    private List<BookmarkConfig> _bookmarks;
     private string _json = "";
     private string _eventStr;
     private string _noteStr;

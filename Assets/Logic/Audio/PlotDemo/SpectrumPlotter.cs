@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using AudioSpectrumInfo;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpectrumPlotter : MonoBehaviour
 {
@@ -12,24 +13,46 @@ public class SpectrumPlotter : MonoBehaviour
 
     private const int DISPLAY_WINDOW_SIZE = 300;
 
-    private FastList<AnalyzedSpectrumData> _spectrumDataList;
-    private FastList<Transform> _plotPoints;
+    private List<AnalyzedSpectrumData> _spectrumDataList;
+    private List<Transform> _plotPoints;
     private bool _isReady = false;
     private float _lastTime;
     private int _spectrumIndex = 0;
     private int _bands;
     private string _type;
 
-    void Start()
+    void FixedUpdate()
     {
-        _plotPoints = new FastList<Transform>();
+        if (_isReady && _hasRemainingSamples())
+        {
+            float newTime = Time.time;
+            _lastTime = newTime;
+
+            _updatePlot();
+        } else
+        {
+            Debug.Log("not enough samples or no samples left!");
+        }
+    }
+
+    public void setDataAndStart(List<AnalyzedSpectrumData> spectrumDataList, string type)
+    {
+        _spectrumDataList = spectrumDataList;
+        _type = type;
+        _bands = _spectrumDataList[0].beatData.Count;
+        _lastTime = Time.time;
+        _isReady = true;
+    }
+
+    private void _init()
+    {
+        _plotPoints = new List<Transform>();
         float localWidth = transform.Find("Point/BasePoint").localScale.x;
 
         // -n/2...0...n/2
         for (int i = 0; i < DISPLAY_WINDOW_SIZE; i++)
         {
             //Instantiate points
-            //GameObject point = Instantiate(Resources.Load("Point"), transform) as GameObject;
             GameObject point = Instantiate(pointPrefab);
             Transform pointTransform = point.transform;
             Transform originalPointTransform = transform.Find("Point");
@@ -50,37 +73,13 @@ public class SpectrumPlotter : MonoBehaviour
             _plotPoints.Add(pointTransform);
         }
 
-        for (int i = 0; i < DISPLAY_WINDOW_SIZE; i++) // This does not work, why not?
+        for (int i = 0; i < DISPLAY_WINDOW_SIZE; i++)
         {
             for (int j = 0; j < _bands; j++)
             {
                 _setPointHeight(_plotPoints[i].Find("Peak" + j.ToString()), -1000);
             }
         }
-    }
-
-    void FixedUpdate()
-    {
-        if (_isReady && _hasRemainingSamples())
-        {
-            float newTime = Time.time;
-            //Debug.Log(newTime - _lastTime);
-            _lastTime = newTime;
-
-            _updatePlot();
-        } else
-        {
-            Debug.Log("not enough samples or no samples left!");
-        }
-    }
-
-    public void setDataAndStart(FastList<AnalyzedSpectrumData> spectrumDataList, string type)
-    {
-        _spectrumDataList = spectrumDataList;
-        _type = type;
-        _bands = _spectrumDataList[0].beatData.Count;
-        _lastTime = Time.time;
-        _isReady = true;
     }
 
     private bool _hasRemainingSamples()
@@ -120,12 +119,10 @@ public class SpectrumPlotter : MonoBehaviour
                 BeatInfo bandData = info.beatData[j];
 
                 Transform peak = _plotPoints[pointIndex].Find("Peak" + j.ToString());
-                peak.gameObject.SetActive(false); // TODO why does this not work?
 
                 Transform thresh = _plotPoints[pointIndex].Find("Thresh" + j.ToString());
 
                 Color peakColor = bandData.isPeak ? Color.red : Color.white;
-                //float peakHeight = bandData.isPeak ? bandData.spectralFlux : -100.0f;
                 float peakHeight = bandData.isPeak ? 1.0f : -100.0f;
 
                 _setPointHeight(peak, peakHeight);

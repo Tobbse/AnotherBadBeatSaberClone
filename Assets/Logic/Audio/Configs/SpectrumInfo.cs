@@ -1,11 +1,13 @@
-﻿namespace AudioSpectrumInfo {
+﻿using System.Collections.Generic;
+
+namespace AudioSpectrumInfo {
     public class AnalyzedSpectrumData
     {
         public float[] spectrum;
         public float time;
         public bool hasPeak;
-        public FastList<int> peakBands = new FastList<int>();
-        public FastList<BeatInfo> beatData = new FastList<BeatInfo>();
+        public List<int> peakBands = new List<int>();
+        public List<BeatInfo> beatData = new List<BeatInfo>();
     }
 
     public class BeatInfo

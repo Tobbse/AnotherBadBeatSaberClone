@@ -3,6 +3,7 @@ using PAudioAnalyzer;
 using AudioSpectrumInfo;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
 
@@ -12,9 +13,9 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
     private TrackConfig _trackConfig;
     private SpectrumAnalyzer _spectrumAnalyzer;
-    private FastList<AnalyzedSpectrumData> _spectrumDataList;
+    private List<AnalyzedSpectrumData> _spectrumDataList;
     private AudioClip _audioClip;
-    private FastList<double[]> _spectrumsList;
+    private List<double[]> _spectrumsList;
     private float[] _monoSamples;
     private JsonFileHandler _jsonFileHandler;
     private string _difficulty;
