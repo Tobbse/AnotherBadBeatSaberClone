@@ -222,9 +222,12 @@ public class OVRGazePointer : OVRCursor {
             transform.rotation = newRot;
         }
 
-        Quaternion iconRotation = gazeIcon.rotation;
-		iconRotation.SetLookRotation(transform.rotation * new Vector3(0, 0, 1));
-		gazeIcon.rotation = iconRotation;
+        if (gazeIcon != null)
+        {
+            Quaternion iconRotation = gazeIcon.rotation;
+            iconRotation.SetLookRotation(transform.rotation * new Vector3(0, 0, 1));
+            gazeIcon.rotation = iconRotation;
+        }
 
 		positionSetsThisFrame = 0;
     }
