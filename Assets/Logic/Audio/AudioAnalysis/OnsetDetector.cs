@@ -3,6 +3,7 @@ using AudioSpectrumInfo;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
 using System.Collections.Generic;
+using System;
 
 public class OnsetDetector
 {
@@ -18,27 +19,30 @@ public class OnsetDetector
     private float[] _previousSpectrum;
     private int _band;
     private int _beatBlockCounter;
+    private int _obstacleBlockCounter;
     private int _index;
     private int _maxIndex;
     private int _minIndex;
     private float _lastTime;
+    private float _timerPerSpectrum;
+    private int _sampleRate;
 
     public OnsetDetector(AnalyzerBandConfig beatConfig, List<AnalyzedSpectrumConfig> spectrumConfigs, TrackConfig config, MappingContainer beatMappingContainer)
     {
         _analyzerBandConfig = beatConfig;
         _spectrumConfigs = spectrumConfigs;
-        _band = _analyzerBandConfig.band;
+        _beatMappingContainer = beatMappingContainer;
+        _sampleRate = config.ClipSampleRate;
 
         _currentSpectrum = new float[SpectrumProvider.NUM_BINS];
         _previousSpectrum = new float[SpectrumProvider.NUM_BINS];
 
-        _beatMappingContainer = beatMappingContainer;
-
-        /*float timePerSample = 1f / config.ClipSampleRate;
-        _timePerSpectrum = timePerSample * SpectrumProvider.SAMPLE_SIZE;*/
-
         _minIndex = beatConfig.thresholdSize;
         _maxIndex = _spectrumConfigs.Count - 1;
+        _band = _analyzerBandConfig.band;
+
+        float timePerSample = 1f / _sampleRate;
+        _timerPerSpectrum = timePerSample * SpectrumProvider.SAMPLE_SIZE;
     }
 
     public void analyze()
@@ -80,6 +84,33 @@ public class OnsetDetector
         _currentBeatInfo.threshold = _getFluxThreshold();
         _currentBeatInfo.prunedSpectralFlux = _getPrunedSpectralFlux();
 
+        if (_obstacleBlockCounter > 0)
+        {
+            _obstacleBlockCounter--;
+        } else
+        {
+            if (UnityEngine.Random.Range(0, 100) > 90 && UnityEngine.Random.Range(0, 100) > 90) // TODO define obstacle spawn criteria
+            {
+                ObstacleConfig obstacleCfg = new ObstacleConfig();
+                obstacleCfg.time = _currentSpectrumCfg.time;
+                if (_band == 0)
+                {
+                    obstacleCfg.lineIndex = 0;
+                } else
+                {
+                    obstacleCfg.lineIndex = 3;
+                }
+                
+                obstacleCfg.type = UnityEngine.Random.Range(0, 3 + 1);
+                obstacleCfg.width = UnityEngine.Random.Range(2, 4) * 0.3f;
+                obstacleCfg.duration = UnityEngine.Random.Range(15, 35 + 1) * 0.05f;
+
+                _beatMappingContainer.obstacleData.Add(obstacleCfg);
+                _obstacleBlockCounter = getNumIndicesFromSeconds(obstacleCfg.duration + 2);
+                int y = 0;
+            }
+        }
+
         if (_beatBlockCounter > 0)
         {
             _beatBlockCounter--;
@@ -91,39 +122,28 @@ public class OnsetDetector
             _currentSpectrumCfg.beatData[_band].isPeak = true;
             _currentSpectrumCfg.peakBands.Add(_band);
 
-            if (Random.Range(0, 100) > 50) {
+            if (UnityEngine.Random.Range(0, 100) > 50) {
                 EventConfig eventCfg = new EventConfig();
                 eventCfg.time = _currentSpectrumCfg.time;
-                eventCfg.type = Random.Range(0, 3);
-                eventCfg.value = Random.Range(0, 3);
+                eventCfg.type = UnityEngine.Random.Range(0, 3);
+                eventCfg.value = UnityEngine.Random.Range(0, 3);
                 _beatMappingContainer.eventData.Add(eventCfg);
             }
             NoteConfig noteCfg = new NoteConfig();
             noteCfg.time = _currentSpectrumCfg.time;
-            noteCfg.type = Random.Range(NoteConfig.NOTE_TYPE_LEFT, NoteConfig.NOTE_TYPE_RIGHT + 1);
-            noteCfg.lineIndex = noteCfg.type == NoteConfig.NOTE_TYPE_LEFT ? Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_1 + 1) : Random.Range(NoteConfig.LINE_INDEX_2, NoteConfig.LINE_INDEX_3 + 1);
+            noteCfg.type = UnityEngine.Random.Range(NoteConfig.NOTE_TYPE_LEFT, NoteConfig.NOTE_TYPE_RIGHT + 1);
+            noteCfg.lineIndex = noteCfg.type == NoteConfig.NOTE_TYPE_LEFT ? UnityEngine.Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_1 + 1) : UnityEngine.Random.Range(NoteConfig.LINE_INDEX_2, NoteConfig.LINE_INDEX_3 + 1);
 
             if (_band == 0)
             {
-                noteCfg.lineLayer = Random.Range(NoteConfig.LINE_LAYER_0, NoteConfig.LINE_LAYER_1 + 1);
+                noteCfg.lineLayer = UnityEngine.Random.Range(NoteConfig.LINE_LAYER_0, NoteConfig.LINE_LAYER_1 + 1);
             }
             if (_band == 1)
             {
-                noteCfg.lineLayer = Random.Range(NoteConfig.LINE_LAYER_2, NoteConfig.LINE_LAYER_3 + 1);
+                noteCfg.lineLayer = UnityEngine.Random.Range(NoteConfig.LINE_LAYER_2, NoteConfig.LINE_LAYER_3 + 1);
             }
-            noteCfg.cutDirection = Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
+            noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
             _beatMappingContainer.noteData.Add(noteCfg);
-
-            if (Random.Range(0, 100) > 95)
-            {
-                ObstacleConfig obstacleCfg = new ObstacleConfig();
-                obstacleCfg.time = _currentSpectrumCfg.time;
-                obstacleCfg.lineIndex = Random.Range(0, 3);
-                obstacleCfg.type = Random.Range(0, 3);
-                obstacleCfg.width = Random.Range(1, 3) * 0.5f;
-                obstacleCfg.duration = Random.Range(1, 4);
-                _beatMappingContainer.obstacleData.Add(obstacleCfg);
-            }
         }
         _index++;
     }
@@ -175,15 +195,17 @@ public class OnsetDetector
     // TODO this could be optimized. Does it make sense to use pruned flux? Change multiplier level?
     private bool _isPeak()
     {
-        const int HALF_WINDOW_SIZE = 5;
-        if (_index + HALF_WINDOW_SIZE > _maxIndex || _index - HALF_WINDOW_SIZE < _minIndex)
+        const int LEFT_WINDOW_SIZE = 10;
+        const int RIGHT_WINDOW_SIZE = 5;
+
+        if (_index - LEFT_WINDOW_SIZE < _minIndex || _index + RIGHT_WINDOW_SIZE > _maxIndex)
         {
             return false;
         }
 
         // Assumption: When the current pruned value is > the last && > the next, we have a peak.
         float currentPrunedFlux = _currentBeatInfo.prunedSpectralFlux;
-        for (int i = _index - HALF_WINDOW_SIZE; i <= _index + HALF_WINDOW_SIZE; i++)
+        for (int i = _index - LEFT_WINDOW_SIZE; i <= _index + RIGHT_WINDOW_SIZE; i++)
         {
             if (currentPrunedFlux < _spectrumConfigs[i].beatData[_band].prunedSpectralFlux)
             {
@@ -193,4 +215,8 @@ public class OnsetDetector
         return true;
     }
 
+    private int getNumIndicesFromSeconds(float duration)
+    {
+        return Mathf.CeilToInt(duration / _timerPerSpectrum);
+    }
 }

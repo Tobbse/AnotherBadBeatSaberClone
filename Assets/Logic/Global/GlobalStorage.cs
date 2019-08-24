@@ -29,13 +29,21 @@ public class GlobalStorage : ScriptableObject
     {
         if (Instance == null)
         {
-            Instance = new GlobalStorage();
+            return new GlobalStorage();
         }
         return Instance;
     }
 
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(this);
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(this);
+        }
     }
 }

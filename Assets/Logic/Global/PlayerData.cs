@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class PlayerData : MonoBehaviour
+public class PlayerData : ScriptableObject
 {
     private static PlayerData Instance;
 
@@ -31,14 +31,14 @@ public class PlayerData : MonoBehaviour
 
     private void _gameOver()
     {
-        SceneManager.LoadScene("ScoreMenu");
+        SceneManager.LoadScene("ScoreMenu"); // TODO there should be some kind of game over screen.
     }
 
     public static PlayerData getInstance()
     {
         if (Instance == null)
         {
-            Instance = new PlayerData();
+            return new PlayerData();
         }
         return Instance;
     }

@@ -12,11 +12,13 @@ public class ObstacleSpawner : ScriptableObject
     private List<ObstacleConfig> _obstacleData;
     private GameObject _obj;
     private ObstacleConfig _cfg;
+    private float _speed;
 
     public ObstacleSpawner(List<ObstacleConfig> obstacleData, GameObject obstacle)
     {
         _obstacleData = obstacleData;
         _obstacle = obstacle;
+        _speed = OBSTACLE_DISTANCE / OBSTACLE_TRAVEL_TIME;
     }
 
     public void checkBlocksSpawnable(float timePassed)
@@ -38,20 +40,22 @@ public class ObstacleSpawner : ScriptableObject
         // TODO implement properly before using this. Currently the obstacles get destroyed when colliding with the player.
         if (!GlobalStaticSettings.USE_OBSTACLES) return;
 
-        float length = _durationToWidth(obstacleConfig.duration);
-        float xPos = (OBSTACLE_DISTANCE * -1) - (length / 2);
-        float yPos = 0;
-        float zPos = ObjectSpawnPositionProvider.getHorizontalPosition(obstacleConfig.lineIndex);
+        float obstacleLength = _secondsToScale(obstacleConfig.duration);
+        Vector3 position = new Vector3(
+            OBSTACLE_DISTANCE * -1 - obstacleLength,
+            3f,
+            ObjectSpawnPositionProvider.getHorizontalPosition(obstacleConfig.lineIndex)
+        );
 
-        _obj = Instantiate(_obstacle, new Vector3(xPos, yPos, zPos), Quaternion.identity);
+        _obj = Instantiate(_obstacle, position, Quaternion.identity);
         _obj.layer = 11;
-        _obj.transform.localScale = new Vector3(length, 7.0f, obstacleConfig.width);
+        _obj.transform.localScale = new Vector3(obstacleLength, 3.0f, obstacleConfig.width);
 
-        _obj.GetComponent<Rigidbody>().velocity = new Vector3(OBSTACLE_DISTANCE / OBSTACLE_TRAVEL_TIME, 0, 0);
+        _obj.GetComponent<Rigidbody>().velocity = new Vector3(_speed, 0, 0);
     }
 
-    private float _durationToWidth(float duration)
+    private float _secondsToScale(float duration)
     {
-        return OBSTACLE_DISTANCE / OBSTACLE_TRAVEL_TIME * duration;
+        return _speed * duration;
     }
 }

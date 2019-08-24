@@ -69,6 +69,6 @@ public class Game : MonoBehaviour
         }
 
         _noteSpawner.checkBlocksSpawnable(_timePassed + NoteSpawner.BLOCK_TRAVEL_TIME);
-        _obstacleSpawner.checkBlocksSpawnable(_timePassed + ObstacleSpawner.OBSTACLE_DISTANCE);
+        _obstacleSpawner.checkBlocksSpawnable(_timePassed + ObstacleSpawner.OBSTACLE_TRAVEL_TIME);
     }
 }

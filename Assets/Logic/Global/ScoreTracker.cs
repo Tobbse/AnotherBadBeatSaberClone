@@ -92,7 +92,7 @@ public class ScoreTracker : ScriptableObject
     {
         if (Instance == null)
         {
-            Instance = new ScoreTracker();
+            return new ScoreTracker();
         }
         return Instance;
     }
