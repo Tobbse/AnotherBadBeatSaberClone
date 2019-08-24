@@ -16,11 +16,13 @@ public class Game : MonoBehaviour
 
     public GameObject leftTimedBlock;
     public GameObject rightTimedBlock;
+    public GameObject leftTimedBlockNoDirection;
+    public GameObject rightTimedBlockNoDirection;
     public GameObject obstacle;
 
     private float _timePassed;
     private float _lastTime;
-    private bool _timeframeReached = false;
+    private bool _timeframeReached;
     private AudioSource _audioSource;
     private NoteSpawner _noteSpawner;
     private ObstacleSpawner _obstacleSpawner;
@@ -30,7 +32,7 @@ public class Game : MonoBehaviour
         enabled = false;
 
         MappingContainer mappingContainer = GlobalStorage.getInstance().MappingContainer;
-        _noteSpawner = new NoteSpawner(mappingContainer.noteData, leftTimedBlock, rightTimedBlock);
+        _noteSpawner = new NoteSpawner(mappingContainer.noteData, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
         _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, obstacle);
 
         ScoreTracker.getInstance().NumBeats = mappingContainer.noteData.Count;

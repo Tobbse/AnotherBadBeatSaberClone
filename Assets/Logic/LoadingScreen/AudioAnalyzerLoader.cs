@@ -41,8 +41,8 @@ public class AudioAnalyzerLoader : MonoBehaviour
         string fullPath = _jsonFileHandler.getFullFilePath(JsonFileHandler.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
         if (GlobalStaticSettings.USE_CACHE && _jsonFileHandler.fileExists(fullPath))
         {
-            loadMappingFromCache();
             Debug.Log("Loading track mapping from cache.");
+            loadMappingFromCache();
             return;
         }
 

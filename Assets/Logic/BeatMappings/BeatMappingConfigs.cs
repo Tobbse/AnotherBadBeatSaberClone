@@ -28,18 +28,28 @@ namespace BeatMappingConfigs {
 
 
     public class NoteConfig {
-        public const int CUT_DIRECTION_TOP = 0;
-        public const int CUT_DIRECTION_RIGHT = 1;
-        public const int CUT_DIRECTION_BOTTOM = 2;
-        public const int CUT_DIRECTION_LEFT = 3;
+        public const int CUT_DIRECTION_180 = 0; // Correct
+        public const int CUT_DIRECTION_0 = 1; // Correct
+        public const int CUT_DIRECTION_90 = 2; // Unknown
+        public const int CUT_DIRECTION_270 = 3; // Correct
+
+        public const int CUT_DIRECTION_135 = 4; // CORRECT
+        public const int CUT_DIRECTION_225 = 5; // CORRECT        
+        public const int CUT_DIRECTION_45 = 6; // Unknown
+        public const int CUT_DIRECTION_315 = 7; // Unknown
+
+        public const int CUT_DIRECTION_NONE = 8; // Unknown
+
         public const int LINE_INDEX_0 = 0;
         public const int LINE_INDEX_1 = 1;
         public const int LINE_INDEX_2 = 2;
         public const int LINE_INDEX_3 = 3;
+
         public const int LINE_LAYER_0 = 0;
         public const int LINE_LAYER_1 = 1;
         public const int LINE_LAYER_2 = 2;
         public const int LINE_LAYER_3 = 3;
+
         public const int NOTE_TYPE_LEFT = 0;
         public const int NOTE_TYPE_RIGHT = 1;
 

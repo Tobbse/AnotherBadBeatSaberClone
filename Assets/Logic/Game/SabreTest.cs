@@ -19,10 +19,15 @@ public class SabreTest : MonoBehaviour
 
     void Start()
     {
-        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_TOP] = 0;
-        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_RIGHT] = 90;
-        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_BOTTOM] = 180;
-        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_LEFT] = 270;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_0] = 0;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_90] = 90;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_180] = 180;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_270] = 270;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_45] = 45;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_135] = 135;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_225] = 225;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_315] = 315;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_315] = -1;
 
         _blockTypeMapping[NoteConfig.NOTE_TYPE_LEFT] = leftTimedBlock;
         _blockTypeMapping[NoteConfig.NOTE_TYPE_RIGHT] = rightTimedBlock;
@@ -42,7 +47,7 @@ public class SabreTest : MonoBehaviour
     private NoteConfig createRandomNote()
     {
         NoteConfig cfg = new NoteConfig();
-        cfg.cutDirection = Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
+        cfg.cutDirection = Random.Range(NoteConfig.CUT_DIRECTION_0, NoteConfig.CUT_DIRECTION_NONE + 1);
         cfg.lineIndex = Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_3 + 1);
         cfg.lineLayer = Random.Range(NoteConfig.LINE_LAYER_0, NoteConfig.LINE_LAYER_3 + 1);
         cfg.type = Random.Range(NoteConfig.NOTE_TYPE_LEFT, NoteConfig.NOTE_TYPE_RIGHT + 1);

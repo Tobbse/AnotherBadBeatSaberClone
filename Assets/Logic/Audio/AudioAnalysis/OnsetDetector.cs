@@ -78,7 +78,6 @@ public class OnsetDetector
         {
             _setCurrentSpectrum(index, band);
             _currentSpectrumCfg.bandBeatData[_band].spectralFlux = _calcSpectralFlux();
-            int i = 0;
         }
     }
 
@@ -100,7 +99,7 @@ public class OnsetDetector
 
             if (_obstacleBlockCounter == 0)
             {
-                if (UnityEngine.Random.Range(0, 100) > 90 && UnityEngine.Random.Range(0, 100) > 90) // TODO define obstacle spawn criteria
+                if (UnityEngine.Random.Range(0, 100) > 95 && UnityEngine.Random.Range(0, 100) > 95) // TODO define obstacle spawn criteria
                 {
                     ObstacleConfig obstacleCfg = new ObstacleConfig();
                     obstacleCfg.time = _currentSpectrumCfg.time;
@@ -164,12 +163,12 @@ public class OnsetDetector
 
                     if (_lastLeftNote != null && noteCfg.time < _lastLeftNote.time + 0.5f)
                     {
-                        int minCut = _lastLeftNote != null ? Math.Max(_lastLeftNote.cutDirection - 1, 0) : NoteConfig.CUT_DIRECTION_TOP;
-                        int maxCut = _lastLeftNote != null ? Math.Min(_lastLeftNote.cutDirection + 1, 3) : NoteConfig.CUT_DIRECTION_LEFT;
+                        int minCut = _lastLeftNote != null ? Math.Max(_lastLeftNote.cutDirection - 1, 0) : NoteConfig.CUT_DIRECTION_0;
+                        int maxCut = _lastLeftNote != null ? Math.Min(_lastLeftNote.cutDirection + 1, 3) : NoteConfig.CUT_DIRECTION_270;
                         noteCfg.cutDirection = UnityEngine.Random.Range(minCut, maxCut + 1);
                     } else
                     {
-                        noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
+                        noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_0, NoteConfig.CUT_DIRECTION_270 + 1);
                     }
                     _lastLeftNote = noteCfg;
                 } else
@@ -180,13 +179,13 @@ public class OnsetDetector
 
                     if (_lastRightNote != null && noteCfg.time < _lastRightNote.time + 0.5f)
                     {
-                        int minCut = _lastRightNote != null ? Math.Max(_lastRightNote.cutDirection - 1, 0) : NoteConfig.CUT_DIRECTION_TOP;
-                        int maxCut = _lastRightNote != null ? Math.Min(_lastRightNote.cutDirection + 1, 3) : NoteConfig.CUT_DIRECTION_LEFT;
+                        int minCut = _lastRightNote != null ? Math.Max(_lastRightNote.cutDirection - 1, 0) : NoteConfig.CUT_DIRECTION_0;
+                        int maxCut = _lastRightNote != null ? Math.Min(_lastRightNote.cutDirection + 1, 3) : NoteConfig.CUT_DIRECTION_270;
                         noteCfg.cutDirection = UnityEngine.Random.Range(minCut, maxCut + 1);
                     }
                     else
                     {
-                        noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
+                        noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_0, NoteConfig.CUT_DIRECTION_270 + 1);
                     }
                     _lastRightNote = noteCfg;
                 }

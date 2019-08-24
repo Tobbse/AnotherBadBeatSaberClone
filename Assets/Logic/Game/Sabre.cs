@@ -37,7 +37,7 @@ public class Sabre : MonoBehaviour
         int hitLayer = otheTransform.gameObject.layer;
         if (!isBlockLayer(hitLayer))
         {
-            Debug.Log("Hit object from wrong layer: " + otheTransform.name);
+            // Debug.Log("Hit object from wrong layer: " + otheTransform.name);
             return;
         }
 
@@ -51,7 +51,8 @@ public class Sabre : MonoBehaviour
         float hitAngle = Vector3.Angle(sabreAngle, blockYAxis);
         bool correctHit = false;
 
-        if (hitLayer == blockHitLayer && hitAngle > 120)
+        // TODO check if this works with the no direction blocks
+        if (hitLayer == blockHitLayer && (hitAngle > 120 || otheTransform.gameObject.name.Contains("NoDirection")))
         {
             ScoreTracker.getInstance().hit();
             Debug.Log("Correct Hit!");
