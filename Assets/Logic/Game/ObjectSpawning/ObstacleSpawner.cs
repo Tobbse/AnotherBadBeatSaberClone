@@ -5,8 +5,8 @@ using BeatMappingConfigs;
 public class ObstacleSpawner : ScriptableObject
 {
     // TODO investigate: constant travel time and distance, or dynamic based on the bpm or something?
-    public const float OBSTACLE_DISTANCE = 20f;
-    public const float OBSTACLE_TRAVEL_TIME = 2.5f;
+    public const float OBSTACLE_DISTANCE = 40;
+    public const float OBSTACLE_TRAVEL_TIME = 3.0f;
 
     private GameObject _obstacle;
     private List<ObstacleConfig> _obstacleData;
@@ -40,9 +40,9 @@ public class ObstacleSpawner : ScriptableObject
         // TODO implement properly before using this. Currently the obstacles get destroyed when colliding with the player.
         if (!GlobalStaticSettings.USE_OBSTACLES) return;
 
-        float obstacleLength = _secondsToScale(obstacleConfig.duration);
+        float obstacleLength = Mathf.Max(_secondsToScale(obstacleConfig.duration), 1f);
         Vector3 position = new Vector3(
-            OBSTACLE_DISTANCE * -1 - obstacleLength,
+            OBSTACLE_DISTANCE * -1 - obstacleLength / 2,
             3f,
             ObjectSpawnPositionProvider.getHorizontalPosition(obstacleConfig.lineIndex)
         );
@@ -50,7 +50,6 @@ public class ObstacleSpawner : ScriptableObject
         _obj = Instantiate(_obstacle, position, Quaternion.identity);
         _obj.layer = 11;
         _obj.transform.localScale = new Vector3(obstacleLength, 3.0f, obstacleConfig.width);
-
         _obj.GetComponent<Rigidbody>().velocity = new Vector3(_speed, 0, 0);
     }
 

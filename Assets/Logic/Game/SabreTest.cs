@@ -27,7 +27,7 @@ public class SabreTest : MonoBehaviour
         _cutDirectionMapping[NoteConfig.CUT_DIRECTION_135] = 135;
         _cutDirectionMapping[NoteConfig.CUT_DIRECTION_225] = 225;
         _cutDirectionMapping[NoteConfig.CUT_DIRECTION_315] = 315;
-        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_315] = -1;
+        _cutDirectionMapping[NoteConfig.CUT_DIRECTION_NONE] = -1;
 
         _blockTypeMapping[NoteConfig.NOTE_TYPE_LEFT] = leftTimedBlock;
         _blockTypeMapping[NoteConfig.NOTE_TYPE_RIGHT] = rightTimedBlock;

@@ -5,8 +5,8 @@ using BeatMappingConfigs;
 public class NoteSpawner : ScriptableObject
 {
     // TODO investigate: constant travel time and distance, or dynamic based on the bpm or something?
-    public const float BLOCK_DISTANCE = 20f;
-    public const float BLOCK_TRAVEL_TIME = 2.5f;
+    public const float BLOCK_DISTANCE = 20;
+    public const float BLOCK_TRAVEL_TIME = 1.5f;
 
     private GameObject _leftTimedBlock;
     private GameObject _rightTimedBlock;
@@ -49,32 +49,24 @@ public class NoteSpawner : ScriptableObject
         return _blocks;
     }
 
-    // TODO _timedBlockDistance could just be multiplied by the speed here, same with the speed!
     private void _handleNote(NoteConfig noteConfig)
     {
-        Debug.Log("Note time: " + noteConfig.time.ToString());
-
-        float xPos = BLOCK_DISTANCE * -1;
-        float yPos = 2.0f + ObjectSpawnPositionProvider.getVerticalPosition(noteConfig.lineLayer);
-        float zPos = ObjectSpawnPositionProvider.getHorizontalPosition(noteConfig.lineIndex);
-
-
         GameObject prefab = _blockTypeMapping[noteConfig.type];
+        Vector3 position = new Vector3(
+            BLOCK_DISTANCE * -1,
+            2.0f + ObjectSpawnPositionProvider.getVerticalPosition(noteConfig.lineLayer),
+            ObjectSpawnPositionProvider.getHorizontalPosition(noteConfig.lineIndex)
+        );
 
         int cutDirection = _cutDirectionMapping[noteConfig.cutDirection];
-        if (cutDirection == NoteConfig.CUT_DIRECTION_NONE)
+        if (cutDirection == _cutDirectionMapping[NoteConfig.CUT_DIRECTION_NONE])
         {
             prefab = prefab == _leftTimedBlock ? _leftTimedBlockNoDirection : _rightTimedBlockNoDirection;
             cutDirection = 0;
         }
 
-        _obj = Instantiate(prefab, new Vector3(xPos, yPos, zPos), Quaternion.identity);
-
-        Debug.Log("CutDirection: " + noteConfig.cutDirection.ToString());
-
-
+        _obj = Instantiate(prefab, position, Quaternion.identity);
         _obj.transform.Rotate(new Vector3(cutDirection, 0, 0));
-
         _obj.GetComponent<Rigidbody>().velocity = new Vector3(BLOCK_DISTANCE / BLOCK_TRAVEL_TIME, 0, 0);
         _blocks.Add(_obj);
     }

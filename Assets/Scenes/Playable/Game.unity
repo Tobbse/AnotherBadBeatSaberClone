@@ -1102,6 +1102,10 @@ MonoBehaviour:
     type: 3}
   rightTimedBlock: {fileID: 119281918999594524, guid: 3b57f7531020e3d4c904f587358272f1,
     type: 3}
+  leftTimedBlockNoDirection: {fileID: 119281918999594524, guid: fb134cd90b9da446887f0a9b929bb887,
+    type: 3}
+  rightTimedBlockNoDirection: {fileID: 119281918999594524, guid: 98400189f5a224977a30affe3390f04c,
+    type: 3}
   obstacle: {fileID: 939061520324276704, guid: 334bf45385941144f8f9439d2f4ef9d1, type: 3}
 --- !u!1 &292183501
 GameObject:
@@ -3006,6 +3010,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockHitLayer: 8
+  crossSectionMaterial: {fileID: 2100000, guid: ce93741e0b1ccce49878115a00d81bb3,
+    type: 2}
 --- !u!1 &1104452455
 GameObject:
   m_ObjectHideFlags: 0
@@ -3882,6 +3888,8 @@ PrefabInstance:
     - {fileID: 2015248, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
     - {fileID: 2150444625770593660, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
     - {fileID: 3516668030993374494, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+    - {fileID: 5010935951435283190, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
+    - {fileID: 3778320927562008910, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
 --- !u!1 &1501786602
 GameObject:
@@ -4984,6 +4992,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockHitLayer: 9
+  crossSectionMaterial: {fileID: 2100000, guid: ce93741e0b1ccce49878115a00d81bb3,
+    type: 2}
 --- !u!1 &2108738087
 GameObject:
   m_ObjectHideFlags: 0

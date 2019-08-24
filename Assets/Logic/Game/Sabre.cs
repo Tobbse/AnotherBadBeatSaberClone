@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using EzySlice;
 
 public class Sabre : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class Sabre : MonoBehaviour
     private void _handleHit(Transform otheTransform)
     {
         int hitLayer = otheTransform.gameObject.layer;
+        GameObject otherObject = otheTransform.gameObject;
         if (!isBlockLayer(hitLayer))
         {
             // Debug.Log("Hit object from wrong layer: " + otheTransform.name);
@@ -52,18 +54,14 @@ public class Sabre : MonoBehaviour
         bool correctHit = false;
 
         // TODO check if this works with the no direction blocks
-        if (hitLayer == blockHitLayer && (hitAngle > 120 || otheTransform.gameObject.name.Contains("NoDirection")))
+        if (hitLayer == blockHitLayer && (hitAngle > 120 || otherObject.name.Contains("NoDirection")))
         {
             ScoreTracker.getInstance().hit();
-            Debug.Log("Correct Hit!");
-            Destroy(otheTransform.gameObject);
             correctHit = true;
         }
         else
         {
             ScoreTracker.getInstance().miss();
-            Debug.Log("Incorrect Hit!");
-            Destroy(otheTransform.gameObject);
         }
 
         // TODO this is only for debugging, delete this later or do it properly.
@@ -75,6 +73,32 @@ public class Sabre : MonoBehaviour
             obj.GetComponent<TextMeshPro>().SetText(correctHit ? "CORRECT HIT" : "wrong hit");
             obj.GetComponent<TextMeshPro>().color = correctHit ? Color.green : Color.red;
         }
+
+
+
+        Vector3 pos = transform.position - otheTransform.position;
+        Vector3 direction = pos.normalized;
+
+
+        GameObject[] shatters = otherObject.SliceInstantiate(new EzySlice.Plane(pos, direction),
+            new TextureRegion(0.0f, 0.0f, 1.0f, 1.0f));
+        Destroy(otherObject);
+
+        foreach (GameObject shattered in shatters)
+        {
+            //shattered.AddComponent<MeshCollider>().convex = true;
+            shattered.AddComponent<Rigidbody>();
+            Vector3 velocity = transform.GetComponent<Rigidbody>().velocity;
+            velocity.x = velocity.x / 5;
+            velocity.y = velocity.y / 5;
+            velocity.z = velocity.z / 5;
+            shattered.GetComponent<Rigidbody>().velocity = velocity;
+            shattered.GetComponent<Rigidbody>().angularVelocity = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), Random.Range(-3, 3));
+        }
+
+        /*SlicedHull hull = otherObject.Slice(pos, direction);
+        Mesh lowerHull = hull.lowerHull;
+        Mesh upperHull = hull.upperHull;*/
     }
 
     private bool isBlockLayer(int hitLayer)

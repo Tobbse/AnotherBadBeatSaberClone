@@ -50,7 +50,7 @@ public class ScoreTracker : ScriptableObject
 
     public void miss()
     {
-        _missSound.PlayOneShot(_missSound.clip);
+        if (_missSound != null) _missSound.PlayOneShot(_missSound.clip);
 
         // For Debugging
         GameObject obj = GameObject.Find("AngleText");
@@ -84,8 +84,8 @@ public class ScoreTracker : ScriptableObject
 
     private void _setTexts()
     {
-        _comboText.text = "x" + _combo.ToString();
-        _streakText.text = _streak.ToString();
+        if (_comboText != null) _comboText.text = "x" + _combo.ToString();
+        if (_streakText != null) _streakText.text = _streak.ToString();
     }
 
     public static ScoreTracker getInstance()
