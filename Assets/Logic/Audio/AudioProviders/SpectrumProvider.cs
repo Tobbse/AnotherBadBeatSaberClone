@@ -72,7 +72,7 @@ public class SpectrumProvider
             for (int j = 0; j < bands; j++)
             {
                 BeatInfo bandData = new BeatInfo();
-                data.beatData.Add(bandData);
+                data.bandBeatData.Add(bandData);
             }
             spectrumDataList.Add(data);
         }

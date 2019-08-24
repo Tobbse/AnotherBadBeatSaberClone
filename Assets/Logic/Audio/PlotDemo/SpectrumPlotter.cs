@@ -39,7 +39,7 @@ public class SpectrumPlotter : MonoBehaviour
     {
         _spectrumDataList = spectrumDataList;
         _type = type;
-        _bands = _spectrumDataList[0].beatData.Count;
+        _bands = _spectrumDataList[0].bandBeatData.Count;
         _lastTime = Time.time;
         _isReady = true;
     }
@@ -116,7 +116,7 @@ public class SpectrumPlotter : MonoBehaviour
 
             for (int j = 0; j < _bands; j++)
             {
-                BeatInfo bandData = info.beatData[j];
+                BeatInfo bandData = info.bandBeatData[j];
 
                 Transform peak = _plotPoints[pointIndex].Find("Peak" + j.ToString());
 
@@ -142,7 +142,7 @@ public class SpectrumPlotter : MonoBehaviour
 
             for (int j = 0; j < _bands; j++)
             {
-                BeatInfo bandData = info.beatData[j];
+                BeatInfo bandData = info.bandBeatData[j];
                 bool isZero = bandData.prunedSpectralFlux == 0;
 
                 Transform pruned = _plotPoints[pointIndex].Find("Pruned" + j.ToString());
@@ -188,7 +188,7 @@ public class SpectrumPlotter : MonoBehaviour
             bandData.spectralFlux = 0.0f;
             bandData.prunedSpectralFlux = 0.0f;
             bandData.threshold = 0.0f;
-            emptyInfo.beatData.Add(bandData);
+            emptyInfo.bandBeatData.Add(bandData);
         }
         return emptyInfo;
     }

@@ -7,7 +7,7 @@ namespace AudioSpectrumInfo {
         public float time;
         public bool hasPeak;
         public List<int> peakBands = new List<int>();
-        public List<BeatInfo> beatData = new List<BeatInfo>();
+        public List<BeatInfo> bandBeatData = new List<BeatInfo>();
     }
 
     public class BeatInfo

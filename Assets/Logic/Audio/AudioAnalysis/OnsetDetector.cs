@@ -7,16 +7,15 @@ using System;
 
 public class OnsetDetector
 {
-    private const float DETECTION_MULT_BEFORE = 1.5f;
-    private const float DETECTION_MULT_AFTER = 0.5f;
-    
-    private AnalyzerBandConfig _analyzerBandConfig;
+    private AnalyzerBandConfig _currentBandCfg;
     private List<AnalyzedSpectrumConfig> _spectrumConfigs;
+    private List<AnalyzerBandConfig> _bandConfigs;
     private AnalyzedSpectrumConfig _currentSpectrumCfg;
     private MappingContainer _beatMappingContainer;
     private BeatInfo _currentBeatInfo;
-    private float[] _currentSpectrum;
-    private float[] _previousSpectrum;
+    private ObstacleConfig _lastObstacle;
+    private Dictionary<int, float[]> _currentBandSpectrums;
+    private Dictionary<int, float[]> _previousBandSpectrums;
     private int _band;
     private int _beatBlockCounter;
     private int _obstacleBlockCounter;
@@ -26,20 +25,23 @@ public class OnsetDetector
     private float _lastTime;
     private float _timerPerSpectrum;
     private int _sampleRate;
+    private NoteConfig _lastLeftNote;
+    private NoteConfig _lastRightNote;
 
-    public OnsetDetector(AnalyzerBandConfig beatConfig, List<AnalyzedSpectrumConfig> spectrumConfigs, TrackConfig config, MappingContainer beatMappingContainer)
+    public OnsetDetector(List<AnalyzerBandConfig> bandConfigs, List<AnalyzedSpectrumConfig> spectrumConfigs, TrackConfig config, MappingContainer beatMappingContainer)
     {
-        _analyzerBandConfig = beatConfig;
+        _bandConfigs = bandConfigs;
         _spectrumConfigs = spectrumConfigs;
         _beatMappingContainer = beatMappingContainer;
         _sampleRate = config.ClipSampleRate;
 
-        _currentSpectrum = new float[SpectrumProvider.NUM_BINS];
-        _previousSpectrum = new float[SpectrumProvider.NUM_BINS];
-
-        _minIndex = beatConfig.thresholdSize;
-        _maxIndex = _spectrumConfigs.Count - 1;
-        _band = _analyzerBandConfig.band;
+        _currentBandSpectrums = new Dictionary<int, float[]>();
+        _previousBandSpectrums = new Dictionary<int, float[]>();
+        for (int i = 0; i < _bandConfigs.Count; i++)
+        {
+            _currentBandSpectrums[i] = new float[SpectrumProvider.NUM_BINS];
+            _previousBandSpectrums[i] = new float[SpectrumProvider.NUM_BINS];
+        }
 
         float timePerSample = 1f / _sampleRate;
         _timerPerSpectrum = timePerSample * SpectrumProvider.SAMPLE_SIZE;
@@ -50,14 +52,13 @@ public class OnsetDetector
         // Preparing flux values.
         for (int i = 0; i <= _maxIndex; i++)
         {
-            _setCurrentSpectrum(i);
-            _currentSpectrumCfg.beatData[_band].spectralFlux = _calcSpectralFlux();
+            _prepareFluxValues(i);
         }
 
         // Calculating threshold, peaks and onsets.
-        for (int i = 0; i <= _maxIndex; i++)
+        for (int j = 0; j <= _maxIndex; j++)
         {
-            analyzeNextSpectrum();
+            _analyzeNextSpectrum();
         }
     }
 
@@ -71,7 +72,17 @@ public class OnsetDetector
         return _beatMappingContainer;
     }
 
-    private void analyzeNextSpectrum()
+    private void _prepareFluxValues(int index)
+    {
+        for (int band = 0; band < _bandConfigs.Count; band++)
+        {
+            _setCurrentSpectrum(index, band);
+            _currentSpectrumCfg.bandBeatData[_band].spectralFlux = _calcSpectralFlux();
+            int i = 0;
+        }
+    }
+
+    private void _analyzeNextSpectrum()
     {
         if (_index < _minIndex)
         {
@@ -79,93 +90,138 @@ public class OnsetDetector
             return;
         }
 
-        _setCurrentSpectrum(_index);
-
-        _currentBeatInfo.threshold = _getFluxThreshold();
-        _currentBeatInfo.prunedSpectralFlux = _getPrunedSpectralFlux();
-
-        if (_obstacleBlockCounter > 0)
+        // Loop over the defined frequency bands.
+        for (int i = 0; i < _bandConfigs.Count; i++)
         {
-            _obstacleBlockCounter--;
-        } else
-        {
-            if (UnityEngine.Random.Range(0, 100) > 90 && UnityEngine.Random.Range(0, 100) > 90) // TODO define obstacle spawn criteria
+            _setCurrentSpectrum(_index, i);
+
+            _currentBeatInfo.threshold = _getFluxThreshold();
+            _currentBeatInfo.prunedSpectralFlux = _getPrunedSpectralFlux();
+
+            if (_obstacleBlockCounter == 0)
             {
-                ObstacleConfig obstacleCfg = new ObstacleConfig();
-                obstacleCfg.time = _currentSpectrumCfg.time;
-                if (_band == 0)
+                if (UnityEngine.Random.Range(0, 100) > 90 && UnityEngine.Random.Range(0, 100) > 90) // TODO define obstacle spawn criteria
                 {
-                    obstacleCfg.lineIndex = 0;
+                    ObstacleConfig obstacleCfg = new ObstacleConfig();
+                    obstacleCfg.time = _currentSpectrumCfg.time;
+                    obstacleCfg.type = UnityEngine.Random.Range(0, 3 + 1);
+                    obstacleCfg.width = UnityEngine.Random.Range(2, 4) * 0.3f;
+                    obstacleCfg.duration = UnityEngine.Random.Range(15, 35 + 1) * 0.05f;
+
+                    if (_band == 0) obstacleCfg.lineIndex = 0;
+                    else obstacleCfg.lineIndex = 3;
+
+                    _beatMappingContainer.obstacleData.Add(obstacleCfg);
+                    _obstacleBlockCounter = getNumIndicesFromSeconds(obstacleCfg.duration);
+                    _lastObstacle = obstacleCfg;
+                }
+            }
+            
+            if (_beatBlockCounter == 0 && _isPeak())
+            {
+                //_beatBlockCounter = _currentBandCfg.beatBlockCounter;
+                _beatBlockCounter = 20;
+
+                _currentSpectrumCfg.hasPeak = true;
+                _currentSpectrumCfg.bandBeatData[_band].isPeak = true;
+                _currentSpectrumCfg.peakBands.Add(_band);
+
+                if (UnityEngine.Random.Range(0, 100) > 50)
+                {
+                    EventConfig eventCfg = new EventConfig();
+                    eventCfg.time = _currentSpectrumCfg.time;
+                    eventCfg.type = UnityEngine.Random.Range(0, 3);
+                    eventCfg.value = UnityEngine.Random.Range(0, 3);
+                    _beatMappingContainer.eventData.Add(eventCfg);
+                }
+                NoteConfig noteCfg = new NoteConfig();
+                noteCfg.time = _currentSpectrumCfg.time;
+                noteCfg.type = _band == 0 ? NoteConfig.NOTE_TYPE_LEFT : NoteConfig.NOTE_TYPE_RIGHT;
+                noteCfg.lineLayer = UnityEngine.Random.Range(NoteConfig.LINE_LAYER_0, NoteConfig.LINE_LAYER_3 + 1);
+
+                int lineIndex;
+                if (_obstacleBlockCounter > 0)
+                {
+                    if (noteCfg.type == NoteConfig.NOTE_TYPE_LEFT)
+                    {
+                        lineIndex = _lastObstacle.lineIndex < 2 ? NoteConfig.LINE_LAYER_2 : NoteConfig.LINE_LAYER_0;
+                    } else
+                    {
+                        lineIndex = _lastObstacle.lineIndex < 2 ? NoteConfig.LINE_LAYER_3 : NoteConfig.LINE_LAYER_1;
+                    }
                 } else
                 {
-                    obstacleCfg.lineIndex = 3;
+                    lineIndex = noteCfg.type == NoteConfig.NOTE_TYPE_LEFT ? UnityEngine.Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_1 + 1) : UnityEngine.Random.Range(NoteConfig.LINE_INDEX_2, NoteConfig.LINE_INDEX_3 + 1);
+                }
+                noteCfg.lineIndex = lineIndex;
+
+
+                if (noteCfg.type == NoteConfig.NOTE_TYPE_LEFT)
+                {
+                    int min = _lastLeftNote != null ? Math.Max(_lastLeftNote.lineLayer - 1, 0) : NoteConfig.LINE_LAYER_0;
+                    int max = _lastLeftNote != null ? Math.Min(_lastLeftNote.lineLayer + 1, 3) : NoteConfig.LINE_LAYER_3;
+                    noteCfg.lineLayer = UnityEngine.Random.Range(min, max + 1);
+
+                    if (_lastLeftNote != null && noteCfg.time < _lastLeftNote.time + 0.5f)
+                    {
+                        int minCut = _lastLeftNote != null ? Math.Max(_lastLeftNote.cutDirection - 1, 0) : NoteConfig.CUT_DIRECTION_TOP;
+                        int maxCut = _lastLeftNote != null ? Math.Min(_lastLeftNote.cutDirection + 1, 3) : NoteConfig.CUT_DIRECTION_LEFT;
+                        noteCfg.cutDirection = UnityEngine.Random.Range(minCut, maxCut + 1);
+                    } else
+                    {
+                        noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
+                    }
+                    _lastLeftNote = noteCfg;
+                } else
+                {
+                    int min = _lastRightNote != null ? Math.Max(_lastRightNote.lineLayer - 1, 0) : NoteConfig.LINE_LAYER_0;
+                    int max = _lastRightNote != null ? Math.Min(_lastRightNote.lineLayer + 1, 3) : NoteConfig.LINE_LAYER_3;
+                    noteCfg.lineLayer = UnityEngine.Random.Range(min, max + 1);
+
+                    if (_lastRightNote != null && noteCfg.time < _lastRightNote.time + 0.5f)
+                    {
+                        int minCut = _lastRightNote != null ? Math.Max(_lastRightNote.cutDirection - 1, 0) : NoteConfig.CUT_DIRECTION_TOP;
+                        int maxCut = _lastRightNote != null ? Math.Min(_lastRightNote.cutDirection + 1, 3) : NoteConfig.CUT_DIRECTION_LEFT;
+                        noteCfg.cutDirection = UnityEngine.Random.Range(minCut, maxCut + 1);
+                    }
+                    else
+                    {
+                        noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
+                    }
+                    _lastRightNote = noteCfg;
                 }
                 
-                obstacleCfg.type = UnityEngine.Random.Range(0, 3 + 1);
-                obstacleCfg.width = UnityEngine.Random.Range(2, 4) * 0.3f;
-                obstacleCfg.duration = UnityEngine.Random.Range(15, 35 + 1) * 0.05f;
-
-                _beatMappingContainer.obstacleData.Add(obstacleCfg);
-                _obstacleBlockCounter = getNumIndicesFromSeconds(obstacleCfg.duration + 2);
-                int y = 0;
+                _beatMappingContainer.noteData.Add(noteCfg);
             }
         }
+        if (_obstacleBlockCounter > 0) _obstacleBlockCounter--;
+        if (_beatBlockCounter > 0) _beatBlockCounter--;
 
-        if (_beatBlockCounter > 0)
-        {
-            _beatBlockCounter--;
-        }
-        else if (_isPeak())
-        {
-            _beatBlockCounter = _analyzerBandConfig.beatBlockCounter;
-            _currentSpectrumCfg.hasPeak = true;
-            _currentSpectrumCfg.beatData[_band].isPeak = true;
-            _currentSpectrumCfg.peakBands.Add(_band);
-
-            if (UnityEngine.Random.Range(0, 100) > 50) {
-                EventConfig eventCfg = new EventConfig();
-                eventCfg.time = _currentSpectrumCfg.time;
-                eventCfg.type = UnityEngine.Random.Range(0, 3);
-                eventCfg.value = UnityEngine.Random.Range(0, 3);
-                _beatMappingContainer.eventData.Add(eventCfg);
-            }
-            NoteConfig noteCfg = new NoteConfig();
-            noteCfg.time = _currentSpectrumCfg.time;
-            noteCfg.type = UnityEngine.Random.Range(NoteConfig.NOTE_TYPE_LEFT, NoteConfig.NOTE_TYPE_RIGHT + 1);
-            noteCfg.lineIndex = noteCfg.type == NoteConfig.NOTE_TYPE_LEFT ? UnityEngine.Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_1 + 1) : UnityEngine.Random.Range(NoteConfig.LINE_INDEX_2, NoteConfig.LINE_INDEX_3 + 1);
-
-            if (_band == 0)
-            {
-                noteCfg.lineLayer = UnityEngine.Random.Range(NoteConfig.LINE_LAYER_0, NoteConfig.LINE_LAYER_1 + 1);
-            }
-            if (_band == 1)
-            {
-                noteCfg.lineLayer = UnityEngine.Random.Range(NoteConfig.LINE_LAYER_2, NoteConfig.LINE_LAYER_3 + 1);
-            }
-            noteCfg.cutDirection = UnityEngine.Random.Range(NoteConfig.CUT_DIRECTION_TOP, NoteConfig.CUT_DIRECTION_LEFT + 1);
-            _beatMappingContainer.noteData.Add(noteCfg);
-        }
         _index++;
     }
 
-    private void _setCurrentSpectrum(int index)
+    private void _setCurrentSpectrum(int index, int band)
     {
+        _band = band;
+        _currentBandCfg = _bandConfigs[_band];
+        _minIndex = _currentBandCfg.thresholdSize;
+        _maxIndex = _spectrumConfigs.Count - 1;
         _currentSpectrumCfg = _spectrumConfigs[index];
-        _currentSpectrum.CopyTo(_previousSpectrum, 0);
-        _currentSpectrumCfg.spectrum.CopyTo(_currentSpectrum, 0);
-        _currentBeatInfo = _currentSpectrumCfg.beatData[_band];
+        _currentBandSpectrums[_band].CopyTo(_previousBandSpectrums[_band], 0);
+        _currentSpectrumCfg.spectrum.CopyTo(_currentBandSpectrums[_band], 0);
+        _currentBeatInfo = _currentSpectrumCfg.bandBeatData[_band];
     }
 
     // Calculates the rectified spectral flux. Aggregates positive changes in spectrum data
     private float _calcSpectralFlux()
     {
         float flux = 0f;
-        int firstBin = _analyzerBandConfig.startIndex;
-        int secondBin = _analyzerBandConfig.endIndex;
+        int firstBin = _currentBandCfg.startIndex;
+        int secondBin = _currentBandCfg.endIndex;
 
         for (int i = firstBin; i <= secondBin; i++)
         {
-            flux += Mathf.Max(0f, _currentSpectrum[i] - _previousSpectrum[i]);
+            flux += Mathf.Max(0f, _currentBandSpectrums[_band][i] - _previousBandSpectrums[_band][i]);
         }
         return flux;
     }
@@ -173,17 +229,17 @@ public class OnsetDetector
     private float _getFluxThreshold()
     {
         int start = Mathf.Max(0, _minIndex); // Amount of past and future samples for the average
-        int end = Mathf.Min(_maxIndex, _index + _analyzerBandConfig.thresholdSize / 2);
+        int end = Mathf.Min(_maxIndex, _index + _currentBandCfg.thresholdSize / 2);
 
         float threshold = 0.0f;
         for (int i = start; i <= end; i++)
         {
-            threshold += _spectrumConfigs[i].beatData[_band].spectralFlux; // Add spectral flux over the window
+            threshold += _spectrumConfigs[i].bandBeatData[_band].spectralFlux; // Add spectral flux over the window
         }
 
         // Threshold is average flux multiplied by sensitivity constant.
         threshold /= (float)(end - start);
-        return threshold * _analyzerBandConfig.tresholdMult;
+        return threshold * _currentBandCfg.tresholdMult;
     }
 
     // Pruned Spectral Flux is 0 when the threshhold has not been reached.
@@ -195,8 +251,8 @@ public class OnsetDetector
     // TODO this could be optimized. Does it make sense to use pruned flux? Change multiplier level?
     private bool _isPeak()
     {
-        const int LEFT_WINDOW_SIZE = 10;
-        const int RIGHT_WINDOW_SIZE = 5;
+        const int LEFT_WINDOW_SIZE = 20;
+        const int RIGHT_WINDOW_SIZE = 10;
 
         if (_index - LEFT_WINDOW_SIZE < _minIndex || _index + RIGHT_WINDOW_SIZE > _maxIndex)
         {
@@ -207,7 +263,7 @@ public class OnsetDetector
         float currentPrunedFlux = _currentBeatInfo.prunedSpectralFlux;
         for (int i = _index - LEFT_WINDOW_SIZE; i <= _index + RIGHT_WINDOW_SIZE; i++)
         {
-            if (currentPrunedFlux < _spectrumConfigs[i].beatData[_band].prunedSpectralFlux)
+            if (currentPrunedFlux < _spectrumConfigs[i].bandBeatData[_band].prunedSpectralFlux)
             {
                 return false;
             }

@@ -34,13 +34,9 @@ namespace PAudioAnalyzer
         {
             List<AnalyzerBandConfig> beatConfigs = _trackConfig.AnalyzerConfigs;
 
-            // Loop over the defined frequency bands.
-            for (int i = 0; i < beatConfigs.Count; i++)
-            {
-                OnsetDetector beatDetector = new OnsetDetector(beatConfigs[i], _analyzedSpectrumConfigs, _trackConfig, _beatMappingContainer);
-                beatDetector.analyze();
-                _analyzedSpectrumConfigs = beatDetector.getSpectrumDataList();
-            }
+            OnsetDetector beatDetector = new OnsetDetector(beatConfigs, _analyzedSpectrumConfigs, _trackConfig, _beatMappingContainer);
+            beatDetector.analyze();
+            _analyzedSpectrumConfigs = beatDetector.getSpectrumDataList();
             callback();
         }
     }
