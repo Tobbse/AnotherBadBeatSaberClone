@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class PPostAudioAnalyzer
 {
-    private List<AnalyzedSpectrumData>  _spectrumDataList;
+    private List<AnalyzedSpectrumConfig>  _spectrumDataList;
 
-    public PPostAudioAnalyzer(List<AnalyzedSpectrumData> spectrumDataList)
+    public PPostAudioAnalyzer(List<AnalyzedSpectrumConfig> spectrumDataList)
     {
         _spectrumDataList = spectrumDataList;
     }

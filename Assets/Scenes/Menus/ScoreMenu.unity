@@ -895,7 +895,7 @@ MonoBehaviour:
   dimOnHideRequest: 1
   depthScaleMultiplier: 0.03
   matchNormalOnPhysicsColliders: 0
-  rayTransform: {fileID: 0}
+  rayTransform: {fileID: 2134673379}
 --- !u!1 &1408789393
 GameObject:
   m_ObjectHideFlags: 0

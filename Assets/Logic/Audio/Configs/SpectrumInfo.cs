@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace AudioSpectrumInfo {
-    public class AnalyzedSpectrumData
+    public class AnalyzedSpectrumConfig
     {
         public float[] spectrum;
         public float time;

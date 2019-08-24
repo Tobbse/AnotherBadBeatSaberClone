@@ -12,7 +12,7 @@ public class SabreTest : MonoBehaviour
 
     private void Awake()
     {
-        ScoreTracker.Instance = new ScoreTracker(1);
+        ScoreTracker.getInstance().NumBeats = 1;
         GlobalStaticSettings.OVERRIDE_BLOCK_DESPAWN = true;
         GlobalStaticSettings.USE_SABRE_DEBUG_RAYS = true;
     }

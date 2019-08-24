@@ -13,7 +13,7 @@ public class SpectrumPlotter : MonoBehaviour
 
     private const int DISPLAY_WINDOW_SIZE = 300;
 
-    private List<AnalyzedSpectrumData> _spectrumDataList;
+    private List<AnalyzedSpectrumConfig> _spectrumDataList;
     private List<Transform> _plotPoints;
     private bool _isReady = false;
     private float _lastTime;
@@ -35,7 +35,7 @@ public class SpectrumPlotter : MonoBehaviour
         }
     }
 
-    public void setDataAndStart(List<AnalyzedSpectrumData> spectrumDataList, string type)
+    public void setDataAndStart(List<AnalyzedSpectrumConfig> spectrumDataList, string type)
     {
         _spectrumDataList = spectrumDataList;
         _type = type;
@@ -112,7 +112,7 @@ public class SpectrumPlotter : MonoBehaviour
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
         {
-            AnalyzedSpectrumData info = _getInfo(pointIndex);
+            AnalyzedSpectrumConfig info = _getInfo(pointIndex);
 
             for (int j = 0; j < _bands; j++)
             {
@@ -138,7 +138,7 @@ public class SpectrumPlotter : MonoBehaviour
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
         {
-            AnalyzedSpectrumData info = _getInfo(pointIndex);
+            AnalyzedSpectrumConfig info = _getInfo(pointIndex);
 
             for (int j = 0; j < _bands; j++)
             {
@@ -167,17 +167,17 @@ public class SpectrumPlotter : MonoBehaviour
         return _spectrumIndex > (_spectrumDataList.Count - 1 - DISPLAY_WINDOW_SIZE);
     }
 
-    private AnalyzedSpectrumData _getInfo(int pointIndex)
+    private AnalyzedSpectrumConfig _getInfo(int pointIndex)
     {
         int pointDataIndex = _spectrumIndex + pointIndex;
         bool isOutOfBounds = pointDataIndex > _spectrumDataList.Count - 1;
-        AnalyzedSpectrumData info = isOutOfBounds ? _getEmptySpectrumInfo() : _spectrumDataList[pointDataIndex];
+        AnalyzedSpectrumConfig info = isOutOfBounds ? _getEmptySpectrumInfo() : _spectrumDataList[pointDataIndex];
         return info;
     }
 
-    private AnalyzedSpectrumData _getEmptySpectrumInfo()
+    private AnalyzedSpectrumConfig _getEmptySpectrumInfo()
     {
-        AnalyzedSpectrumData emptyInfo = new AnalyzedSpectrumData();
+        AnalyzedSpectrumConfig emptyInfo = new AnalyzedSpectrumConfig();
         emptyInfo.hasPeak = false;
 
         for (int i = 0; i < _bands; i++)

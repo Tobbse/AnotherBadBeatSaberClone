@@ -17,7 +17,7 @@ public class Obstacle : MonoBehaviour
     private void Update()
     {
         if (_playerTrackingSpace.bounds.Intersects(_collider.bounds)) {
-            PlayerData.Instance.takeDamage(DAMAGE_POINTS);
+            PlayerData.getInstance().takeDamage(DAMAGE_POINTS);
         }
     }
 }

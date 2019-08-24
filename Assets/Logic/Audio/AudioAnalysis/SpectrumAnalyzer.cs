@@ -8,23 +8,21 @@ namespace PAudioAnalyzer
 {
     public class SpectrumAnalyzer
     {
-        private List<AnalyzedSpectrumData> _analyzedSpectrumData;
-        private List<double[]> _spectrumData;
+        private List<AnalyzedSpectrumConfig> _analyzedSpectrumConfigs;
         private TrackConfig _trackConfig;
         private PPostAudioAnalyzer _postAudioAnalyzer;
         private MappingContainer _beatMappingContainer;
 
-        public SpectrumAnalyzer(List<double[]> spectrumsList, TrackConfig trackConfig, List<AnalyzedSpectrumData> spectrumDataList, MappingContainer beatMappingContainer)
+        public SpectrumAnalyzer(TrackConfig trackConfig, List<AnalyzedSpectrumConfig> spectrumDataList, MappingContainer beatMappingContainer)
         {
-            _spectrumData = spectrumsList;
             _trackConfig = trackConfig;
-            _analyzedSpectrumData = spectrumDataList;
+            _analyzedSpectrumConfigs = spectrumDataList;
             _beatMappingContainer = beatMappingContainer;
         }
 
-        public List<AnalyzedSpectrumData> getAnalyzedSpectrumData()
+        public List<AnalyzedSpectrumConfig> getAnalyzedSpectrumData()
         {
-            return _analyzedSpectrumData;
+            return _analyzedSpectrumConfigs;
         }
 
         public MappingContainer getBeatMappingContainer()
@@ -39,21 +37,9 @@ namespace PAudioAnalyzer
             // Loop over the defined frequency bands.
             for (int i = 0; i < beatConfigs.Count; i++)
             {
-                OnsetDetector beatDetector = new OnsetDetector(beatConfigs[i], _analyzedSpectrumData, _trackConfig, _beatMappingContainer);
-
-                // Loop over the spectrums to get spectral flux.
-                for (int j = 0; j < _spectrumData.Count; j++)
-                {
-                    beatDetector.getNextFluxValue();
-                }
-                beatDetector.resetIndex();
-
-                // Analyze spectrums by looping over the flux values to get the threshold.
-                for (int z = 0; z < _spectrumData.Count; z++)
-                {
-                    beatDetector.analyzeNextSpectrum();
-                }
-                _analyzedSpectrumData = beatDetector.getSpectrumDataList();
+                OnsetDetector beatDetector = new OnsetDetector(beatConfigs[i], _analyzedSpectrumConfigs, _trackConfig, _beatMappingContainer);
+                beatDetector.analyze();
+                _analyzedSpectrumConfigs = beatDetector.getSpectrumDataList();
             }
             callback();
         }

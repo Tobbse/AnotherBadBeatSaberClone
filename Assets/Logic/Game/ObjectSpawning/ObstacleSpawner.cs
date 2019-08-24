@@ -12,7 +12,6 @@ public class ObstacleSpawner : ScriptableObject
     private List<ObstacleConfig> _obstacleData;
     private GameObject _obj;
     private ObstacleConfig _cfg;
-    private float _obstacleTime;
 
     public ObstacleSpawner(List<ObstacleConfig> obstacleData, GameObject obstacle)
     {
@@ -22,12 +21,10 @@ public class ObstacleSpawner : ScriptableObject
 
     public void checkBlocksSpawnable(float timePassed)
     {
-        _obstacleTime = timePassed - OBSTACLE_TRAVEL_TIME;
-
         while (_obstacleData.Count > 0)
         {
             _cfg = _obstacleData[0];
-            if (_cfg.time <= _obstacleTime)
+            if (_cfg.time <= timePassed)
             {
                 _handleObstacle(_cfg);
                 _obstacleData.RemoveAt(0);
@@ -44,7 +41,7 @@ public class ObstacleSpawner : ScriptableObject
         float length = _durationToWidth(obstacleConfig.duration);
         float xPos = (OBSTACLE_DISTANCE * -1) - (length / 2);
         float yPos = 0;
-        float zPos = ObjectSpawnPositioner.getHorizontalPosition(obstacleConfig.lineIndex);
+        float zPos = ObjectSpawnPositionProvider.getHorizontalPosition(obstacleConfig.lineIndex);
 
         _obj = Instantiate(_obstacle, new Vector3(xPos, yPos, zPos), Quaternion.identity);
         _obj.layer = 11;

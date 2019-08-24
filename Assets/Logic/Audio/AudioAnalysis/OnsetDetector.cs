@@ -10,61 +10,75 @@ public class OnsetDetector
     private const float DETECTION_MULT_AFTER = 0.5f;
     
     private AnalyzerBandConfig _analyzerBandConfig;
-    private List<AnalyzedSpectrumData> _analyzedSpectrumData;
+    private List<AnalyzedSpectrumConfig> _spectrumConfigs;
+    private AnalyzedSpectrumConfig _currentSpectrumCfg;
     private MappingContainer _beatMappingContainer;
+    private BeatInfo _currentBeatInfo;
     private float[] _currentSpectrum;
     private float[] _previousSpectrum;
-    private float _timePerSpectrum;
-    private int _thresholdSize;
     private int _band;
-    private int _processed;
-    private int _clipSampleRate;
     private int _beatBlockCounter;
     private int _index;
-    private int _beatCounter;
     private int _maxIndex;
     private int _minIndex;
     private float _lastTime;
 
-    public OnsetDetector(AnalyzerBandConfig beatConfig, List<AnalyzedSpectrumData> spectrumData, TrackConfig config, MappingContainer beatMappingContainer)
+    public OnsetDetector(AnalyzerBandConfig beatConfig, List<AnalyzedSpectrumConfig> spectrumConfigs, TrackConfig config, MappingContainer beatMappingContainer)
     {
         _analyzerBandConfig = beatConfig;
-        _analyzedSpectrumData = spectrumData;
+        _spectrumConfigs = spectrumConfigs;
         _band = _analyzerBandConfig.band;
-        _clipSampleRate = config.ClipSampleRate;
-        _thresholdSize = beatConfig.thresholdSize;
 
         _currentSpectrum = new float[SpectrumProvider.NUM_BINS];
         _previousSpectrum = new float[SpectrumProvider.NUM_BINS];
-        _beatCounter = 0;
 
         _beatMappingContainer = beatMappingContainer;
 
-        float timePerSample = 1f / _clipSampleRate;
-        _timePerSpectrum = timePerSample * SpectrumProvider.SAMPLE_SIZE;
+        /*float timePerSample = 1f / config.ClipSampleRate;
+        _timePerSpectrum = timePerSample * SpectrumProvider.SAMPLE_SIZE;*/
 
-        _minIndex = _thresholdSize / 2;
-        _maxIndex = _analyzedSpectrumData.Count - 1 - (_thresholdSize / 2);
+        _minIndex = beatConfig.thresholdSize;
+        _maxIndex = _spectrumConfigs.Count - 1;
     }
 
-    public void resetIndex()
+    public void analyze()
     {
-        _index = 0;
+        // Preparing flux values.
+        for (int i = 0; i <= _maxIndex; i++)
+        {
+            _setCurrentSpectrum(i);
+            _currentSpectrumCfg.beatData[_band].spectralFlux = _calcSpectralFlux();
+        }
+
+        // Calculating threshold, peaks and onsets.
+        for (int i = 0; i <= _maxIndex; i++)
+        {
+            analyzeNextSpectrum();
+        }
     }
 
-    public void getNextFluxValue()
+    public List<AnalyzedSpectrumConfig> getSpectrumDataList()
     {
-        _setCurrentSpectrum(_analyzedSpectrumData[_index].spectrum);
-        _analyzedSpectrumData[_index].beatData[_band].spectralFlux = _calcSpectralFlux();
-        _index++;
+        return _spectrumConfigs;
     }
 
-    public void analyzeNextSpectrum()
+    public MappingContainer getBeatMappingContainer()
     {
-        _setCurrentSpectrum(_analyzedSpectrumData[_index].spectrum);
+        return _beatMappingContainer;
+    }
 
-        _analyzedSpectrumData[_index].beatData[_band].threshold = _getFluxThreshold();
-        _analyzedSpectrumData[_index].beatData[_band].prunedSpectralFlux = _getPrunedSpectralFlux();
+    private void analyzeNextSpectrum()
+    {
+        if (_index < _minIndex)
+        {
+            _index++;
+            return;
+        }
+
+        _setCurrentSpectrum(_index);
+
+        _currentBeatInfo.threshold = _getFluxThreshold();
+        _currentBeatInfo.prunedSpectralFlux = _getPrunedSpectralFlux();
 
         if (_beatBlockCounter > 0)
         {
@@ -73,29 +87,19 @@ public class OnsetDetector
         else if (_isPeak())
         {
             _beatBlockCounter = _analyzerBandConfig.beatBlockCounter;
-            _analyzedSpectrumData[_index].hasPeak = true;
-            _analyzedSpectrumData[_index].beatData[_band].isPeak = true;
-            _analyzedSpectrumData[_index].peakBands.Add(_band);
-
-            float time = _analyzedSpectrumData[_index].time;
-
-            // FOR DEBUGGING
-            if (_lastTime != 0 && _lastTime == time)
-            {
-                Debug.Log("Same time: " + time.ToString());
-            }
-            Debug.Log("Block time: " + time.ToString());
-
+            _currentSpectrumCfg.hasPeak = true;
+            _currentSpectrumCfg.beatData[_band].isPeak = true;
+            _currentSpectrumCfg.peakBands.Add(_band);
 
             if (Random.Range(0, 100) > 50) {
                 EventConfig eventCfg = new EventConfig();
-                eventCfg.time = time;
+                eventCfg.time = _currentSpectrumCfg.time;
                 eventCfg.type = Random.Range(0, 3);
                 eventCfg.value = Random.Range(0, 3);
                 _beatMappingContainer.eventData.Add(eventCfg);
             }
             NoteConfig noteCfg = new NoteConfig();
-            noteCfg.time = time;
+            noteCfg.time = _currentSpectrumCfg.time;
             noteCfg.type = Random.Range(NoteConfig.NOTE_TYPE_LEFT, NoteConfig.NOTE_TYPE_RIGHT + 1);
             noteCfg.lineIndex = noteCfg.type == NoteConfig.NOTE_TYPE_LEFT ? Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_1 + 1) : Random.Range(NoteConfig.LINE_INDEX_2, NoteConfig.LINE_INDEX_3 + 1);
 
@@ -113,7 +117,7 @@ public class OnsetDetector
             if (Random.Range(0, 100) > 95)
             {
                 ObstacleConfig obstacleCfg = new ObstacleConfig();
-                obstacleCfg.time = time;
+                obstacleCfg.time = _currentSpectrumCfg.time;
                 obstacleCfg.lineIndex = Random.Range(0, 3);
                 obstacleCfg.type = Random.Range(0, 3);
                 obstacleCfg.width = Random.Range(1, 3) * 0.5f;
@@ -124,20 +128,12 @@ public class OnsetDetector
         _index++;
     }
 
-    public List<AnalyzedSpectrumData> getSpectrumDataList()
+    private void _setCurrentSpectrum(int index)
     {
-        return _analyzedSpectrumData;
-    }
-
-    public MappingContainer getBeatMappingContainer()
-    {
-        return _beatMappingContainer;
-    }
-
-    private void _setCurrentSpectrum(float[] spectrum)
-    {
+        _currentSpectrumCfg = _spectrumConfigs[index];
         _currentSpectrum.CopyTo(_previousSpectrum, 0);
-        spectrum.CopyTo(_currentSpectrum, 0);
+        _currentSpectrumCfg.spectrum.CopyTo(_currentSpectrum, 0);
+        _currentBeatInfo = _currentSpectrumCfg.beatData[_band];
     }
 
     // Calculates the rectified spectral flux. Aggregates positive changes in spectrum data
@@ -156,13 +152,13 @@ public class OnsetDetector
 
     private float _getFluxThreshold()
     {
-        int start = Mathf.Max(0, _index - _analyzerBandConfig.thresholdSize / 2); // Amount of past and future samples for the average
-        int end = Mathf.Min(_analyzedSpectrumData.Count - 1, _index + _analyzerBandConfig.thresholdSize / 2);
+        int start = Mathf.Max(0, _minIndex); // Amount of past and future samples for the average
+        int end = Mathf.Min(_maxIndex, _index + _analyzerBandConfig.thresholdSize / 2);
 
         float threshold = 0.0f;
         for (int i = start; i <= end; i++)
         {
-            threshold += _analyzedSpectrumData[i].beatData[_band].spectralFlux; // Add spectral flux over the window
+            threshold += _spectrumConfigs[i].beatData[_band].spectralFlux; // Add spectral flux over the window
         }
 
         // Threshold is average flux multiplied by sensitivity constant.
@@ -173,24 +169,28 @@ public class OnsetDetector
     // Pruned Spectral Flux is 0 when the threshhold has not been reached.
     private float _getPrunedSpectralFlux() 
     {
-        return Mathf.Max(0f, _analyzedSpectrumData[_index].beatData[_band].spectralFlux - _analyzedSpectrumData[_index].beatData[_band].threshold);
+        return Mathf.Max(0f, _currentBeatInfo.spectralFlux - _currentBeatInfo.threshold);
     }
 
     // TODO this could be optimized. Does it make sense to use pruned flux? Change multiplier level?
     private bool _isPeak()
     {
-        if (_index < 1 || _index >= _analyzedSpectrumData.Count - 1)
+        const int HALF_WINDOW_SIZE = 5;
+        if (_index + HALF_WINDOW_SIZE > _maxIndex || _index - HALF_WINDOW_SIZE < _minIndex)
         {
             return false;
         }
 
-        float previousPruned = _analyzedSpectrumData[_index - 1].beatData[_band].prunedSpectralFlux;
-        float currentPruned = _analyzedSpectrumData[_index].beatData[_band].prunedSpectralFlux;
-        float nextPruned = _analyzedSpectrumData[_index + 1].beatData[_band].prunedSpectralFlux;
-
-        // TÒDO figure out what is best here.
-        //return currentPruned > previousPruned;
-        //return currentPruned > nextPruned;
-        return currentPruned > previousPruned && currentPruned > nextPruned; // Assumption: When it is > the last && > the next, we have a peak.
+        // Assumption: When the current pruned value is > the last && > the next, we have a peak.
+        float currentPrunedFlux = _currentBeatInfo.prunedSpectralFlux;
+        for (int i = _index - HALF_WINDOW_SIZE; i <= _index + HALF_WINDOW_SIZE; i++)
+        {
+            if (currentPrunedFlux < _spectrumConfigs[i].beatData[_band].prunedSpectralFlux)
+            {
+                return false;
+            }
+        }
+        return true;
     }
+
 }

@@ -17,7 +17,7 @@ public class TimedBlock : MonoBehaviour
 
     public void missBlock()
     {
-        ScoreTracker.Instance.miss();
+        ScoreTracker.getInstance().miss();
         Destroy(gameObject);
     }
 }

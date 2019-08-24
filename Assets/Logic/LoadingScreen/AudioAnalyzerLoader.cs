@@ -13,9 +13,8 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
     private TrackConfig _trackConfig;
     private SpectrumAnalyzer _spectrumAnalyzer;
-    private List<AnalyzedSpectrumData> _spectrumDataList;
+    private List<AnalyzedSpectrumConfig> _spectrumDataList;
     private AudioClip _audioClip;
-    private List<double[]> _spectrumsList;
     private float[] _monoSamples;
     private JsonFileHandler _jsonFileHandler;
     private string _difficulty;
@@ -49,9 +48,9 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
         SpectrumProvider audioProvider = new SpectrumProvider(_trackConfig.ClipSampleRate);
         _monoSamples = AudioSampleProvider.getMonoSamples(_audioClip);
-        _spectrumsList = audioProvider.getSpectrums(_monoSamples);
-        _spectrumDataList = audioProvider.getSpectrumData(_spectrumsList, _trackConfig.Bands);
-        _spectrumAnalyzer = new SpectrumAnalyzer(_spectrumsList, _trackConfig, _spectrumDataList, new MappingContainer());
+        List<double[]> spectrumsList = audioProvider.getSpectrums(_monoSamples);
+        _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _trackConfig.Bands);
+        _spectrumAnalyzer = new SpectrumAnalyzer(_trackConfig, _spectrumDataList, new MappingContainer());
         _spectrumAnalyzer.analyzeSpectrumsList(analaysisFinished);
     }
 
@@ -78,7 +77,6 @@ public class AudioAnalyzerLoader : MonoBehaviour
         GlobalStorage.getInstance().AudioClip = _audioClip;
         GlobalStorage.getInstance().SpectrumInfo = _spectrumDataList;
         GlobalStorage.getInstance().TrackConfig = _trackConfig;
-        GlobalStorage.getInstance().SpectrumsList = _spectrumsList;
         GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
         SceneManager.LoadScene("Game");

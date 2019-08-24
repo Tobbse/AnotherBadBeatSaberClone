@@ -3,7 +3,7 @@ using TMPro;
 
 public class ScoreTracker : ScriptableObject
 {
-    public static ScoreTracker Instance;
+    private static ScoreTracker Instance;
 
     private const int MAX_COMBO = 8;
     private const int POINTS_PER_HIT = 10;
@@ -27,11 +27,6 @@ public class ScoreTracker : ScriptableObject
     public int Score{ get => _score; set => _score = value; }
     public int HighestStreak { get => _highestStreak; set => _highestStreak = value; }
     public int AverageCombo { get => _addedCombos / _numBeats; set => _addedCombos = value; }
-
-    public ScoreTracker(int totalBeats)
-    {
-        _numBeats = totalBeats;
-    }
 
     public void resetComboCounter()
     {
@@ -74,7 +69,7 @@ public class ScoreTracker : ScriptableObject
         _setTexts();
     }
 
-    public void setGameObjects()
+    public void setupGameObjects()
     {
         _comboText = GameObject.Find("ComboText").GetComponent<TextMeshPro>();
         _streakText = GameObject.Find("StreakText").GetComponent<TextMeshPro>();
@@ -91,6 +86,15 @@ public class ScoreTracker : ScriptableObject
     {
         _comboText.text = "x" + _combo.ToString();
         _streakText.text = _streak.ToString();
+    }
+
+    public static ScoreTracker getInstance()
+    {
+        if (Instance == null)
+        {
+            Instance = new ScoreTracker();
+        }
+        return Instance;
     }
 
     void Awake()

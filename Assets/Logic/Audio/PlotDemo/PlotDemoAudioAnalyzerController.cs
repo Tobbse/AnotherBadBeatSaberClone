@@ -10,7 +10,7 @@ public class PlotDemoAudioAnalyzerController : MonoBehaviour
     private TrackConfig _analyzerConfig;
     private SpectrumAnalyzer _spectrumAnalyzer;
     private SpectrumPlotter _spectrumPlotter;
-    private List<AnalyzedSpectrumData> _spectrumDataList;
+    private List<AnalyzedSpectrumConfig> _spectrumDataList;
     private bool _started;
 
     void Start()
@@ -23,7 +23,7 @@ public class PlotDemoAudioAnalyzerController : MonoBehaviour
         List<double[]> spectrumsList = audioProvider.getSpectrums(samples);
         _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _analyzerConfig.Bands);
 
-        _spectrumAnalyzer = new SpectrumAnalyzer(spectrumsList, _analyzerConfig, _spectrumDataList, new MappingContainer());
+        _spectrumAnalyzer = new SpectrumAnalyzer(_analyzerConfig, _spectrumDataList, new MappingContainer());
         _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 

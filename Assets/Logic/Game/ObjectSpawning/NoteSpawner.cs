@@ -16,7 +16,6 @@ public class NoteSpawner : ScriptableObject
     private List<GameObject> _blocks = new List<GameObject>();
     private GameObject _obj;
     private NoteConfig _cfg;
-    private float _noteTime;
 
     public NoteSpawner(List<NoteConfig> noteData, GameObject leftTimedBlock, GameObject rightTimedBlock)
     {
@@ -29,12 +28,10 @@ public class NoteSpawner : ScriptableObject
 
     public void checkBlocksSpawnable(float timePassed)
     {
-        _noteTime = timePassed - BLOCK_TRAVEL_TIME;
-
         while (_noteData.Count > 0)
         {
             _cfg = _noteData[0];
-            if (_cfg.time <= _noteTime)
+            if (_cfg.time <= timePassed)
             {
                 _handleNote(_cfg);
                 _noteData.RemoveAt(0);
@@ -54,8 +51,8 @@ public class NoteSpawner : ScriptableObject
         Debug.Log("Note time: " + noteConfig.time.ToString());
 
         float xPos = BLOCK_DISTANCE * -1;
-        float yPos = 2.0f + ObjectSpawnPositioner.getVerticalPosition(noteConfig.lineLayer);
-        float zPos = ObjectSpawnPositioner.getHorizontalPosition(noteConfig.lineIndex);
+        float yPos = 2.0f + ObjectSpawnPositionProvider.getVerticalPosition(noteConfig.lineLayer);
+        float zPos = ObjectSpawnPositionProvider.getHorizontalPosition(noteConfig.lineIndex);
 
         GameObject prefab = _blockTypeMapping[noteConfig.type];
         _obj = Instantiate(prefab, new Vector3(xPos, yPos, zPos), Quaternion.identity);

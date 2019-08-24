@@ -53,14 +53,14 @@ public class Sabre : MonoBehaviour
 
         if (hitLayer == blockHitLayer && hitAngle > 120)
         {
-            ScoreTracker.Instance.hit();
+            ScoreTracker.getInstance().hit();
             Debug.Log("Correct Hit!");
             Destroy(otheTransform.gameObject);
             correctHit = true;
         }
         else
         {
-            ScoreTracker.Instance.miss();
+            ScoreTracker.getInstance().miss();
             Debug.Log("Incorrect Hit!");
             Destroy(otheTransform.gameObject);
         }

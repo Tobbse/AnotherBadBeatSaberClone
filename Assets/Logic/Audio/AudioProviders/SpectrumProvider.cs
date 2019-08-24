@@ -58,13 +58,13 @@ public class SpectrumProvider
         return spectrums;
     }
 
-    public List<AnalyzedSpectrumData> getSpectrumData(List<double[]> spectrums, int bands)
+    public List<AnalyzedSpectrumConfig> getSpectrumData(List<double[]> spectrums, int bands)
     {
-        List<AnalyzedSpectrumData> spectrumDataList = new List<AnalyzedSpectrumData>();
+        List<AnalyzedSpectrumConfig> spectrumDataList = new List<AnalyzedSpectrumConfig>();
 
         for (int i = 0; i < spectrums.Count; i++)
         {
-            AnalyzedSpectrumData data = new AnalyzedSpectrumData();
+            AnalyzedSpectrumConfig data = new AnalyzedSpectrumConfig();
             data.time = _getAudioClipTimeFromIndex(i);
             data.hasPeak = false;
             data.spectrum = System.Array.ConvertAll(spectrums[i], doubleVal => (float)doubleVal);

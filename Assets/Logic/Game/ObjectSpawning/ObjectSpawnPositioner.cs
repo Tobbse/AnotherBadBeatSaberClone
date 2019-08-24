@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BeatMappingConfigs;
 
-public static class ObjectSpawnPositioner
+public static class ObjectSpawnPositionProvider
 {
     private static Dictionary<int, float> _horizontalMapping;
     private static Dictionary<int, float> _verticalMapping;

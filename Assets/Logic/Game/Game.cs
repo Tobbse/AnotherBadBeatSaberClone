@@ -18,7 +18,8 @@ public class Game : MonoBehaviour
     public GameObject rightTimedBlock;
     public GameObject obstacle;
 
-    private float _timePassed = 0;
+    private float _timePassed;
+    private float _lastTime;
     private bool _timeframeReached = false;
     private AudioSource _audioSource;
     private NoteSpawner _noteSpawner;
@@ -32,26 +33,34 @@ public class Game : MonoBehaviour
         _noteSpawner = new NoteSpawner(mappingContainer.noteData, leftTimedBlock, rightTimedBlock);
         _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, obstacle);
 
-        PlayerData.Instance = new PlayerData();
-        ScoreTracker scoreTracker = new ScoreTracker(mappingContainer.noteData.Count);
-        scoreTracker.setGameObjects();
-        ScoreTracker.Instance = scoreTracker;
+        ScoreTracker.getInstance().NumBeats = mappingContainer.noteData.Count;
+        ScoreTracker.getInstance().setupGameObjects();
 
         AudioClip audioClip = GlobalStorage.getInstance().AudioClip;
         gameObject.AddComponent<AudioSource>();
         _audioSource = gameObject.GetComponent<AudioSource>();
         _audioSource.clip = audioClip;
 
+        _timePassed = -1 * MAX_TIMEFRAME;
+        _lastTime = Time.time;
+
         enabled = true;
     }
 
     void Update()
     {
-        _timePassed += Time.deltaTime;
+        float currentTime = Time.time;
+        _timePassed += currentTime - _lastTime;
+        _lastTime = currentTime;
 
-        if (_timeframeReached && !_audioSource.isPlaying)
+        if (!_timeframeReached && _timePassed >= 0)
         {
-            TimedBlock[] timedBlocks = Object.FindObjectsOfType<TimedBlock>();
+            _timeframeReached = true;
+            _audioSource.Play();
+            _audioSource.volume = 0.25f;
+        } else if (_timeframeReached && !_audioSource.isPlaying)
+        {
+            TimedBlock[] timedBlocks = Object.FindObjectsOfType<TimedBlock>(); // Only called once.
             foreach (TimedBlock block in timedBlocks)
             {
                 block.missBlock();
@@ -59,14 +68,7 @@ public class Game : MonoBehaviour
             SceneManager.LoadScene("ScoreMenu");
         }
 
-        if (_timePassed > MAX_TIMEFRAME && !_timeframeReached)
-        {
-            _timeframeReached = true;
-            _audioSource.Play();
-            _audioSource.volume = 0.25f;
-        }
-
-        _noteSpawner.checkBlocksSpawnable(_timePassed);
-        _obstacleSpawner.checkBlocksSpawnable(_timePassed);
+        _noteSpawner.checkBlocksSpawnable(_timePassed + NoteSpawner.BLOCK_TRAVEL_TIME);
+        _obstacleSpawner.checkBlocksSpawnable(_timePassed + ObstacleSpawner.OBSTACLE_DISTANCE);
     }
 }

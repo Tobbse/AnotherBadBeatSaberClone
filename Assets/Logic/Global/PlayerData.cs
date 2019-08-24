@@ -4,7 +4,7 @@ using TMPro;
 
 public class PlayerData : MonoBehaviour
 {
-    public static PlayerData Instance;
+    private static PlayerData Instance;
 
     private const float MAX_HEALTH = 100f;
 
@@ -15,7 +15,7 @@ public class PlayerData : MonoBehaviour
     {
         if (_hitPointsText == null) _hitPointsText = GameObject.Find("HitPointsText").GetComponent<TextMeshPro>();
         health -= damagePoints;
-        ScoreTracker.Instance.resetComboCounter();
+        ScoreTracker.getInstance().resetComboCounter();
         _hitPointsText.SetText(Mathf.CeilToInt(health).ToString() + " HP");
 
         if (health <= 0f)
@@ -32,6 +32,15 @@ public class PlayerData : MonoBehaviour
     private void _gameOver()
     {
         SceneManager.LoadScene("ScoreMenu");
+    }
+
+    public static PlayerData getInstance()
+    {
+        if (Instance == null)
+        {
+            Instance = new PlayerData();
+        }
+        return Instance;
     }
 
     void Awake()
