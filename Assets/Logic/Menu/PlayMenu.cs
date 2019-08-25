@@ -33,9 +33,9 @@ public class PlayMenu : MonoBehaviour
     {
         if (_path != null && _path.Length > 0)
         {
+            Destroy(leftSaber.gameObject);
+            Destroy(rightSaber.gameObject);
             _setEnableButtons(false);
-            leftSaber.SetActive(false);
-            rightSaber.SetActive(false);
             gameObject.SetActive(false);
             loadingScreen.SetActive(true);
             Instantiate(audioLoadingStart);

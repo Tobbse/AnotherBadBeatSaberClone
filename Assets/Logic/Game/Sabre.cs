@@ -43,14 +43,13 @@ public class Sabre : MonoBehaviour
             return;
         }
 
-        // TODO cut it and make it fly away somehow.
-        Rigidbody rigid = otheTransform.GetComponent<Rigidbody>();
+        /*Rigidbody rigid = otheTransform.GetComponent<Rigidbody>();
         rigid.velocity = Vector3.zero;
-        rigid.useGravity = true;
+        rigid.useGravity = true;*/
 
-        Vector3 sabreAngle = transform.position - _previousPosition;
+        Vector3 direction = transform.position - _previousPosition;
         Vector3 blockYAxis = otheTransform.up;
-        float hitAngle = Vector3.Angle(sabreAngle, blockYAxis);
+        float hitAngle = Vector3.Angle(direction, blockYAxis);
         bool correctHit = false;
 
         // TODO check if this works with the no direction blocks
@@ -74,31 +73,34 @@ public class Sabre : MonoBehaviour
             obj.GetComponent<TextMeshPro>().color = correctHit ? Color.green : Color.red;
         }
 
+        sliceCube(otherObject, direction);
+    }
 
+    private void sliceCube(GameObject cube, Vector3 direction)
+    {
+        GameObject[] slicedObjects = cube.SliceInstantiate(transform.position, direction);
+        Destroy(cube);
 
-        Vector3 pos = transform.position - otheTransform.position;
-        Vector3 direction = pos.normalized;
-
-
-        GameObject[] shatters = otherObject.SliceInstantiate(new EzySlice.Plane(pos, direction),
-            new TextureRegion(0.0f, 0.0f, 1.0f, 1.0f));
-        Destroy(otherObject);
-
-        foreach (GameObject shattered in shatters)
+        if (slicedObjects != null && slicedObjects.Length > 0)
         {
-            //shattered.AddComponent<MeshCollider>().convex = true;
-            shattered.AddComponent<Rigidbody>();
-            Vector3 velocity = transform.GetComponent<Rigidbody>().velocity;
-            velocity.x = velocity.x / 5;
-            velocity.y = velocity.y / 5;
-            velocity.z = velocity.z / 5;
-            shattered.GetComponent<Rigidbody>().velocity = velocity;
-            shattered.GetComponent<Rigidbody>().angularVelocity = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), Random.Range(-3, 3));
+            foreach (GameObject sliced in slicedObjects)
+            {
+                sliced.AddComponent<Rigidbody>();
+                sliced.AddComponent<SlicedObject>();
+                Rigidbody rigid = sliced.GetComponent<Rigidbody>();
+                rigid.angularVelocity = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), Random.Range(-5, 5));
+                rigid.velocity = getRandomVelocityFromDirection(direction);
+                rigid.AddForce(Physics.gravity * rigid.mass);
+            }
         }
+    }
 
-        /*SlicedHull hull = otherObject.Slice(pos, direction);
-        Mesh lowerHull = hull.lowerHull;
-        Mesh upperHull = hull.upperHull;*/
+    private Vector3 getRandomVelocityFromDirection(Vector3 direction)
+    {
+        return new Vector3(Random.Range(direction.x * 15, direction.x * 25),
+            Random.Range(direction.y * 15, direction.y * 25),
+            Random.Range(direction.z * 15, direction.z * 25)
+        );
     }
 
     private bool isBlockLayer(int hitLayer)
