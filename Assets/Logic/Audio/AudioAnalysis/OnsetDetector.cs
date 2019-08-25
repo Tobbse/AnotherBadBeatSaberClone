@@ -111,7 +111,7 @@ public class OnsetDetector
                     else obstacleCfg.lineIndex = 3;
 
                     _beatMappingContainer.obstacleData.Add(obstacleCfg);
-                    _obstacleBlockCounter = getNumIndicesFromSeconds(obstacleCfg.duration);
+                    _obstacleBlockCounter = getNumIndicesFromSeconds(obstacleCfg.duration + 0.2f);
                     _lastObstacle = obstacleCfg;
                 }
             }

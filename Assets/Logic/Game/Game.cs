@@ -20,6 +20,7 @@ public class Game : MonoBehaviour
     public GameObject rightTimedBlockNoDirection;
     public GameObject obstacle;
 
+    private List<Rigidbody> _spinnerRigids;
     private float _timePassed;
     private float _lastTime;
     private bool _timeframeReached;
@@ -30,6 +31,13 @@ public class Game : MonoBehaviour
     void Start()
     {
         enabled = false;
+
+        GameObject[] spinners = GameObject.FindGameObjectsWithTag("Spinner");
+        _spinnerRigids = new List<Rigidbody>();
+        foreach (GameObject spinner in spinners)
+        {
+            _spinnerRigids.Add(spinner.GetComponent<Rigidbody>());
+        }
 
         MappingContainer mappingContainer = GlobalStorage.getInstance().MappingContainer;
         _noteSpawner = new NoteSpawner(mappingContainer.noteData, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
@@ -51,6 +59,11 @@ public class Game : MonoBehaviour
 
     void Update()
     {
+        foreach (Rigidbody spinner in _spinnerRigids) // Currently contains only one object, should be fine.
+        {
+            spinner.angularVelocity = new Vector3(0.15f, 0, 0);
+        }
+
         float currentTime = Time.time;
         _timePassed += currentTime - _lastTime;
         _lastTime = currentTime;
