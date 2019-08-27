@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class JsonMappingStringBuilder
 {
-    private const string MAPPING_VERSION = "2.0.0";
-
     private List<EventConfig> _events;
     private List<NoteConfig> _notes;
     private List<ObstacleConfig> _obstacles;
@@ -33,18 +31,10 @@ public class JsonMappingStringBuilder
         _addObstacleData();
         _addBookmarkData();
 
-        string start = "{\"_version\":\"" + MAPPING_VERSION + "\",\"_BPMChanges\": [],";
+        string start = "{\"_version\":\"" + JsonController.MAPPING_VERSION + "\",\"_BPMChanges\": [],";
         _json = start + _json + "}";
 
         return _json;
-    }
-
-    public string getInfoJsonString(string trackName)
-    {
-        string start = "{" + "\"_version\":\"" + MAPPING_VERSION + "\",";
-        start += "\"_songName\":\"" + trackName + "\",";
-        string rest = "\"_songSubName\":\"\",\"_songAuthorName\":\"UNKNOWN\",\"_levelAuthorName\":\"UNKNOWN\",\"_beatsPerMinute\":0,\"_songTimeOffset\":0,\"_shuffle\":0,\"_shufflePeriod\":0.0,\"_previewStartTime\":0.0,\"_previewDuration\":0.0,\"_songFilename\":\"UNKNOWN\",\"_coverImageFilename\":\"UNKNOWN\",\"_environmentName\":\"DefaultEnvironment\",\"_customData\":{\"_contributors\":[],\"_customEnvironment\":\"\",\"_customEnvironmentHash\":\"\"},\"_difficultyBeatmapSets\":[{\"_beatmapCharacteristicName\":\"Standard\",\"_difficultyBeatmaps\":[{\"_difficulty\":\"Normal\",\"_difficultyRank\":3,\"_beatmapFilename\":\"Normal.dat\",\"_noteJumpMovementSpeed\":10.0,\"_noteJumpStartBeatOffset\":0,\"_customData\":{\"_difficultyLabel\":\"\",\"_editorOffset\":0,\"_editorOldOffset\":0,\"_warnings\":[],\"_information\":[],\"_suggestions\":[],\"_requirements\":[]}}]}]}";
-        return start + rest;
     }
 
     private void _addEventData()
@@ -63,7 +53,6 @@ public class JsonMappingStringBuilder
             isLast = i >= _events.Count - 1;
             eventCfg = _events[i];
 
-            //eventStr = time + eventCfg.time.ToString("0.000", CultureInfo.InvariantCulture) + ",";
             eventStr = time + eventCfg.time.ToString(usa) + ",";
             eventStr += type + eventCfg.type.ToString(usa) + ",";
             eventStr += value + eventCfg.value.ToString(usa) + ",";

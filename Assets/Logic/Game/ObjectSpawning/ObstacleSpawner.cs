@@ -13,15 +13,20 @@ public class ObstacleSpawner : ScriptableObject
     private GameObject _obj;
     private ObstacleConfig _cfg;
     private float _speed;
+    private float _bps;
+    private float _relativeTravelTime;
 
-    public ObstacleSpawner(List<ObstacleConfig> obstacleData, GameObject obstacle)
+    public ObstacleSpawner(List<ObstacleConfig> obstacleData, float bps, GameObject obstacle)
     {
         _obstacleData = obstacleData;
         _obstacle = obstacle;
-        _speed = OBSTACLE_DISTANCE / OBSTACLE_TRAVEL_TIME;
+        _bps = bps;
+
+        _relativeTravelTime = OBSTACLE_TRAVEL_TIME /*/ _bps*/;
+        _speed = OBSTACLE_DISTANCE / _relativeTravelTime;
     }
 
-    public void checkBlocksSpawnable(float timePassed)
+    public void checkObstaclesSpawnable(float timePassed)
     {
         while (_obstacleData.Count > 0)
         {
@@ -33,6 +38,11 @@ public class ObstacleSpawner : ScriptableObject
             }
             else break;
         }
+    }
+
+    public float getRelativeTravelTime()
+    {
+        return _relativeTravelTime;
     }
 
     private void _handleObstacle(ObstacleConfig obstacleConfig)

@@ -6,12 +6,16 @@ public class Sabre : MonoBehaviour
 {
     public int blockHitLayer;
 
-    private Vector3 _previousPosition;
-    private bool _useDebugRays;
+    // TODO check if those angles make sense.
+    private const float MIN_ANGLE = 120f;
+
+    private Vector3 _prevPos;
+    private Vector3 _prevPrevPos;
+    private ScoreTracker _scoreTracker;
 
     private void Start()
     {
-        _useDebugRays = GlobalStaticSettings.USE_SABRE_DEBUG_RAYS;
+        _scoreTracker = ScoreTracker.getInstance();
     }
 
     // Update is called once per frame
@@ -20,8 +24,8 @@ public class Sabre : MonoBehaviour
         float length = 1.7f; // Makes it a little bit longer than the 1.1 unit long saber.
         Vector3 newPos = transform.position + (transform.forward * -0.65f); // Moving start of Ray back on the z axis of the object, so that we don't start from the middle. We want to use the whole saber.
 
-        RaycastHit hit;
-        if (_useDebugRays)
+        /*RaycastHit hit;
+        if (GlobalStaticSettings.USE_SABRE_DEBUG_RAYS)
         {
             Debug.DrawRay(newPos, transform.forward * length, Color.green);
         }
@@ -29,11 +33,57 @@ public class Sabre : MonoBehaviour
         {
             _handleHit(hit.transform);
 
-        }
-        _previousPosition = transform.position;
+        }*/
+        _prevPrevPos = _prevPos;
+        _prevPos = transform.position;
     }
 
-    private void _handleHit(Transform otheTransform)
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject otherObject = collision.gameObject;
+
+        Vector3 direction;
+        Vector3 currentPos = transform.position;
+        if (_prevPos != currentPos)
+        {
+            direction = currentPos - _prevPos;
+        } else
+        {
+            direction = currentPos - _prevPrevPos;
+        }
+        float angle = Vector3.Angle(direction, collision.collider.transform.up);
+        ContactPoint con = collision.GetContact(0);
+        Debug.Log("-----------------------");
+        Debug.Log(con.point.x);
+        Debug.Log(con.point.y);
+        Debug.Log(con.point.z);
+
+        //bool isUpperHit = Vector3.Angle(con.normal, collision.collider.transform.up) < 20;
+
+
+        if (otherObject.layer != blockHitLayer || angle < MIN_ANGLE)
+        {
+            _scoreTracker.miss();
+        } else if (true) // When angle is correct
+        {
+            _scoreTracker.hit();
+        }
+
+        _sliceCube(otherObject, direction);
+        //_sliceCube(otherObject, collision.relativeVelocity); // Check if this works fine.
+    }
+
+    private void _handleMiss()
+    {
+        ScoreTracker.getInstance().miss();
+    }
+
+    private void _handleHit()
+    {
+        ScoreTracker.getInstance().hit();
+    }
+
+    /*private void _handleHit(Transform otheTransform)
     {
         int hitLayer = otheTransform.gameObject.layer;
         GameObject otherObject = otheTransform.gameObject;
@@ -42,10 +92,6 @@ public class Sabre : MonoBehaviour
             // Debug.Log("Hit object from wrong layer: " + otheTransform.name);
             return;
         }
-
-        /*Rigidbody rigid = otheTransform.GetComponent<Rigidbody>();
-        rigid.velocity = Vector3.zero;
-        rigid.useGravity = true;*/
 
         Vector3 direction = transform.position - _previousPosition;
         Vector3 blockYAxis = otheTransform.up;
@@ -74,9 +120,9 @@ public class Sabre : MonoBehaviour
         }
 
         sliceCube(otherObject, direction);
-    }
+    }*/
 
-    private void sliceCube(GameObject cube, Vector3 direction)
+    private void _sliceCube(GameObject cube, Vector3 direction)
     {
         GameObject[] slicedObjects = cube.SliceInstantiate(transform.position, direction);
         Destroy(cube);
@@ -86,9 +132,14 @@ public class Sabre : MonoBehaviour
             foreach (GameObject sliced in slicedObjects)
             {
                 sliced.AddComponent<Rigidbody>();
-                sliced.AddComponent<SlicedObject>();
+                sliced.AddComponent<SlicedObject>(); // Script that will despawn object after some time.
+
                 Rigidbody rigid = sliced.GetComponent<Rigidbody>();
-                rigid.angularVelocity = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), Random.Range(-5, 5));
+                rigid.angularVelocity = new Vector3(
+                    Random.Range(direction.x * 5, direction.x * 15),
+                    Random.Range(direction.y * 5, direction.y * 15),
+                    Random.Range(direction.z * 5, direction.z * 15)
+                );
                 rigid.velocity = getRandomVelocityFromDirection(direction);
                 rigid.AddForce(Physics.gravity * rigid.mass);
             }
@@ -97,14 +148,14 @@ public class Sabre : MonoBehaviour
 
     private Vector3 getRandomVelocityFromDirection(Vector3 direction)
     {
-        return new Vector3(Random.Range(direction.x * 15, direction.x * 25),
-            Random.Range(direction.y * 15, direction.y * 25),
-            Random.Range(direction.z * 15, direction.z * 25)
+        return new Vector3(Random.Range(direction.x * 25, direction.x * 50),
+            Random.Range(direction.y * 25, direction.y * 50),
+            Random.Range(direction.z * 25, direction.z * 50)
         );
     }
 
-    private bool isBlockLayer(int hitLayer)
+    /*private bool isBlockLayer(int hitLayer)
     {
         return hitLayer == 8 || hitLayer == 9;
-    }
+    }*/
 }

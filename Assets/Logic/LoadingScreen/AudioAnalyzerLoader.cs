@@ -16,7 +16,7 @@ public class AudioAnalyzerLoader : MonoBehaviour
     private List<AnalyzedSpectrumConfig> _spectrumDataList;
     private AudioClip _audioClip;
     private float[] _monoSamples;
-    private JsonFileHandler _jsonFileHandler;
+    private JsonController _jsonFileHandler;
     private string _difficulty;
 
     private void Awake()
@@ -27,7 +27,7 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
     void Start()
     {
-        _jsonFileHandler = new JsonFileHandler();
+        _jsonFileHandler = new JsonController();
         _difficulty = GlobalStorage.getInstance().Difficulty;
 
         string path = GlobalStorage.getInstance().AudioPath;
@@ -38,7 +38,7 @@ public class AudioAnalyzerLoader : MonoBehaviour
     {
         _trackConfig = new TrackConfig(_audioClip.frequency, _audioClip.name);
 
-        string fullPath = _jsonFileHandler.getFullFilePath(JsonFileHandler.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
+        string fullPath = _jsonFileHandler.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
         if (GlobalStaticSettings.USE_CACHE && _jsonFileHandler.fileExists(fullPath))
         {
             Debug.Log("Loading track mapping from cache.");
@@ -68,30 +68,34 @@ public class AudioAnalyzerLoader : MonoBehaviour
     private void analaysisFinished()
     {
         MappingContainer mappingContainer = _spectrumAnalyzer.getBeatMappingContainer();
+        mappingContainer.mappingInfo.bpm = 1;
         mappingContainer.sortMappings(); // Because multiple band spectrums are analyzed sequentially, we have to sort the mappings by time.
+        GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
         _jsonFileHandler.writeMappingFile(mappingContainer, _trackConfig.TrackName, _difficulty);
+        _jsonFileHandler.writeInfoFile(mappingContainer, _trackConfig.TrackName, mappingContainer.mappingInfo.bpm);
 
         _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
 
-        GlobalStorage.getInstance().AudioClip = _audioClip;
-        GlobalStorage.getInstance().SpectrumInfo = _spectrumDataList;
-        GlobalStorage.getInstance().TrackConfig = _trackConfig;
-        GlobalStorage.getInstance().MappingContainer = mappingContainer;
-
-        SceneManager.LoadScene("Game");
+        done();
     }
 
     private void loadMappingFromCache()
     {
-        string mappingPath = _jsonFileHandler.getFullFilePath(JsonFileHandler.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.getInstance().Difficulty);
+        string mappingPath = _jsonFileHandler.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.getInstance().Difficulty);
+        string infoPath = _jsonFileHandler.getFullInfoPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName);
 
         MappingContainer mappingContainer = _jsonFileHandler.readMappingFile(mappingPath);
+        mappingContainer.mappingInfo = _jsonFileHandler.readInfoFile(infoPath);
+        GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
-        GlobalStorage.getInstance().MappingPath = mappingPath;
+        done();
+    }
+
+    private void done()
+    {
         GlobalStorage.getInstance().AudioClip = _audioClip;
         GlobalStorage.getInstance().TrackConfig = _trackConfig;
-        GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
         SceneManager.LoadScene("Game");
     }

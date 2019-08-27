@@ -18,6 +18,10 @@ namespace PAudioAnalyzer
             _trackConfig = trackConfig;
             _analyzedSpectrumConfigs = spectrumDataList;
             _beatMappingContainer = beatMappingContainer;
+
+            // Bpm is only important for external mappings, because it influences the tempo. If we set it to a fixed value and don't change it, we'll be fine.
+            _beatMappingContainer.mappingInfo = new MappingInfo();
+            _beatMappingContainer.mappingInfo.bpm = 1;
         }
 
         public List<AnalyzedSpectrumConfig> getAnalyzedSpectrumData()

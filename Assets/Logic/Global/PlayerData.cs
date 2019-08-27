@@ -18,6 +18,7 @@ public class PlayerData : ScriptableObject
         health -= damagePoints;
         ScoreTracker.getInstance().resetComboCounter();
 
+        // Todo fix this
         if (health <= 0f)
         {
             _gameOver();
@@ -33,6 +34,16 @@ public class PlayerData : ScriptableObject
     void Update()
     {
         health = Mathf.Max(health + 0.1f, MAX_HEALTH);
+
+        // TODO fix this too
+        if (_hitPointsText == null)
+        {
+            _hitPointsText = GameObject.Find("HitPointsText").GetComponent<TextMeshPro>();
+        }
+        else if (_hitPointsText != null)
+        {
+            _hitPointsText.SetText(Mathf.CeilToInt(health).ToString() + " HP");
+        }
     }
 
     void Start()

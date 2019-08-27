@@ -36,7 +36,7 @@ public class ScoreTracker : ScriptableObject
 
     public void hit()
     {
-        _hitSound.PlayOneShot(_hitSound.clip);
+        if (_hitSound != null) _hitSound.PlayOneShot(_hitSound.clip);
 
         _addedCombos += _combo;
         _score += _combo * POINTS_PER_HIT;
@@ -75,6 +75,9 @@ public class ScoreTracker : ScriptableObject
         _streakText = GameObject.Find("StreakText").GetComponent<TextMeshPro>();
         _hitSound = GameObject.Find("HitSound").GetComponent<AudioSource>();
         _missSound = GameObject.Find("MissSound").GetComponent<AudioSource>();
+
+        _hitSound.volume = 0.5f;
+        _missSound.volume = 0.2f;
 
         if (_streakText == null || _comboText == null || _hitSound == null || _missSound == null)
         {

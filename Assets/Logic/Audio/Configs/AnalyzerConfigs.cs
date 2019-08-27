@@ -44,11 +44,13 @@ namespace AudioAnalyzerConfigs {
             get { return _trackName; }
         }
 
-        // This defines the behavior of the Onset Detector.
+        // This defines the behavior of the Onset Detector. Changing those values will determine what and how many frequency bands will be used.
+        // Currently the code is hardcoded to work with 2 frequency bands, mostly considering the positioning and choice of notes.
+        // The threshold levels will directly influence the amount of beats detected.
         private void _createAnalyzerConfigs() // TODO maybe also pass a parameter for pre- and after pruned flux multipliers to determine beats?
         {
-            _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 25, 4.5f * GlobalStaticSettings.ONSET_SENSITIVITY_MULT));
-            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 25, 6.0f * GlobalStaticSettings.ONSET_SENSITIVITY_MULT));
+            _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 25, 3.5f * GlobalStaticSettings.ONSET_SENSITIVITY_MULT));
+            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 25, 4.0f * GlobalStaticSettings.ONSET_SENSITIVITY_MULT));
         }
 
         private AnalyzerBandConfig _makeConfig(int band, int startIndex, int endIndex, int thresholdSize, int beatTime, float tresholdMult)

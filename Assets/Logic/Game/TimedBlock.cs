@@ -9,7 +9,7 @@ public class TimedBlock : MonoBehaviour
         if (GlobalStaticSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
 
         lifetimeCycles--;
-        if (lifetimeCycles < 0 || gameObject.transform.position.x > 6) // TODO 6 is kind of arbitrary, check this again.
+        if (lifetimeCycles < 0 || gameObject.transform.position.x > 6) // TODO 6 is super arbitrary, check this again.
         {
             missBlock();
         }

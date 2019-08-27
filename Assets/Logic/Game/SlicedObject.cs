@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlicedObject : MonoBehaviour
 {
-    private const int MAX_LIFECYCLES = 350;
+    private const int MAX_LIFECYCLES = 150;
 
     private int _lifecyles;
 

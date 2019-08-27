@@ -12,13 +12,14 @@ public class Game : MonoBehaviour
     public static string DIFFICULTY_EXPERT = "Expert";
     public static string DIFFICULTY_EXPERT_PLUS = "ExpertPlus";
 
-    private const float MAX_TIMEFRAME = 5.0f;
+    private const float MAX_TIMEFRAME_SECONDS = 5.0f;
 
     public GameObject leftTimedBlock;
     public GameObject rightTimedBlock;
     public GameObject leftTimedBlockNoDirection;
     public GameObject rightTimedBlockNoDirection;
     public GameObject obstacle;
+    public EffectController effectController;
 
     private List<Rigidbody> _spinnerRigids;
     private float _timePassed;
@@ -27,6 +28,11 @@ public class Game : MonoBehaviour
     private AudioSource _audioSource;
     private NoteSpawner _noteSpawner;
     private ObstacleSpawner _obstacleSpawner;
+    private LightHandler _lightHandler;
+    private float _bps;
+    private float _relativeNoteTravelTime;
+    private float _relativeObstacleTravelTime;
+    private float _relativeTimePassed;
     
     void Start()
     {
@@ -40,8 +46,21 @@ public class Game : MonoBehaviour
         }
 
         MappingContainer mappingContainer = GlobalStorage.getInstance().MappingContainer;
-        _noteSpawner = new NoteSpawner(mappingContainer.noteData, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
-        _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, obstacle);
+        if (mappingContainer.mappingInfo.bpm == 1)
+        {
+            _bps = 1;
+        } else
+        {
+            _bps = mappingContainer.mappingInfo.bpm / 60;
+        }
+        
+        _noteSpawner = new NoteSpawner(mappingContainer.noteData, _bps, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
+        _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, _bps, obstacle);
+        _lightHandler = new LightHandler(effectController, mappingContainer.eventData, _bps);
+
+        _relativeNoteTravelTime = _noteSpawner.getRelativeTravelTime();
+        _relativeObstacleTravelTime = _obstacleSpawner.getRelativeTravelTime();
+
 
         ScoreTracker.getInstance().NumBeats = mappingContainer.noteData.Count;
         ScoreTracker.getInstance().setupGameObjects();
@@ -51,8 +70,11 @@ public class Game : MonoBehaviour
         _audioSource = gameObject.GetComponent<AudioSource>();
         _audioSource.clip = audioClip;
 
-        _timePassed = -1 * MAX_TIMEFRAME;
+        // Starting point --> Start "in the past" because of block travel times. Imagine there's a note in the very beginning of the song.
+        float startPoint = -1 * MAX_TIMEFRAME_SECONDS * _bps; // Not actually seconds anymore when the bps != 1.
+        _timePassed = startPoint;
         _lastTime = Time.time;
+        _relativeTimePassed = startPoint;
 
         enabled = true;
     }
@@ -66,9 +88,10 @@ public class Game : MonoBehaviour
 
         float currentTime = Time.time;
         _timePassed += currentTime - _lastTime;
+        _relativeTimePassed += (currentTime - _lastTime) * _bps;
         _lastTime = currentTime;
 
-        if (!_timeframeReached && _timePassed >= 0)
+        if (!_timeframeReached && _relativeTimePassed >= 0)
         {
             _timeframeReached = true;
             _audioSource.Play();
@@ -83,7 +106,8 @@ public class Game : MonoBehaviour
             SceneManager.LoadScene("ScoreMenu");
         }
 
-        _noteSpawner.checkBlocksSpawnable(_timePassed + NoteSpawner.BLOCK_TRAVEL_TIME);
-        _obstacleSpawner.checkBlocksSpawnable(_timePassed + ObstacleSpawner.OBSTACLE_TRAVEL_TIME);
+        _noteSpawner.checkBlocksSpawnable(_relativeTimePassed + NoteSpawner.BLOCK_TRAVEL_TIME * _bps);
+        _obstacleSpawner.checkObstaclesSpawnable(_relativeTimePassed + ObstacleSpawner.OBSTACLE_TRAVEL_TIME * _bps);
+        _lightHandler.checkEventsAvailable(_relativeTimePassed);
     }
 }

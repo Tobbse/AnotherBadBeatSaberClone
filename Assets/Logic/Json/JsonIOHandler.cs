@@ -24,7 +24,7 @@ namespace JsonIOHandler {
         }
     }
 
-    public static class JsonMappingFileReader
+    public static class JsonFileReader
     {
         public static List<HighscoreData> readHighscoreFile(string filePath)
         {
@@ -44,6 +44,22 @@ namespace JsonIOHandler {
                 highscoreData.Add(score);
             }
             return highscoreData;
+        }
+
+        public static MappingInfo readInfoFile(string filePath)
+        {
+            StreamReader reader = new StreamReader(filePath);
+            string text = reader.ReadToEnd();
+            reader.Close();
+
+            MappingInfo info = new MappingInfo();
+            JObject obj = JObject.Parse(text);
+
+            float bpm = obj["_beatsPerMinute"].Value<float>();
+            if (bpm == 0f) bpm = 1;
+            info.bpm = bpm;
+
+            return info;
         }
 
         public static MappingContainer readMappingFile(string filePath)
@@ -126,6 +142,6 @@ namespace JsonIOHandler {
             }
             return bookmarkData;
         }
-    } 
+    }
 
 }

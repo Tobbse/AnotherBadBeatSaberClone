@@ -5,7 +5,7 @@ public class JsonSceneTest : MonoBehaviour
 {
     void Start()
     {
-        JsonFileHandler handler = new JsonFileHandler();
+        JsonController handler = new JsonController();
         MappingContainer mappingContainer = handler.readMappingFile("Assets/Resources/SongData/BeatMappings/mapping_example/Easy.dat");
         int i = 0;
     }

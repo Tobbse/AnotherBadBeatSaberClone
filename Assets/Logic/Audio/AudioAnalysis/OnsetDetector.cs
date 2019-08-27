@@ -7,6 +7,8 @@ using System;
 
 public class OnsetDetector
 {
+    private static float peakMult = 1.0f;
+
     private AnalyzerBandConfig _currentBandCfg;
     private List<AnalyzedSpectrumConfig> _spectrumConfigs;
     private List<AnalyzerBandConfig> _bandConfigs;
@@ -119,7 +121,7 @@ public class OnsetDetector
             if (_beatBlockCounter == 0 && _isPeak())
             {
                 //_beatBlockCounter = _currentBandCfg.beatBlockCounter;
-                _beatBlockCounter = 20;
+                _beatBlockCounter = 10;
 
                 _currentSpectrumCfg.hasPeak = true;
                 _currentSpectrumCfg.bandBeatData[_band].isPeak = true;
@@ -250,19 +252,20 @@ public class OnsetDetector
     // TODO this could be optimized. Does it make sense to use pruned flux? Change multiplier level?
     private bool _isPeak()
     {
-        const int LEFT_WINDOW_SIZE = 20;
-        const int RIGHT_WINDOW_SIZE = 10;
+        const int LEFT_WINDOW_SIZE = 1;
+        const int RIGHT_WINDOW_SIZE = 0;
 
         if (_index - LEFT_WINDOW_SIZE < _minIndex || _index + RIGHT_WINDOW_SIZE > _maxIndex)
         {
             return false;
         }
 
+        // I BROKE THIS!!! FIX IT!!!
         // Assumption: When the current pruned value is > the last && > the next, we have a peak.
         float currentPrunedFlux = _currentBeatInfo.prunedSpectralFlux;
         for (int i = _index - LEFT_WINDOW_SIZE; i <= _index + RIGHT_WINDOW_SIZE; i++)
         {
-            if (currentPrunedFlux < _spectrumConfigs[i].bandBeatData[_band].prunedSpectralFlux)
+            if (currentPrunedFlux <= _spectrumConfigs[i].bandBeatData[_band].prunedSpectralFlux * peakMult)
             {
                 return false;
             }

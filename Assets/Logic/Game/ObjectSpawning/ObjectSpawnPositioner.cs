@@ -29,10 +29,10 @@ public static class ObjectSpawnPositionProvider
         _horizontalMapping = new Dictionary<int, float>();
         _verticalMapping = new Dictionary<int, float>();
 
-        _verticalMapping[NoteConfig.LINE_LAYER_0] = -0.25f;
-        _verticalMapping[NoteConfig.LINE_LAYER_1] = 0.2f;
-        _verticalMapping[NoteConfig.LINE_LAYER_2] = 0.65f;
-        _verticalMapping[NoteConfig.LINE_LAYER_3] = 1.1f;
+        _verticalMapping[NoteConfig.LINE_LAYER_0] = 0.2f;
+        _verticalMapping[NoteConfig.LINE_LAYER_1] = 0.6f;
+        _verticalMapping[NoteConfig.LINE_LAYER_2] = 1.0f;
+        _verticalMapping[NoteConfig.LINE_LAYER_3] = 1.4f;
 
         _horizontalMapping[NoteConfig.LINE_INDEX_0] = -0.675f;
         _horizontalMapping[NoteConfig.LINE_INDEX_1] = -0.225f;

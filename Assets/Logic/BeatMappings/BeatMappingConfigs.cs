@@ -8,6 +8,7 @@ namespace BeatMappingConfigs {
         public List<NoteConfig> noteData = new List<NoteConfig>();
         public List<ObstacleConfig> obstacleData = new List<ObstacleConfig>();
         public List<BookmarkConfig> bookmarkData = new List<BookmarkConfig>();
+        public MappingInfo mappingInfo;
 
         public void sortMappings()
         {
@@ -21,6 +22,10 @@ namespace BeatMappingConfigs {
 
     public class EventConfig
     {
+        // TODO actually find out what the correct types are here and use it.
+        public enum TYPES { BLINK_LASERS = 0, ROTATE_LIGHTS_1 = 1, ROTATE_LIGHTS_2 = 2, ROTATE_LIGHTS_3 = 3,
+            BLINK_LASERS_1 = 4, BLINK_LASERS_2 = 5, CHANGE_SPINNER_DIRECTION = 6, CHANGE_SPINNER_SPEED = 7 }
+
         public float time;
         public int type;
         public int value;
@@ -75,6 +80,12 @@ namespace BeatMappingConfigs {
     {
         public float time;
         public string name;
+    }
+
+    // TODO if enough time left: add trackname, artist etc.
+    public class MappingInfo
+    {
+        public float bpm;
     }
 
 }

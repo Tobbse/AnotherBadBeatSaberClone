@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5720664441670662343}
-  m_Layer: 8
-  m_Name: Triangle
+  m_Layer: 9
+  m_Name: RightTriangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8520551767515520031}
   - component: {fileID: 8520551767516290111}
   - component: {fileID: 8520551767517421311}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: thing
   m_TagString: Untagged
   m_Icon: {fileID: 0}

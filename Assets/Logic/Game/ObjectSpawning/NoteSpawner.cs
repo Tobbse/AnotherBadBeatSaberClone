@@ -18,14 +18,21 @@ public class NoteSpawner : ScriptableObject
     private List<GameObject> _blocks = new List<GameObject>();
     private GameObject _obj;
     private NoteConfig _cfg;
+    private float _bps;
+    private float _relativeTravelTime;
+    private float _speed;
 
-    public NoteSpawner(List<NoteConfig> noteData, GameObject leftTimedBlock, GameObject rightTimedBlock, GameObject leftTimedBlockNoDirection, GameObject rightTimedBlockNoDirection)
+    public NoteSpawner(List<NoteConfig> noteData, float bps, GameObject leftTimedBlock, GameObject rightTimedBlock, GameObject leftTimedBlockNoDirection, GameObject rightTimedBlockNoDirection)
     {
         _noteData = noteData;
+        _bps = bps;
         _leftTimedBlock = leftTimedBlock;
         _rightTimedBlock = rightTimedBlock;
         _leftTimedBlockNoDirection = leftTimedBlockNoDirection;
         _rightTimedBlockNoDirection = rightTimedBlockNoDirection;
+
+        _relativeTravelTime = BLOCK_TRAVEL_TIME /*/ _bps*/;
+        _speed = BLOCK_DISTANCE / _relativeTravelTime;
 
         _setupMappings();
     }
@@ -49,6 +56,11 @@ public class NoteSpawner : ScriptableObject
         return _blocks;
     }
 
+    public float getRelativeTravelTime()
+    {
+        return _relativeTravelTime;
+    }
+
     private void _handleNote(NoteConfig noteConfig)
     {
         GameObject prefab = _blockTypeMapping[noteConfig.type];
@@ -67,7 +79,7 @@ public class NoteSpawner : ScriptableObject
 
         _obj = Instantiate(prefab, position, Quaternion.identity);
         _obj.transform.Rotate(new Vector3(cutDirection, 0, 0));
-        _obj.GetComponent<Rigidbody>().velocity = new Vector3(BLOCK_DISTANCE / BLOCK_TRAVEL_TIME, 0, 0);
+        _obj.GetComponent<Rigidbody>().velocity = new Vector3(_speed, 0, 0);
         _blocks.Add(_obj);
     }
 

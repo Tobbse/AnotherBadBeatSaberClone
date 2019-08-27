@@ -5,13 +5,13 @@ using System.IO;
 
 public class HighscoreHandler
 {
-    private JsonFileHandler _jsonFileHandler;
+    private JsonController _jsonFileHandler;
     private List<HighscoreData> _highscoreData;
     private HighscoreData _currentScore;
 
     public HighscoreHandler(int newScore)
     {
-        _jsonFileHandler = new JsonFileHandler();
+        _jsonFileHandler = new JsonController();
         _highscoreData = _getHighscores();
 
         _currentScore = new HighscoreData();
@@ -71,7 +71,7 @@ public class HighscoreHandler
     {
         string shortFileName = GlobalStorage.getInstance().TrackConfig.TrackName;
         string difficulty = GlobalStorage.getInstance().Difficulty;
-        string fullFilePath = _jsonFileHandler.getFullFilePath(JsonFileHandler.HIGHSCORE_FOLDER_PATH, shortFileName, difficulty);
+        string fullFilePath = _jsonFileHandler.getFullMappingPath(JsonController.HIGHSCORE_FOLDER_PATH, shortFileName, difficulty);
 
         if (!File.Exists(fullFilePath)) {
             return null;
