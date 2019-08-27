@@ -1,76 +1,68 @@
 ﻿using UnityEngine;
-using TMPro;
 using EzySlice;
 
 public class Sabre : MonoBehaviour
 {
-    public int blockHitLayer;
-
-    // TODO check if those angles make sense.
     private const float MIN_ANGLE = 120f;
 
-    private Vector3 _prevPos;
-    private Vector3 _prevPrevPos;
+    public int blockHitLayer;
+
     private ScoreTracker _scoreTracker;
+    private Vector3[] _prevPositions;
+    private OVRHapticsClip _hapticsClip;
+    private OVRHaptics.OVRHapticsChannel _hapticsChannel;
 
     private void Start()
     {
         _scoreTracker = ScoreTracker.getInstance();
+        _prevPositions = new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero };
+        _hapticsClip = new OVRHapticsClip();
+        _hapticsChannel = (blockHitLayer == 8) ? OVRHaptics.LeftChannel : OVRHaptics.RightChannel;
+
+        for (int i = 0; i < 30; i++)
+        {
+            _hapticsClip.WriteSample(0x20);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float length = 1.7f; // Makes it a little bit longer than the 1.1 unit long saber.
-        Vector3 newPos = transform.position + (transform.forward * -0.65f); // Moving start of Ray back on the z axis of the object, so that we don't start from the middle. We want to use the whole saber.
-
-        /*RaycastHit hit;
-        if (GlobalStaticSettings.USE_SABRE_DEBUG_RAYS)
+        // Multiple previous positions are cached because sometimes the last position is the same. Especially the last frame's position
+        // is often equal to the OnCollisionEnter position, which makes sense. I still need a direction though, so I just check the
+        // previous ones. Might be fixeable with FixedUpdate?
+        for (int i = _prevPositions.Length -1; i > 0; i--)
         {
-            Debug.DrawRay(newPos, transform.forward * length, Color.green);
+            _prevPositions[i] = _prevPositions[i - 1];
         }
-        if (Physics.Raycast(newPos, transform.forward, out hit, length))
-        {
-            _handleHit(hit.transform);
-
-        }*/
-        _prevPrevPos = _prevPos;
-        _prevPos = transform.position;
+        _prevPositions[0] = transform.position;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         GameObject otherObject = collision.gameObject;
-
-        Vector3 direction;
+        Vector3 direction = Vector3.zero;
         Vector3 currentPos = transform.position;
-        if (_prevPos != currentPos)
+
+        foreach (Vector3 prevPos in _prevPositions)
         {
-            direction = currentPos - _prevPos;
-        } else
-        {
-            direction = currentPos - _prevPrevPos;
+            if (prevPos != currentPos)
+            {
+                 direction = currentPos - prevPos;
+                break;
+            }
         }
+
         float angle = Vector3.Angle(direction, collision.collider.transform.up);
-        ContactPoint con = collision.GetContact(0);
-        Debug.Log("-----------------------");
-        Debug.Log(con.point.x);
-        Debug.Log(con.point.y);
-        Debug.Log(con.point.z);
-
-        //bool isUpperHit = Vector3.Angle(con.normal, collision.collider.transform.up) < 20;
-
-
         if (otherObject.layer != blockHitLayer || angle < MIN_ANGLE)
         {
             _scoreTracker.miss();
-        } else if (true) // When angle is correct
+        } else
         {
             _scoreTracker.hit();
         }
 
         _sliceCube(otherObject, direction);
-        //_sliceCube(otherObject, collision.relativeVelocity); // Check if this works fine.
+        _setControllerVibration();
     }
 
     private void _handleMiss()
@@ -83,45 +75,6 @@ public class Sabre : MonoBehaviour
         ScoreTracker.getInstance().hit();
     }
 
-    /*private void _handleHit(Transform otheTransform)
-    {
-        int hitLayer = otheTransform.gameObject.layer;
-        GameObject otherObject = otheTransform.gameObject;
-        if (!isBlockLayer(hitLayer))
-        {
-            // Debug.Log("Hit object from wrong layer: " + otheTransform.name);
-            return;
-        }
-
-        Vector3 direction = transform.position - _previousPosition;
-        Vector3 blockYAxis = otheTransform.up;
-        float hitAngle = Vector3.Angle(direction, blockYAxis);
-        bool correctHit = false;
-
-        // TODO check if this works with the no direction blocks
-        if (hitLayer == blockHitLayer && (hitAngle > 120 || otherObject.name.Contains("NoDirection")))
-        {
-            ScoreTracker.getInstance().hit();
-            correctHit = true;
-        }
-        else
-        {
-            ScoreTracker.getInstance().miss();
-        }
-
-        // TODO this is only for debugging, delete this later or do it properly.
-        GameObject obj = GameObject.Find("AngleText");
-        if (obj != null) obj.GetComponent<TextMeshPro>().SetText(hitAngle.ToString());
-        obj = GameObject.Find("HitText");
-        if (obj != null)
-        {
-            obj.GetComponent<TextMeshPro>().SetText(correctHit ? "CORRECT HIT" : "wrong hit");
-            obj.GetComponent<TextMeshPro>().color = correctHit ? Color.green : Color.red;
-        }
-
-        sliceCube(otherObject, direction);
-    }*/
-
     private void _sliceCube(GameObject cube, Vector3 direction)
     {
         GameObject[] slicedObjects = cube.SliceInstantiate(transform.position, direction);
@@ -129,33 +82,32 @@ public class Sabre : MonoBehaviour
 
         if (slicedObjects != null && slicedObjects.Length > 0)
         {
-            foreach (GameObject sliced in slicedObjects)
+            GameObject sliced;
+            for (int i = 0; i < slicedObjects.Length; i++)
             {
+                sliced = slicedObjects[i];
                 sliced.AddComponent<Rigidbody>();
                 sliced.AddComponent<SlicedObject>(); // Script that will despawn object after some time.
 
+                float addYVelocity = (i == 0) ? 3 : 0;
+
                 Rigidbody rigid = sliced.GetComponent<Rigidbody>();
                 rigid.angularVelocity = new Vector3(
-                    Random.Range(direction.x * 5, direction.x * 15),
-                    Random.Range(direction.y * 5, direction.y * 15),
-                    Random.Range(direction.z * 5, direction.z * 15)
+                    Random.Range(direction.x * -10, direction.x * 10),
+                    Random.Range(direction.y * -10, direction.y * 10),
+                    Random.Range(direction.z * -10, direction.z * 10)
                 );
-                rigid.velocity = getRandomVelocityFromDirection(direction);
-                rigid.AddForce(Physics.gravity * rigid.mass);
+                rigid.velocity = new Vector3(
+                    Random.Range(direction.x * 20, direction.x * 40),
+                    Random.Range(direction.y * 20, direction.y * 40 + addYVelocity), // Adding some extra upwards velocity to seperate the lower from the upper hull a bit more.
+                    Random.Range(direction.z * 20, direction.z * 40)
+                );
             }
         }
     }
 
-    private Vector3 getRandomVelocityFromDirection(Vector3 direction)
+    private void _setControllerVibration()
     {
-        return new Vector3(Random.Range(direction.x * 25, direction.x * 50),
-            Random.Range(direction.y * 25, direction.y * 50),
-            Random.Range(direction.z * 25, direction.z * 50)
-        );
+        _hapticsChannel.Mix(_hapticsClip);
     }
-
-    /*private bool isBlockLayer(int hitLayer)
-    {
-        return hitLayer == 8 || hitLayer == 9;
-    }*/
 }
