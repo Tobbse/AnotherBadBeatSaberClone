@@ -76,8 +76,8 @@ public class ScoreTracker : ScriptableObject
         _hitSound = GameObject.Find("HitSound").GetComponent<AudioSource>();
         _missSound = GameObject.Find("MissSound").GetComponent<AudioSource>();
 
-        _hitSound.volume = 0.5f;
-        _missSound.volume = 0.2f;
+        _hitSound.volume = 0.4f;
+        _missSound.volume = 0.4f;
 
         if (_streakText == null || _comboText == null || _hitSound == null || _missSound == null)
         {

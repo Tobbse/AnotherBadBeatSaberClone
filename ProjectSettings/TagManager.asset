@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Spinner
   - Laser
+  - Undefined
+  - NoDirection
   layers:
   - Default
   - TransparentFX

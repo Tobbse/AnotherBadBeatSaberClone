@@ -4,6 +4,7 @@ using EzySlice;
 public class Sabre : MonoBehaviour
 {
     private const float MIN_ANGLE = 120f;
+    private const string NO_DIRECTION = "NoDirection";
 
     public int blockHitLayer;
 
@@ -53,12 +54,13 @@ public class Sabre : MonoBehaviour
         }
 
         float angle = Vector3.Angle(direction, collision.collider.transform.up);
-        if (otherObject.layer != blockHitLayer || angle < MIN_ANGLE)
+        bool isNoDirectionBlock = otherObject.tag != null && otherObject.tag == NO_DIRECTION;
+        if (otherObject.layer == blockHitLayer && (angle >= MIN_ANGLE || isNoDirectionBlock))
         {
-            _scoreTracker.miss();
+            _scoreTracker.hit(); 
         } else
         {
-            _scoreTracker.hit();
+            _scoreTracker.miss();
         }
 
         _sliceCube(otherObject, direction);

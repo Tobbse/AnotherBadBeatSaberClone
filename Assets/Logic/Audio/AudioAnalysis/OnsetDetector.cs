@@ -121,7 +121,7 @@ public class OnsetDetector
             if (_beatBlockCounter == 0 && _isPeak())
             {
                 //_beatBlockCounter = _currentBandCfg.beatBlockCounter;
-                _beatBlockCounter = 10;
+                _beatBlockCounter = 18;
 
                 _currentSpectrumCfg.hasPeak = true;
                 _currentSpectrumCfg.bandBeatData[_band].isPeak = true;
