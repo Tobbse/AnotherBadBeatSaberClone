@@ -40,7 +40,12 @@ namespace PAudioAnalyzer
 
             OnsetDetector beatDetector = new OnsetDetector(beatConfigs, _analyzedSpectrumConfigs, _trackConfig, _beatMappingContainer);
             beatDetector.analyze();
-            _analyzedSpectrumConfigs = beatDetector.getSpectrumDataList();
+            _beatMappingContainer = beatDetector.getBeatMappingContainer();
+
+            PostOnsetAudioAnalyzer postAnalyzer = new PostOnsetAudioAnalyzer(_beatMappingContainer);
+            postAnalyzer.analyze();
+            _beatMappingContainer = postAnalyzer.getBeatMappingContainer();
+
             callback();
         }
     }

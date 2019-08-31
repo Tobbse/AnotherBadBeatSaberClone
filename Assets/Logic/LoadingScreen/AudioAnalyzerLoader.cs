@@ -13,7 +13,6 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
     private TrackConfig _trackConfig;
     private SpectrumAnalyzer _spectrumAnalyzer;
-    private List<AnalyzedSpectrumConfig> _spectrumDataList;
     private AudioClip _audioClip;
     private float[] _monoSamples;
     private JsonController _jsonFileHandler;
@@ -49,8 +48,9 @@ public class AudioAnalyzerLoader : MonoBehaviour
         SpectrumProvider audioProvider = new SpectrumProvider(_trackConfig.ClipSampleRate);
         _monoSamples = AudioSampleProvider.getMonoSamples(_audioClip);
         List<double[]> spectrumsList = audioProvider.getSpectrums(_monoSamples);
-        _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _trackConfig.Bands);
-        _spectrumAnalyzer = new SpectrumAnalyzer(_trackConfig, _spectrumDataList, new MappingContainer());
+
+        List<AnalyzedSpectrumConfig> spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _trackConfig.Bands);
+        _spectrumAnalyzer = new SpectrumAnalyzer(_trackConfig, spectrumDataList, new MappingContainer());
         _spectrumAnalyzer.analyzeSpectrumsList(analaysisFinished);
     }
 
@@ -74,8 +74,6 @@ public class AudioAnalyzerLoader : MonoBehaviour
 
         _jsonFileHandler.writeMappingFile(mappingContainer, _trackConfig.TrackName, _difficulty);
         _jsonFileHandler.writeInfoFile(mappingContainer, _trackConfig.TrackName, mappingContainer.mappingInfo.bpm);
-
-        _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
 
         done();
     }

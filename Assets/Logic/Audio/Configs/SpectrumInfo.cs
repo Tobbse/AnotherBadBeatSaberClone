@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace AudioSpectrumInfo {
+namespace AudioSpectrumInfo
+{
     public class AnalyzedSpectrumConfig
     {
         public float[] spectrum;

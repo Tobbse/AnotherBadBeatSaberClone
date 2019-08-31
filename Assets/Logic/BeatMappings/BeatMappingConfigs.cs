@@ -63,6 +63,7 @@ namespace BeatMappingConfigs {
         public int lineLayer;
         public int type;
         public int cutDirection;
+        public bool belongsToDoubleNote;
     }
 
 
