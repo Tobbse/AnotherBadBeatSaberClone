@@ -50,7 +50,7 @@ namespace AudioAnalyzerConfigs {
         private void _createAnalyzerConfigs() // TODO maybe also pass a parameter for pre- and after pruned flux multipliers to determine beats?
         {
             _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 25, 3.5f * GlobalStaticSettings.ONSET_SENSITIVITY_MULT));
-            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 25, 2.0f * GlobalStaticSettings.ONSET_SENSITIVITY_MULT));
+            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 25, 2.3f * GlobalStaticSettings.ONSET_SENSITIVITY_MULT));
         }
 
         private AnalyzerBandConfig _makeConfig(int band, int startIndex, int endIndex, int thresholdSize, int beatTime, float tresholdMult)

@@ -10,12 +10,14 @@ public class MainLightController
     private List<EventConfig> _eventData;
     private EventConfig _cfg;
     private SpinnyLightController _spinnyLightController;
+    private FogController _fogController;
     private float _bps;
 
-    public MainLightController(LaserController laserController, SpinnyLightController spinnyLightController, List<EventConfig> eventData, float bps)
+    public MainLightController(LaserController laserController, SpinnyLightController spinnyLightController, FogController fogController, List<EventConfig> eventData, float bps)
     {
         _laserController = laserController;
         _spinnyLightController = spinnyLightController;
+        _fogController = fogController;
         _eventData = eventData;
         _bps = bps;
     }
@@ -65,18 +67,33 @@ public class MainLightController
             _spinnyLightController.frontBackTransition(SpinnyThingFrontToBackHandler.TRANSITION_DIRECTION_FRONT_TO_BACK, SpinnyThingFrontToBackHandler.TYPE_HORIZONTAL, SpinnyLightController.SPINNERS_TYPE_SMALL, Random.Range(5, 20), 0, Random.Range(3, 8));
         } else if (rand > 82f)
         {
-            _spinnyLightController.blinkAll(SpinnyLightController.SPINNERS_TYPE_BIG, SpinnyThingBlinkAllHandler.TYPE_HORIZONTAL, Random.Range(10, 30));
-        } else if (rand > 78f)
-        {
-            _spinnyLightController.blinkAll(SpinnyLightController.SPINNERS_TYPE_SMALL, SpinnyThingBlinkAllHandler.TYPE_VERTICAL, Random.Range(10, 30));
+            _spinnyLightController.blinkAll(SpinnyLightController.SPINNERS_TYPE_BIG, SpinnyThingBlinkAllHandler.TYPE_HORIZONTAL, Random.Range(30, 40));
         } else if (rand > 74f)
         {
-            _spinnyLightController.blinkAll(SpinnyLightController.SPINNERS_TYPE_BIG, SpinnyThingBlinkAllHandler.TYPE_VERTICAL, Random.Range(10, 30));
-        } else if (rand > 70f)
+            _spinnyLightController.blinkAll(SpinnyLightController.SPINNERS_TYPE_SMALL, SpinnyThingBlinkAllHandler.TYPE_VERTICAL, Random.Range(30, 40));
+        } else if (rand > 56f)
         {
-            _spinnyLightController.blinkAll(SpinnyLightController.SPINNERS_TYPE_SMALL, SpinnyThingBlinkAllHandler.TYPE_HORIZONTAL, Random.Range(10, 30));
-        } else {
+            _spinnyLightController.blinkAll(SpinnyLightController.SPINNERS_TYPE_BIG, SpinnyThingBlinkAllHandler.TYPE_VERTICAL, Random.Range(30, 40));
+        } else if (rand > 48f)
+        {
+            _fogController.redBlink(20);
+        } else if (rand > 46f)
+        {
+            _fogController.yellowBlink(20);
+        } else if (rand > 44f)
+        {
+            _fogController.greenBlink(20);
+        } else if (rand > 42f)
+        {
+            _fogController.blackBlink(20);
+        } else if (rand > 40f)
+        {
+            _fogController.blueBlink(20);
+        } else if (rand > 10) {
             _laserController.setRandomRotation(cfg.value);
+        } else
+        {
+            _laserController.setRandomAngularSpeed(0.1f);
         }
     }
 }

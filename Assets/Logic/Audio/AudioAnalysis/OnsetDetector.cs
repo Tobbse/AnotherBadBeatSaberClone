@@ -146,11 +146,12 @@ public class OnsetDetector
                 {
                     if (noteCfg.type == NoteConfig.NOTE_TYPE_LEFT)
                     {
-                        lineIndex = _lastObstacle.lineIndex < 2 ? NoteConfig.LINE_LAYER_2 : NoteConfig.LINE_LAYER_0;
+                        lineIndex = _lastObstacle.lineIndex < 2 ? NoteConfig.LINE_INDEX_2 : NoteConfig.LINE_INDEX_0;
                     } else
                     {
-                        lineIndex = _lastObstacle.lineIndex < 2 ? NoteConfig.LINE_LAYER_3 : NoteConfig.LINE_LAYER_1;
+                        lineIndex = _lastObstacle.lineIndex < 2 ? NoteConfig.LINE_INDEX_3 : NoteConfig.LINE_INDEX_1;
                     }
+                    noteCfg.obstacleLineIndex = _lastObstacle.lineIndex;
                 } else
                 {
                     lineIndex = noteCfg.type == NoteConfig.NOTE_TYPE_LEFT ? UnityEngine.Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_1 + 1) : UnityEngine.Random.Range(NoteConfig.LINE_INDEX_2, NoteConfig.LINE_INDEX_3 + 1);

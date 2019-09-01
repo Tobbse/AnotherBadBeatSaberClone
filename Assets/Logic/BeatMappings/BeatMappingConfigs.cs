@@ -64,6 +64,7 @@ namespace BeatMappingConfigs {
         public int type;
         public int cutDirection;
         public bool belongsToDoubleNote;
+        public int obstacleLineIndex = -1;
     }
 
 

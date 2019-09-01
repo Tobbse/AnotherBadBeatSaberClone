@@ -91,7 +91,7 @@ public class Sabre : MonoBehaviour
                 sliced.AddComponent<Rigidbody>();
                 sliced.AddComponent<SlicedObject>(); // Script that will despawn object after some time.
 
-                float addYVelocity = (i == 0) ? 3 : 0;
+                float addYVelocity = (i == 0) ? 2f : 0f;
 
                 Rigidbody rigid = sliced.GetComponent<Rigidbody>();
                 rigid.angularVelocity = new Vector3(
@@ -100,9 +100,9 @@ public class Sabre : MonoBehaviour
                     Random.Range(direction.z * -10, direction.z * 10)
                 );
                 rigid.velocity = new Vector3(
-                    Random.Range(direction.x * 20, direction.x * 40),
-                    Random.Range(direction.y * 20, direction.y * 40 + addYVelocity), // Adding some extra upwards velocity to seperate the lower from the upper hull a bit more.
-                    Random.Range(direction.z * 20, direction.z * 40)
+                    Random.Range(direction.x * 10, direction.x * 15),
+                    Random.Range(direction.y * 10, direction.y * 15 + addYVelocity), // Adding some extra upwards velocity to seperate the lower from the upper hull a bit more.
+                    Random.Range(direction.z * 10, direction.z * 15)
                 );
             }
         }

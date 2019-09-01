@@ -23,7 +23,7 @@ public class LaserController : MonoBehaviour
     {
         foreach (Rigidbody laser in _laserRigids)
         {
-            laser.angularVelocity = new Vector3(Random.Range(0, 30) * magnitude, Random.Range(0, 30) * magnitude, Random.Range(0, 30) * magnitude);
+            laser.angularVelocity = new Vector3(Random.Range(1, 3) * magnitude, Random.Range(1, 3) * magnitude, Random.Range(1, 3) * magnitude);
         }
     }
 

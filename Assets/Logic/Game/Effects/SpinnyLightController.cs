@@ -63,7 +63,7 @@ namespace SpinnyLight
 
     public class BaseSpinnyThingLightHandler
     {
-        protected bool _isDone = false;
+        protected bool _isDone;
 
         public bool isDone()
         {

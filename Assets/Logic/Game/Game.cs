@@ -13,8 +13,6 @@ public class Game : MonoBehaviour
     public static string DIFFICULTY_EXPERT = "Expert";
     public static string DIFFICULTY_EXPERT_PLUS = "ExpertPlus";
 
-    private const float MAX_TIMEFRAME_SECONDS = 5.0f;
-
     public GameObject leftTimedBlock;
     public GameObject rightTimedBlock;
     public GameObject leftTimedBlockNoDirection;
@@ -22,6 +20,9 @@ public class Game : MonoBehaviour
     public GameObject obstacle;
     public LaserController laserController;
     public SpinnyLightController spinnyLightController;
+    public FogController fogController;
+
+    private const float MAX_TIMEFRAME_SECONDS = 5.0f;
 
     private List<Rigidbody> _smallSpinnerRigids = new List<Rigidbody>();
     private List<Rigidbody> _bigSpinnerRigids = new List<Rigidbody>();
@@ -59,7 +60,7 @@ public class Game : MonoBehaviour
         
         _noteSpawner = new NoteSpawner(mappingContainer.noteData, _bps, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
         _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, _bps, obstacle);
-        _lightHandler = new MainLightController(laserController, spinnyLightController, mappingContainer.eventData, _bps);
+        _lightHandler = new MainLightController(laserController, spinnyLightController, fogController, mappingContainer.eventData, _bps);
 
         _relativeNoteTravelTime = _noteSpawner.getRelativeTravelTime();
         _relativeObstacleTravelTime = _obstacleSpawner.getRelativeTravelTime();
@@ -73,7 +74,7 @@ public class Game : MonoBehaviour
         _audioSource = gameObject.GetComponent<AudioSource>();
         _audioSource.clip = audioClip;
 
-        // Starting point --> Start "in the past" because of block travel times. Imagine there's a note in the very beginning of the song.
+        // Starting point --> Start "in the past" because of block travel times. Imagine there's a note in the very beginning of the song, that wouldn't work otherwise.
         float startPoint = -1 * MAX_TIMEFRAME_SECONDS * _bps; // Not actually seconds anymore when the bps != 1.
         _timePassed = startPoint;
         _lastTime = Time.time;

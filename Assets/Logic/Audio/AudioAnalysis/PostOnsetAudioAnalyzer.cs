@@ -5,7 +5,10 @@ using System.Collections.Generic;
 public class PostOnsetAudioAnalyzer
 {
     private const float MIN_DOUBLE_BLOCK_NOTE_TIME_INTERVAL = 0.25f;
-    private const float DOUBLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL = 4 * MIN_DOUBLE_BLOCK_NOTE_TIME_INTERVAL;
+    private const float DOUBLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL = 2.0f;
+    private const float MIN_SINGLE_BLOCK_NOTE_TIME_INVERVAL = 0.15f;
+    private const float SINGLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL = 1.0f;
+    private const float MIN_NOTE_DISTANCE = 0.05f;
 
     private enum DOUBLE_NOTE_LAYER_TYPES { LAYER_1 = 1, LAYER_2 = 2, LAYER_3 = 3, LAYER_4 = 4, LAYER_5 = 5, LAYER_6 = 6, LAYER_7 = 7, LAYER_8 = 8 };
     private enum DOUBLE_NOTE_INDEX_TYPES { INDEX_1 = 1, INDEX_2 = 2, INDEX_3 = 3, INDEX_4 = 4 };
@@ -22,6 +25,8 @@ public class PostOnsetAudioAnalyzer
     {
         _handleCloseBlocks();
         _polishDoubleBlocks();
+        _polishSingleBlocks();
+        _checkBlockDensity();
     }
 
     public MappingContainer getBeatMappingContainer()
@@ -34,7 +39,6 @@ public class PostOnsetAudioAnalyzer
         // Iterate over all notes of the same type.
         // If too close, make double blocks at the first time.
         // Check if new blockades are created.
-
 
         NoteConfig lastNote = null;
         NoteConfig note;
@@ -56,7 +60,7 @@ public class PostOnsetAudioAnalyzer
             {
                 _doubleNoteIndices.Add(new int[]{ i - 1, i });
 
-                NoteConfig[] newNotes = _getDoubleNotes(lastNote.time);
+                NoteConfig[] newNotes = _getDoubleNotes(lastNote.time, lastNote.obstacleLineIndex);
                 noteData[i - 1] = newNotes[0];
                 noteData[i] = newNotes[1];
 
@@ -67,39 +71,44 @@ public class PostOnsetAudioAnalyzer
         }
     }
 
-    private NoteConfig[] _getDoubleNotes(float time)
+    private NoteConfig[] _getDoubleNotes(float time, int obstacleLineIndex)
     {
         int layerSeed = _getRandomLayerSeed();
         int indexSeed = _getRandomIndexSeed();
-        int leftIndex = _getIndex(indexSeed, true);
-        int rightIndex = _getIndex(indexSeed, false);
-        bool areBlocksAdjacent = Mathf.Abs(leftIndex - rightIndex) <= 1;
-        int leftCutDirection = _getRandomCutDirection(areBlocksAdjacent);
-        int rightCutDirection = Random.Range(0, 100) < 85 ? leftCutDirection : _getOppositeCutDirection(leftCutDirection);
+        int leftLine = _getLine(indexSeed, true);
+        int rightLine = _getLine(indexSeed, false);
+        int leftLayer = _getLayer(layerSeed, true);
+        int rightLayer = _getLayer(layerSeed, false);
+
+        int blockLineDistance = Mathf.Abs(leftLine - rightLine);
+        int blockLayerDistance = Mathf.Abs(leftLayer - rightLayer);
+
+        int[] cutDirections = _getRandomCutDirection(blockLineDistance, blockLayerDistance);
 
         NoteConfig leftDoubleNoteCfg = new NoteConfig();
         leftDoubleNoteCfg.belongsToDoubleNote = true;
         leftDoubleNoteCfg.type = NoteConfig.NOTE_TYPE_LEFT;
         leftDoubleNoteCfg.time = time;
-        leftDoubleNoteCfg.lineLayer = _getLayer(layerSeed, true);
-        leftDoubleNoteCfg.lineIndex = leftIndex;
-        leftDoubleNoteCfg.cutDirection = leftCutDirection;
+        leftDoubleNoteCfg.lineLayer = leftLayer;
+        leftDoubleNoteCfg.lineIndex = leftLine;
+        leftDoubleNoteCfg.cutDirection = cutDirections[0];
+        leftDoubleNoteCfg.obstacleLineIndex = obstacleLineIndex;
 
         NoteConfig rightDoubleNoteCfg = new NoteConfig();
         rightDoubleNoteCfg.belongsToDoubleNote = true;
         rightDoubleNoteCfg.type = NoteConfig.NOTE_TYPE_RIGHT;
         rightDoubleNoteCfg.time = time;
-        rightDoubleNoteCfg.lineLayer = _getLayer(layerSeed, false);
-        rightDoubleNoteCfg.lineIndex = rightIndex;
-        rightDoubleNoteCfg.cutDirection = rightCutDirection;
-
+        rightDoubleNoteCfg.lineLayer = rightLayer;
+        rightDoubleNoteCfg.lineIndex = rightLine;
+        rightDoubleNoteCfg.cutDirection = cutDirections[1];
+        rightDoubleNoteCfg.obstacleLineIndex = obstacleLineIndex;
 
         NoteConfig[] newNotes = { leftDoubleNoteCfg, rightDoubleNoteCfg };
         return newNotes;
 
     }
 
-    private int _getIndex(int indexType, bool isLeftNote)
+    private int _getLine(int indexType, bool isLeftNote)
     {
         switch (indexType)
         {
@@ -151,7 +160,7 @@ public class PostOnsetAudioAnalyzer
         return -1;
     }
 
-    private int _getRandomCutDirection(bool areBlocksAdjacent)
+    private int[] _getRandomCutDirection(int lineDistance, int layerDistance)
     {
         // TODO implement this!
         // TODO also after implementing this, you probably have to iterate over every double note again, check how close they are,
@@ -170,25 +179,62 @@ public class PostOnsetAudioAnalyzer
         // Same with diagonal blocks, because they can also face each other.
         // We then have to adjust the percentage steps.
         int rand = Random.Range(0, 100);
-        if (areBlocksAdjacent)
+
+        bool shouldUseHorizontal = true;
+        bool shouldUseDiagonal = true;
+        bool shouldInvert = false;
+
+        if (lineDistance == 1 && layerDistance == 0)
         {
-            if (rand > 92.5f) return NoteConfig.CUT_DIRECTION_315;  // 7.5 %
-            if (rand >   85f) return NoteConfig.CUT_DIRECTION_45;   // 7.5 %
-            if (rand > 77.5f) return NoteConfig.CUT_DIRECTION_225;  // 7.5 %
-            if (rand >   70f) return NoteConfig.CUT_DIRECTION_135;  // 7.5 %
-            if (rand >   35f) return NoteConfig.CUT_DIRECTION_0;    //  35 ‬%
-            else              return NoteConfig.CUT_DIRECTION_180;  //  35 %
+            shouldUseHorizontal = false;
+        }
+        if (lineDistance == 1 && layerDistance >= 1)
+        {
+            shouldUseDiagonal = false;
+        }
+        if (lineDistance > 1 && layerDistance > 1)
+        {
+            shouldInvert = true;
+        }
+        int randomCutDirection;
+
+
+        if (!shouldUseDiagonal && !shouldUseHorizontal)
+        {
+            if (rand > 50f) randomCutDirection = NoteConfig.CUT_DIRECTION_0;    // 50.0 ‬% Top
+            else            randomCutDirection = NoteConfig.CUT_DIRECTION_180;  // 50.0 % Bottom
+        } else if (!shouldUseDiagonal)
+        {
+            if      (rand > 80f) randomCutDirection = NoteConfig.CUT_DIRECTION_270;  // 20.0 % Left
+            else if (rand > 60f) randomCutDirection = NoteConfig.CUT_DIRECTION_90;   // 20.0 % Right
+            else if (rand > 30f) randomCutDirection = NoteConfig.CUT_DIRECTION_0;    // 30.0 % Top
+            else                 randomCutDirection = NoteConfig.CUT_DIRECTION_180;  // 30.0 % Bottom
+        } else if (!shouldUseHorizontal)
+        {
+            if      (rand > 92.5f) randomCutDirection = NoteConfig.CUT_DIRECTION_315;  //  7.5 % TopLeft
+            else if (rand > 85f)   randomCutDirection = NoteConfig.CUT_DIRECTION_45;   //  7.5 % TopRight
+            else if (rand > 77.5f) randomCutDirection = NoteConfig.CUT_DIRECTION_225;  //  7.5 % BottomLeft
+            else if (rand > 70f)   randomCutDirection = NoteConfig.CUT_DIRECTION_135;  //  7.5 % BottomRight
+            else if (rand > 35f)   randomCutDirection = NoteConfig.CUT_DIRECTION_0;    // 35.0 % Top
+            else                   randomCutDirection = NoteConfig.CUT_DIRECTION_180;  // 35.0 % Bottom
         } else
         {
-            if (rand > 95) return NoteConfig.CUT_DIRECTION_315;  //  5 %
-            if (rand > 90) return NoteConfig.CUT_DIRECTION_45;   //  5 %
-            if (rand > 85) return NoteConfig.CUT_DIRECTION_225;  //  5 %
-            if (rand > 80) return NoteConfig.CUT_DIRECTION_135;  //  5 %
-            if (rand > 60) return NoteConfig.CUT_DIRECTION_270;  // 20 %
-            if (rand > 40) return NoteConfig.CUT_DIRECTION_90;   // 20 %
-            if (rand > 20) return NoteConfig.CUT_DIRECTION_0;    // 20 %
-            else           return NoteConfig.CUT_DIRECTION_180;  // 20 %
+            if      (rand > 95f) randomCutDirection = NoteConfig.CUT_DIRECTION_315;  //  5.0 % TopLeft
+            else if (rand > 90f) randomCutDirection = NoteConfig.CUT_DIRECTION_45;   //  5.0 % TopRight
+            else if (rand > 85f) randomCutDirection = NoteConfig.CUT_DIRECTION_225;  //  5.0 % BottomLeft
+            else if (rand > 80f) randomCutDirection = NoteConfig.CUT_DIRECTION_135;  //  5.0 % BottomRight
+            else if (rand > 65f) randomCutDirection = NoteConfig.CUT_DIRECTION_270;  // 15.0 % Left
+            else if (rand > 50f) randomCutDirection = NoteConfig.CUT_DIRECTION_90;   // 15.0 % Right
+            else if (rand > 25f) randomCutDirection = NoteConfig.CUT_DIRECTION_0;    // 25.0 % Top
+            else                 randomCutDirection = NoteConfig.CUT_DIRECTION_180;  // 25.0 % Bottom
         }
+
+        int[] cutDirections = new int[] { randomCutDirection, randomCutDirection };
+        if (Random.Range(0, 100) > 90 || shouldInvert)
+        {
+            cutDirections[1] = _getOppositeCutDirection(cutDirections[0]);
+        }
+        return cutDirections;
     }
 
 
@@ -230,11 +276,6 @@ public class PostOnsetAudioAnalyzer
         return -1;
     }
 
-    private void createRandomStuff()
-    {
-
-    }
-
     private void _polishDoubleBlocks()
     {
         List<NoteConfig> noteData = _beatMappingContainer.noteData;
@@ -259,11 +300,11 @@ public class PostOnsetAudioAnalyzer
                 rightBlock.cutDirection = _getOppositeCutDirection(lastRightBlock.cutDirection);
 
                 int rand = Random.Range(0, 100);
-                if (rand > 85)
+                if (rand > 95)
                 {
                     leftBlock.lineLayer  = Mathf.Max(NoteConfig.LINE_LAYER_0, lastLeftBlock.lineLayer  - 1);
                     rightBlock.lineLayer = Mathf.Max(NoteConfig.LINE_LAYER_0, lastRightBlock.lineLayer - 1);
-                } else if (rand > 70) {
+                } else if (rand > 90) {
                     leftBlock.lineLayer  = Mathf.Min(NoteConfig.LINE_LAYER_3, lastLeftBlock.lineLayer  + 1);
                     rightBlock.lineLayer = Mathf.Min(NoteConfig.LINE_LAYER_3, lastRightBlock.lineLayer + 1);
                 } else
@@ -272,14 +313,13 @@ public class PostOnsetAudioAnalyzer
                     rightBlock.lineLayer = lastRightBlock.lineLayer;
                 }
 
-
                 rand = Random.Range(0, 100);
-                if (rand > 85)
+                if (rand > 92.5f)
                 {
                     leftBlock.lineIndex = Mathf.Max(NoteConfig.LINE_INDEX_0, lastLeftBlock.lineIndex - 1);
                     rightBlock.lineIndex = Mathf.Max(NoteConfig.LINE_INDEX_0, lastRightBlock.lineIndex - 1);
                 }
-                else if (rand > 70)
+                else if (rand > 87.5f)
                 {
                     leftBlock.lineIndex = Mathf.Min(NoteConfig.LINE_INDEX_3, lastLeftBlock.lineIndex + 1);
                     rightBlock.lineIndex = Mathf.Min(NoteConfig.LINE_INDEX_3, lastRightBlock.lineIndex + 1);
@@ -289,9 +329,132 @@ public class PostOnsetAudioAnalyzer
                     leftBlock.lineIndex = lastLeftBlock.lineIndex;
                     rightBlock.lineIndex = lastRightBlock.lineIndex;
                 }
-
             }
 
+            if (leftBlock.obstacleLineIndex != -1 || rightBlock.obstacleLineIndex != -1)
+            {
+                leftBlock.lineIndex = _getLineIndexNextToObstacle(leftBlock);
+                rightBlock.lineIndex = _getLineIndexNextToObstacle(rightBlock);
+                leftBlock.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
+                rightBlock.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
+            }
+        }
+    }
+
+    private void _polishSingleBlocks()
+    {
+        NoteConfig lastBlock = null;
+        for (int i = 0; i < _beatMappingContainer.noteData.Count; i++)
+        {
+            NoteConfig block = _beatMappingContainer.noteData[i];
+            if (lastBlock == null || lastBlock.belongsToDoubleNote) // Should not move note to a double note, can't hit 3 at the same time.
+            {
+                lastBlock = block;
+                continue;
+            }
+            if (lastBlock.time + MIN_SINGLE_BLOCK_NOTE_TIME_INVERVAL > block.time)
+            {
+                block.time = lastBlock.time;
+                block.obstacleLineIndex = lastBlock.obstacleLineIndex;
+                block.type = lastBlock.type == NoteConfig.NOTE_TYPE_LEFT ? NoteConfig.NOTE_TYPE_RIGHT : NoteConfig.NOTE_TYPE_LEFT;
+
+                if (block.obstacleLineIndex != -1)
+                {
+                    block.lineIndex = _getLineIndexNextToObstacle(block);
+                    block.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
+                }
+                if (block.lineIndex == lastBlock.lineIndex && block.lineLayer == lastBlock.lineLayer)
+                {
+                    _beatMappingContainer.noteData.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+            }
+            lastBlock = block;
+        }
+
+        lastBlock = null;
+        foreach (NoteConfig block in _beatMappingContainer.noteData)
+        {
+            if (lastBlock == null) // Should be okay to check only one of them, for performance reasons.
+            {
+                lastBlock = block;
+                continue;
+            }
+
+            if (lastBlock.time + SINGLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL > block.time)
+            {
+                block.cutDirection = _getOppositeCutDirection(lastBlock.cutDirection);
+
+                int rand = Random.Range(0, 100);
+                if (rand > 95)
+                {
+                    block.lineLayer = Mathf.Max(NoteConfig.LINE_LAYER_0, lastBlock.lineLayer - 1);
+                }
+                else if (rand > 90)
+                {
+                    block.lineLayer = Mathf.Min(NoteConfig.LINE_LAYER_3, lastBlock.lineLayer + 1);
+                }
+                else
+                {
+                    block.lineLayer = lastBlock.lineLayer;
+                }
+
+                rand = Random.Range(0, 100);
+                if (rand > 92.5f)
+                {
+                    block.lineIndex = Mathf.Max(NoteConfig.LINE_INDEX_0, lastBlock.lineIndex - 1);
+                }
+                else if (rand > 87.5f)
+                {
+                    block.lineIndex = Mathf.Min(NoteConfig.LINE_INDEX_3, lastBlock.lineIndex + 1);
+                }
+                else
+                {
+                    block.lineIndex = lastBlock.lineIndex;
+                }
+            }
+            if (block.obstacleLineIndex != -1)
+            {
+                block.lineIndex = _getLineIndexNextToObstacle(block);
+                block.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
+            }
+        }
+    }
+
+    private int _getLineIndexNextToObstacle(NoteConfig block)
+    {
+        
+        if (block.type == NoteConfig.NOTE_TYPE_LEFT)
+        {
+            return block.obstacleLineIndex < 2 ? NoteConfig.LINE_INDEX_2 : NoteConfig.LINE_INDEX_0;
+        }
+        else
+        {
+            return block.obstacleLineIndex < 2 ? NoteConfig.LINE_INDEX_3 : NoteConfig.LINE_INDEX_1;
+        }
+    }
+
+    private void _checkBlockDensity()
+    {
+        NoteConfig lastBlock = null;
+        NoteConfig block;
+
+        for (int i = 0; i < _beatMappingContainer.noteData.Count; i++)
+        {
+            block = _beatMappingContainer.noteData[i];
+            if (lastBlock == null)
+            {
+                lastBlock = block;
+                continue;
+            }
+            if (lastBlock.time + MIN_NOTE_DISTANCE > block.time && !(block.belongsToDoubleNote || lastBlock.belongsToDoubleNote))
+            {
+                _beatMappingContainer.noteData.RemoveAt(i);
+                i--;
+                continue;
+            }
+            lastBlock = block;
         }
     }
 
@@ -312,22 +475,22 @@ public class PostOnsetAudioAnalyzer
     private int _getRandomLayerSeed()
     {
         int rand = Random.Range(0, 100);
-        if (rand > 95) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_8;  // 5%
-        if (rand > 90) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_7;  // 5%
-        if (rand > 85) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_6;  // 5%
-        if (rand > 80) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_5;  // 5%
-        if (rand > 65) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_4;  // 15%
-        if (rand > 50) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_3;  // 15%
-        if (rand > 25) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_2;  // 25%
+        if (rand > 95) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_8;  //  5 %
+        if (rand > 90) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_7;  //  5 %
+        if (rand > 85) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_6;  //  5 %
+        if (rand > 80) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_5;  //  5 %
+        if (rand > 65) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_4;  // 15 %
+        if (rand > 50) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_3;  // 15 %
+        if (rand > 25) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_2;  // 25 %
         else return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_1;  // 25%
     }
 
     private int _getRandomIndexSeed()
     {
         int rand = Random.Range(0, 100);
-        if (rand > 90) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_4;  // 10%
-        if (rand > 80) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_3;  // 10%
-        if (rand > 40) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_2;  // 40%
-        else return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_1;  // 40%
+        if (rand > 90) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_4;  // 10 %
+        if (rand > 80) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_3;  // 10 %
+        if (rand > 40) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_2;  // 40 %
+        else           return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_1;  // 40 %
     }
 }
