@@ -544,17 +544,17 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    1: CT_FB
+    1: CT_FB;UNITY_POST_PROCESSING_STACK_V2
     4: CT_FB
-    7: CT_FB
-    13: CT_FB
+    7: CT_FB;UNITY_POST_PROCESSING_STACK_V2
+    13: CT_FB;UNITY_POST_PROCESSING_STACK_V2
     14: CT_FB
-    19: CT_FB
-    21: CT_FB
-    25: CT_FB
-    26: CT_FB
-    27: CT_FB
-    28: CT_FB
+    19: CT_FB;UNITY_POST_PROCESSING_STACK_V2
+    21: CT_FB;UNITY_POST_PROCESSING_STACK_V2
+    25: CT_FB;UNITY_POST_PROCESSING_STACK_V2
+    26: CT_FB;UNITY_POST_PROCESSING_STACK_V2
+    27: CT_FB;UNITY_POST_PROCESSING_STACK_V2
+    28: CT_FB;UNITY_POST_PROCESSING_STACK_V2
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

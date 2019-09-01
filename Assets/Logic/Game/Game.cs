@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
 using System.Collections.Generic;
+using SpinnyLight;
 
 public class Game : MonoBehaviour
 {
@@ -19,16 +20,18 @@ public class Game : MonoBehaviour
     public GameObject leftTimedBlockNoDirection;
     public GameObject rightTimedBlockNoDirection;
     public GameObject obstacle;
-    public EffectController effectController;
+    public LaserController laserController;
+    public SpinnyLightController spinnyLightController;
 
-    private List<Rigidbody> _spinnerRigids;
+    private List<Rigidbody> _smallSpinnerRigids = new List<Rigidbody>();
+    private List<Rigidbody> _bigSpinnerRigids = new List<Rigidbody>();
     private float _timePassed;
     private float _lastTime;
     private bool _timeframeReached;
     private AudioSource _audioSource;
     private NoteSpawner _noteSpawner;
     private ObstacleSpawner _obstacleSpawner;
-    private LightHandler _lightHandler;
+    private MainLightController _lightHandler;
     private float _bps;
     private float _relativeNoteTravelTime;
     private float _relativeObstacleTravelTime;
@@ -39,10 +42,10 @@ public class Game : MonoBehaviour
         enabled = false;
 
         GameObject[] spinners = GameObject.FindGameObjectsWithTag("Spinner");
-        _spinnerRigids = new List<Rigidbody>();
         foreach (GameObject spinner in spinners)
         {
-            _spinnerRigids.Add(spinner.GetComponent<Rigidbody>());
+            if (spinner.name.Contains("Small")) _smallSpinnerRigids.Add(spinner.GetComponent<Rigidbody>());
+            else if (spinner.name.Contains("Big")) _bigSpinnerRigids.Add(spinner.GetComponent<Rigidbody>());
         }
 
         MappingContainer mappingContainer = GlobalStorage.getInstance().MappingContainer;
@@ -56,7 +59,7 @@ public class Game : MonoBehaviour
         
         _noteSpawner = new NoteSpawner(mappingContainer.noteData, _bps, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
         _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, _bps, obstacle);
-        _lightHandler = new LightHandler(effectController, mappingContainer.eventData, _bps);
+        _lightHandler = new MainLightController(laserController, spinnyLightController, mappingContainer.eventData, _bps);
 
         _relativeNoteTravelTime = _noteSpawner.getRelativeTravelTime();
         _relativeObstacleTravelTime = _obstacleSpawner.getRelativeTravelTime();
@@ -81,9 +84,13 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        foreach (Rigidbody spinner in _spinnerRigids) // Currently contains only one object, should be fine.
+        foreach (Rigidbody smallSpinner in _smallSpinnerRigids) // Currently contains only one object, should be fine.
         {
-            spinner.angularVelocity = new Vector3(0.15f, 0, 0);
+            smallSpinner.angularVelocity = new Vector3(0.2f, 0, 0);
+        }
+        foreach (Rigidbody bigSpinner in _bigSpinnerRigids) // Currently contains only one object, should be fine.
+        {
+            bigSpinner.angularVelocity = new Vector3(0.1f, 0, 0);
         }
 
         float currentTime = Time.time;

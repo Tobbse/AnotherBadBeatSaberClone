@@ -7,7 +7,8 @@ using System;
 
 public class OnsetDetector
 {
-    private static float peakMult = 1.0f;
+    // TODO actually this should depend on the sample rate of the song.
+    private static int MAX_BEAT_BLOCK_COUNTER = 5;
 
     private AnalyzerBandConfig _currentBandCfg;
     private List<AnalyzedSpectrumConfig> _spectrumConfigs;
@@ -113,7 +114,7 @@ public class OnsetDetector
                     else obstacleCfg.lineIndex = 3;
 
                     _beatMappingContainer.obstacleData.Add(obstacleCfg);
-                    _obstacleBlockCounter = getNumIndicesFromSeconds(obstacleCfg.duration + 0.2f);
+                    _obstacleBlockCounter = getNumIndicesFromSeconds(obstacleCfg.duration + 0.1f);
                     _lastObstacle = obstacleCfg;
                 }
             }
@@ -121,7 +122,7 @@ public class OnsetDetector
             if (_beatBlockCounter == 0 && _isPeak())
             {
                 //_beatBlockCounter = _currentBandCfg.beatBlockCounter;
-                _beatBlockCounter = 18;
+                _beatBlockCounter = MAX_BEAT_BLOCK_COUNTER;
 
                 _currentSpectrumCfg.hasPeak = true;
                 _currentSpectrumCfg.bandBeatData[_band].isPeak = true;

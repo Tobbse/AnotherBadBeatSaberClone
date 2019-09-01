@@ -1,0 +1,58 @@
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/
+
+# ===================================== #
+# Visual Studio / Monodevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+/*.csproj
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+
+# ============ #
+# Unity Store  #
+# ============ #
+
+
+# ============ #
+# Testing      #
+# ============ #
+Assets/UnityVS/
+Assets/UnityVS.meta
+Assets/Sonic Ether/
+UnityVS.New Unity Project.sln.ide/storage.ide
+UnityVS.New Unity Project.sln.ide/edbres00002.jrs
+Assets/Sonic Ether.meta
+UnityVS.New Unity Project.sln.ide/edbres00001.jrs
+UnityVS.New Unity Project.sln.ide/edb00002.log
+UnityVS.New Unity Project.sln.ide/edb.log
+UnityVS.New Unity Project.sln.ide/edb.chk
+Assets/Visualizations/
+Assets/sponzaNew.meta
+Assets/sponzaNew.unity
+Assets/sponzaNew.unity.meta
+Assets/sponzaNew/
+Vapor.VC.VC.opendb
+Vapor.VC.db
