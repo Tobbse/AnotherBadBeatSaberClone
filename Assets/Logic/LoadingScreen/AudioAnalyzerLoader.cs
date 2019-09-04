@@ -30,12 +30,42 @@ public class AudioAnalyzerLoader : MonoBehaviour
         _difficulty = GlobalStorage.getInstance().Difficulty;
 
         string path = GlobalStorage.getInstance().AudioPath;
-        StartCoroutine(LoadMp3AudioClip(path));
+        if (path.Contains(".mp3"))
+        {
+            StartCoroutine(LoadMp3AudioClip(path));
+        } else
+        {
+            StartCoroutine(LoadOggAudioClip(path));
+        }
     }
 
     private void _clipLoaded()
     {
-        _trackConfig = new TrackConfig(_audioClip.frequency, _audioClip.name);
+        string clipName = _audioClip.name;
+        if (_audioClip.name == "")
+        {
+            clipName = GlobalStorage.getInstance().AudioPath;
+            while (clipName.Contains("/"))
+            {
+                clipName = clipName.Substring(clipName.LastIndexOf("/") + 1);
+            }
+            while (clipName.Contains("\\"))
+            {
+                clipName = clipName.Substring(clipName.LastIndexOf("\\") + 1);
+            }
+            while (clipName.Length > 2)
+            {
+                if (clipName[clipName.Length - 1] != '.')
+                {
+                    clipName = clipName.Remove(clipName.Length - 1);
+                } else
+                {
+                    clipName = clipName.Remove(clipName.Length - 1);
+                    break;
+                }
+            }
+        }
+        _trackConfig = new TrackConfig(_audioClip.frequency, clipName);
 
         string fullPath = _jsonFileHandler.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
         if (GlobalStaticSettings.USE_CACHE && _jsonFileHandler.fileExists(fullPath))
@@ -57,7 +87,19 @@ public class AudioAnalyzerLoader : MonoBehaviour
     private IEnumerator LoadMp3AudioClip(string path)
     {
         _audioClip = Mp3Loader.LoadMp3(path);
-        while(!_audioClip.isReadyToPlay)
+        while (!_audioClip.isReadyToPlay)
+        {
+            yield return _audioClip;
+        }
+        _audioClip.LoadAudioData();
+        _clipLoaded();
+    }
+
+    private IEnumerator LoadOggAudioClip(string path)
+    {
+        WWW m_get = new WWW("file://" + path);
+        _audioClip = m_get.GetAudioClip(true, true, AudioType.OGGVORBIS);
+        while (!_audioClip.isReadyToPlay)
         {
             yield return _audioClip;
         }

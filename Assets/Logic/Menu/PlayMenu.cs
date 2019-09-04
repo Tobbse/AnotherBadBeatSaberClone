@@ -9,6 +9,7 @@ public class PlayMenu : MonoBehaviour
     public GameObject loadingScreen;
     public GameObject leftSaber;
     public GameObject rightSaber;
+    public Text difficultyLabel;
 
     private string _path;
     private Action _backButtonCallback;
@@ -33,6 +34,7 @@ public class PlayMenu : MonoBehaviour
     {
         if (_path != null && _path.Length > 0)
         {
+            GlobalStorage.getInstance().Difficulty = difficultyLabel.text;
             Destroy(leftSaber.gameObject);
             Destroy(rightSaber.gameObject);
             _setEnableButtons(false);
@@ -52,10 +54,13 @@ public class PlayMenu : MonoBehaviour
     public void clickLoadAudioFile()
     {
         _setEnableButtons(false);
-
-        FileBrowser.SetDefaultFilter(".mp3");
-        FileBrowser.SetFilters(false, new FileBrowser.Filter[] {new FileBrowser.Filter("Audio Files", ".mp3")});
-        FileBrowser.ShowLoadDialog(new FileBrowser.OnSuccess(_onAudioFilePicked), new FileBrowser.OnCancel(_onAudioFileCancelled), false, Application.dataPath + "/Resources/Audio", "Choose Audio File to Play");
+        FileBrowser.SetFilters(false, new FileBrowser.Filter[] {
+            new FileBrowser.Filter("Audio Files", new string[]{
+                ".mp3",
+                ".egg",
+                ".ogg" })
+        });
+        FileBrowser.ShowLoadDialog(new FileBrowser.OnSuccess(_onAudioFilePicked), new FileBrowser.OnCancel(_onAudioFileCancelled), false, Application.dataPath + "/Resources/SongData/BeatMappings", "Choose Audio File to Play");
     }
 
     private void _onAudioFilePicked(string target)
@@ -70,7 +75,6 @@ public class PlayMenu : MonoBehaviour
         _playButton.enabled = true;
 
         GlobalStorage global = new GlobalStorage();
-        GlobalStorage.getInstance().Difficulty = Game.DIFFICULTY_EASY;
         GlobalStorage.getInstance().AudioPath = _path;
     }
 

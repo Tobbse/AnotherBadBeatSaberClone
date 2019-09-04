@@ -19,7 +19,6 @@ public class SphericalFog : MonoBehaviour
 			Camera.main.depthTextureMode = DepthTextureMode.Depth;
 		
 		sphericalFogObject.material = sphericalFogMaterial;
-		
 	}
 
 	void Update ()

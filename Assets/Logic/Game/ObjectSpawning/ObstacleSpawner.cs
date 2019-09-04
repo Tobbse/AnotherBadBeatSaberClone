@@ -4,7 +4,6 @@ using BeatMappingConfigs;
 
 public class ObstacleSpawner : ScriptableObject
 {
-    // TODO investigate: constant travel time and distance, or dynamic based on the bpm or something?
     public const float OBSTACLE_DISTANCE = 40;
     public const float OBSTACLE_TRAVEL_TIME = 3.0f;
 
@@ -22,7 +21,7 @@ public class ObstacleSpawner : ScriptableObject
         _obstacle = obstacle;
         _bps = bps;
 
-        _relativeTravelTime = OBSTACLE_TRAVEL_TIME /*/ _bps*/;
+        _relativeTravelTime = OBSTACLE_TRAVEL_TIME;
         _speed = OBSTACLE_DISTANCE / _relativeTravelTime;
     }
 
@@ -47,10 +46,9 @@ public class ObstacleSpawner : ScriptableObject
 
     private void _handleObstacle(ObstacleConfig obstacleConfig)
     {
-        // TODO implement properly before using this. Currently the obstacles get destroyed when colliding with the player.
         if (!GlobalStaticSettings.USE_OBSTACLES) return;
 
-        float obstacleLength = Mathf.Max(_secondsToScale(obstacleConfig.duration), 1f);
+        float obstacleLength = Mathf.Max(_secondsToScale(obstacleConfig.duration), 0.1f);
         Vector3 position = new Vector3(
             OBSTACLE_DISTANCE * -1 - obstacleLength / 2,
             3f,
@@ -65,6 +63,6 @@ public class ObstacleSpawner : ScriptableObject
 
     private float _secondsToScale(float duration)
     {
-        return _speed * duration;
+        return _speed * duration / _bps;
     }
 }
