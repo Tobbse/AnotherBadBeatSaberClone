@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using BeatMappingConfigs;
 
+/**
+ * This spawns a bunch of random notes that can be used in a Saber Test Scene, to evaluate the cutting and slicing functionality.
+ **/
 public class SabreTest : MonoBehaviour
 {
     public GameObject leftTimedBlock;
@@ -13,8 +16,8 @@ public class SabreTest : MonoBehaviour
     private void Awake()
     {
         ScoreTracker.getInstance().NumBeats = 1;
-        GlobalStaticSettings.OVERRIDE_BLOCK_DESPAWN = true;
-        GlobalStaticSettings.USE_SABRE_DEBUG_RAYS = true;
+        GlobalSettings.OVERRIDE_BLOCK_DESPAWN = true;
+        GlobalSettings.USE_SABRE_DEBUG_RAYS = true;
     }
 
     void Start()
@@ -36,10 +39,10 @@ public class SabreTest : MonoBehaviour
         for (int i = 0; i < 100; i++)
         {
             NoteConfig cfg = createRandomNote();
-            GameObject block = Instantiate(_blockTypeMapping[cfg.type]);
+            GameObject block = Instantiate(_blockTypeMapping[cfg.Type]);
 
             block.transform.position = new Vector3(Random.Range(0, 7f), Random.Range(0.2f, 3), Random.Range(0, 7));
-            int angle = _cutDirectionMapping[cfg.cutDirection];
+            int angle = _cutDirectionMapping[cfg.CutDirection];
             block.transform.Rotate(new Vector3(angle, 0, 0));
         }
     }
@@ -47,10 +50,10 @@ public class SabreTest : MonoBehaviour
     private NoteConfig createRandomNote()
     {
         NoteConfig cfg = new NoteConfig();
-        cfg.cutDirection = Random.Range(NoteConfig.CUT_DIRECTION_0, NoteConfig.CUT_DIRECTION_NONE + 1);
-        cfg.lineIndex = Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_3 + 1);
-        cfg.lineLayer = Random.Range(NoteConfig.LINE_LAYER_0, NoteConfig.LINE_LAYER_3 + 1);
-        cfg.type = Random.Range(NoteConfig.NOTE_TYPE_LEFT, NoteConfig.NOTE_TYPE_RIGHT + 1);
+        cfg.CutDirection = Random.Range(NoteConfig.CUT_DIRECTION_0, NoteConfig.CUT_DIRECTION_NONE + 1);
+        cfg.LineIndex = Random.Range(NoteConfig.LINE_INDEX_0, NoteConfig.LINE_INDEX_3 + 1);
+        cfg.LineLayer = Random.Range(NoteConfig.LINE_LAYER_0, NoteConfig.LINE_LAYER_3 + 1);
+        cfg.Type = Random.Range(NoteConfig.NOTE_TYPE_LEFT, NoteConfig.NOTE_TYPE_RIGHT + 1);
         return cfg;
     }
 }

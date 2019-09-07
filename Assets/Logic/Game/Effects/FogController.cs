@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/**
+ * This class exposes an API to the MainEffectController to control fog lighting effects.
+ **/
 public class FogController : MonoBehaviour
 {
     public MeshRenderer baseFog;

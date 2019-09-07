@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
 using System.Collections.Generic;
-using SpinnyLight;
 
+/**
+ * Contains the main game loop.
+ * Holds controllers for notes, obstacles and events/effects and passes the mapping data to them.
+ * Calls those controller objects on each update to check if there is for example a new note that
+ * has to be spawned or an effect that should be triggered, depending on the current time value and
+ * the time values saved in the mapping configs.
+ * 
+ * Also handles timing depending on the bpm of the song, as distances and timings change according to the bpm.
+ */
 public class Game : MonoBehaviour
 {
     public static string DIFFICULTY_EASY = "Easy";
@@ -19,7 +26,7 @@ public class Game : MonoBehaviour
     public GameObject rightTimedBlockNoDirection;
     public GameObject obstacle;
     public LaserController laserController;
-    public SpinnyLightController spinnyLightController;
+    public SpinnerLightController spinnerLightController;
     public FogController fogController;
 
     private const float MAX_TIMEFRAME_SECONDS = 5.0f;
@@ -32,12 +39,15 @@ public class Game : MonoBehaviour
     private AudioSource _audioSource;
     private NoteSpawner _noteSpawner;
     private ObstacleSpawner _obstacleSpawner;
-    private MainLightController _lightHandler;
+    private MainEffectController _effectController;
     private float _bps;
     private float _relativeNoteTravelTime;
     private float _relativeObstacleTravelTime;
     private float _relativeTimePassed;
     
+    // Preparomg controllers and passing data to them.
+    // Preparing score tracking and the audio clip.
+    // Calculates the start point.
     void Start()
     {
         enabled = false;
@@ -50,23 +60,23 @@ public class Game : MonoBehaviour
         }
 
         MappingContainer mappingContainer = GlobalStorage.getInstance().MappingContainer;
-        if (mappingContainer.mappingInfo.bpm == 1)
+        if (mappingContainer.MappingInfo.Bpm == 1)
         {
             _bps = 1;
         } else
         {
-            _bps = mappingContainer.mappingInfo.bpm / 60;
+            _bps = mappingContainer.MappingInfo.Bpm / 60;
         }
         
-        _noteSpawner = new NoteSpawner(mappingContainer.noteData, _bps, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
-        _obstacleSpawner = new ObstacleSpawner(mappingContainer.obstacleData, _bps, obstacle);
-        _lightHandler = new MainLightController(laserController, spinnyLightController, fogController, mappingContainer.eventData, _bps);
+        _noteSpawner = new NoteSpawner(mappingContainer.NoteData, _bps, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
+        _obstacleSpawner = new ObstacleSpawner(mappingContainer.ObstacleData, _bps, obstacle);
+        _effectController = new MainEffectController(laserController, spinnerLightController, fogController, mappingContainer.EventData, _bps);
 
         _relativeNoteTravelTime = _noteSpawner.getRelativeTravelTime();
         _relativeObstacleTravelTime = _obstacleSpawner.getRelativeTravelTime();
 
 
-        ScoreTracker.getInstance().NumBeats = mappingContainer.noteData.Count;
+        ScoreTracker.getInstance().NumBeats = mappingContainer.NoteData.Count;
         ScoreTracker.getInstance().setupGameObjects();
 
         AudioClip audioClip = GlobalStorage.getInstance().AudioClip;
@@ -85,20 +95,23 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        foreach (Rigidbody smallSpinner in _smallSpinnerRigids) // Currently contains only one object, should be fine.
+        // Not ideal I guess, but currently contains _bigSpinnerRigids and _smallSpinnerRigids contain only one rigid, so that should be fine.
+        foreach (Rigidbody smallSpinner in _smallSpinnerRigids)
         {
             smallSpinner.angularVelocity = new Vector3(0.2f, 0, 0);
         }
-        foreach (Rigidbody bigSpinner in _bigSpinnerRigids) // Currently contains only one object, should be fine.
+        foreach (Rigidbody bigSpinner in _bigSpinnerRigids) 
         {
             bigSpinner.angularVelocity = new Vector3(0.1f, 0, 0);
         }
 
+        // Calculates the relative time that has passed depending on the bpm values.
         float currentTime = Time.time;
         _timePassed += currentTime - _lastTime;
         _relativeTimePassed += (currentTime - _lastTime) * _bps;
         _lastTime = currentTime;
 
+        // Triggers playing of audio file once, at the correct point in time.
         if (!_timeframeReached && _relativeTimePassed >= 0)
         {
             _timeframeReached = true;
@@ -106,16 +119,19 @@ public class Game : MonoBehaviour
             _audioSource.volume = 0.25f;
         } else if (_timeframeReached && !_audioSource.isPlaying)
         {
-            TimedBlock[] timedBlocks = Object.FindObjectsOfType<TimedBlock>(); // Only called once.
+            // End of loop, only called once so the 'FindObjectsOfType' call is fine. Leftover blocks have to be missed.
+            TimedBlock[] timedBlocks = Object.FindObjectsOfType<TimedBlock>();
             foreach (TimedBlock block in timedBlocks)
             {
-                block.missBlock();
+                block.MissBlock();
             }
             SceneManager.LoadScene("ScoreMenu");
         }
 
+        // Checks if new events/blocks/obstacles are available and should be spawned, depending on the relative time passed.
+        // The travel time has to be taken into account here, because we want the blocks to spawn before they arrive at the player.
         _noteSpawner.checkBlocksSpawnable(_relativeTimePassed + NoteSpawner.BLOCK_TRAVEL_TIME * _bps);
         _obstacleSpawner.checkObstaclesSpawnable(_relativeTimePassed + ObstacleSpawner.OBSTACLE_TRAVEL_TIME * _bps);
-        _lightHandler.checkEventsAvailable(_relativeTimePassed);
+        _effectController.checkEventsAvailable(_relativeTimePassed);
     }
 }

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
+/**
+ * Provider for audio samples from an audio clip. Can create stereo samples and get mono samples from that array.
+ * We want mono samples as they are easier to handle.
+ **/
 public static class AudioSampleProvider
 {
-    public static float[] getMonoSamples(AudioClip audioClip)
-    {
-        return _getMonoSamples(_getSamples(audioClip), audioClip.channels);
-    }
-
-    public static float[] _getSamples(AudioClip audioClip)
+    public static float[] getSamples(AudioClip audioClip)
     {
         int numTotalSamples = audioClip.samples * audioClip.channels;
         float[] stereoSamples = new float[numTotalSamples];
@@ -15,7 +14,7 @@ public static class AudioSampleProvider
         return stereoSamples;
     }
 
-    private static float[] _getMonoSamples(float[] stereoSamples, int numChannels)
+    public static float[] getMonoSamples(float[] stereoSamples, int numChannels)
     {
         float[] monoSamples = new float[stereoSamples.Length / numChannels];
         int numProcessed = 0;
@@ -31,5 +30,4 @@ public static class AudioSampleProvider
         }
         return monoSamples;
     }
-
 }

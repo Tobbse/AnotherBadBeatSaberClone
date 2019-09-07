@@ -1,8 +1,10 @@
-﻿using UnityEngine;
-using BeatMappingConfigs;
+﻿using BeatMappingConfigs;
 using System.Globalization;
 using System.Collections.Generic;
 
+/**
+ * Builds a json string from a mapping container so that it can be written to a json file.
+ **/
 public class JsonMappingStringBuilder
 {
     private List<EventConfig> _events;
@@ -18,10 +20,10 @@ public class JsonMappingStringBuilder
 
     public void setData(MappingContainer beatMappingContainer)
     {
-        _events = beatMappingContainer.eventData;
-        _notes = beatMappingContainer.noteData;
-        _obstacles = beatMappingContainer.obstacleData;
-        _bookmarks = beatMappingContainer.bookmarkData;
+        _events = beatMappingContainer.EventData;
+        _notes = beatMappingContainer.NoteData;
+        _obstacles = beatMappingContainer.ObstacleData;
+        _bookmarks = beatMappingContainer.BookmarkData;
     }
 
     public string getJsonString()
@@ -53,9 +55,9 @@ public class JsonMappingStringBuilder
             isLast = i >= _events.Count - 1;
             eventCfg = _events[i];
 
-            eventStr = time + eventCfg.time.ToString(usa) + ",";
-            eventStr += type + eventCfg.type.ToString(usa) + ",";
-            eventStr += value + eventCfg.value.ToString(usa) + ",";
+            eventStr = time + eventCfg.Time.ToString(usa) + ",";
+            eventStr += type + eventCfg.Type.ToString(usa) + ",";
+            eventStr += value + eventCfg.Value.ToString(usa) + ",";
 
             eventStr = _addBrackets(eventStr, isLast);
             _json += eventStr;
@@ -82,11 +84,11 @@ public class JsonMappingStringBuilder
             isLast = i >= _notes.Count - 1;
             noteCfg = _notes[i];
 
-            notesStr = time + noteCfg.time.ToString(usa) + ",";
-            notesStr += lineIndex + noteCfg.lineIndex.ToString(usa) + ",";
-            notesStr += lineLayer + noteCfg.lineLayer.ToString(usa) + ",";
-            notesStr += type + noteCfg.type.ToString(usa) + ",";
-            notesStr += cutDirection + noteCfg.cutDirection.ToString(usa) + ",";
+            notesStr = time + noteCfg.Time.ToString(usa) + ",";
+            notesStr += lineIndex + noteCfg.LineIndex.ToString(usa) + ",";
+            notesStr += lineLayer + noteCfg.LineLayer.ToString(usa) + ",";
+            notesStr += type + noteCfg.Type.ToString(usa) + ",";
+            notesStr += cutDirection + noteCfg.CutDirection.ToString(usa) + ",";
 
             notesStr = _addBrackets(notesStr, isLast);
             _json += notesStr;
@@ -113,11 +115,11 @@ public class JsonMappingStringBuilder
             isLast = i >= _obstacles.Count - 1;
             obstacleCfg = _obstacles[i];
 
-            obstacleStr = time + obstacleCfg.time.ToString(usa) + ",";
-            obstacleStr += lineIndex + obstacleCfg.lineIndex.ToString(usa) + ",";
-            obstacleStr += type + obstacleCfg.type.ToString(usa) + ",";
-            obstacleStr += duration + obstacleCfg.duration.ToString(usa) + ",";
-            obstacleStr += width + obstacleCfg.width.ToString(usa) + ",";
+            obstacleStr = time + obstacleCfg.Time.ToString(usa) + ",";
+            obstacleStr += lineIndex + obstacleCfg.LineIndex.ToString(usa) + ",";
+            obstacleStr += type + obstacleCfg.Type.ToString(usa) + ",";
+            obstacleStr += duration + obstacleCfg.Duration.ToString(usa) + ",";
+            obstacleStr += width + obstacleCfg.Width.ToString(usa) + ",";
 
             obstacleStr = _addBrackets(obstacleStr, isLast);
             _json += obstacleStr;
@@ -141,8 +143,8 @@ public class JsonMappingStringBuilder
             isLast = i >= _bookmarks.Count - 1;
             bookmarkCfg = _bookmarks[i];
 
-            bookmarkStr = time + bookmarkCfg.time.ToString(usa) + ",";
-            bookmarkStr += name + bookmarkCfg.name + ",";
+            bookmarkStr = time + bookmarkCfg.Time.ToString(usa) + ",";
+            bookmarkStr += name + bookmarkCfg.Name + ",";
 
             bookmarkStr = _addBrackets(bookmarkStr, isLast);
             _json += bookmarkStr;

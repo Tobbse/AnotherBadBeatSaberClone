@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/**
+ * Provides some util functionality for the spectrum analysis.
+ * Currently none of this is actually used.
+ **/
 public static class SpectrumAnalysisUtils
 {
     public static bool shouldBeExtraPeak(float totalAverageFlux, float currentAverageFlux)
@@ -11,5 +15,4 @@ public static class SpectrumAnalysisUtils
     {
         return Mathf.Abs(trueVal - newVal) < Mathf.Abs(trueVal - oldVal);
     }
-
 }

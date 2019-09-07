@@ -1,6 +1,9 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
+/**
+ * Shows int values on slider.
+ **/
 public class ShowSliderValueInt : MonoBehaviour
 {
     Text _sliderText;

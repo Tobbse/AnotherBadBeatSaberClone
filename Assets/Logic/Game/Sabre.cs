@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using EzySlice;
 
+/**
+ * The Sabre behavior. This includes hitting, missing as well as slicing them
+ * and creating sliced objects from sliced notes (using an external library) and vibrations.
+ **/
 public class Sabre : MonoBehaviour
 {
     private const float MIN_ANGLE = 120f;
@@ -20,17 +24,20 @@ public class Sabre : MonoBehaviour
         _hapticsClip = new OVRHapticsClip();
         _hapticsChannel = (blockHitLayer == 8) ? OVRHaptics.LeftChannel : OVRHaptics.RightChannel;
 
+        // The OVRHapticsClip is used to play vibrations on the controllers.
+        // The amount of samples written (or the length of loop) determines the length of the vibration,
+        // the written values define the strength of the vibration.
         for (int i = 0; i < 30; i++)
         {
-            _hapticsClip.WriteSample(0x20);
+            _hapticsClip.WriteSample(0x28);
         }
     }
 
     void Update()
     {
-        // Multiple previous positions are cached because sometimes the last position is the same. Especially the last frame's position
-        // is often equal to the OnCollisionEnter position, which makes sense. I still need a direction though, so I just check the
-        // previous ones. Might be fixeable with FixedUpdate?
+        // Multiple previous positions are cached because sometimes the last position is the same as the current one.
+        // Especially the last frame's position is often equal to the OnCollisionEnter position, which makes sense, but
+        // I still need a direction though, so I just check the previous ones.
         for (int i = _prevPositions.Length -1; i > 0; i--)
         {
             _prevPositions[i] = _prevPositions[i - 1];
@@ -53,6 +60,8 @@ public class Sabre : MonoBehaviour
             }
         }
 
+        // NO_DIRECTION blocks do not depend on the hit angle.
+        // Otherwise the hit angle depends if the hit was correct (score) or incorrect (miss).
         float angle = Vector3.Angle(direction, collision.collider.transform.up);
         bool isNoDirectionBlock = otherObject.tag != null && otherObject.tag == NO_DIRECTION;
         if (otherObject.layer == blockHitLayer && (angle >= MIN_ANGLE || isNoDirectionBlock))
@@ -77,6 +86,8 @@ public class Sabre : MonoBehaviour
         ScoreTracker.getInstance().hit();
     }
 
+    // The library EzySlice is used to cut the cubes in half and create two new objects from the block.
+    // Some speed and rotation values are applied to these new objects, to make them fly away.
     private void _sliceCube(GameObject cube, Vector3 direction)
     {
         GameObject[] slicedObjects = cube.SliceInstantiate(transform.position, direction);
@@ -108,6 +119,7 @@ public class Sabre : MonoBehaviour
         }
     }
 
+    // Adds vibration to the left or right controller.
     private void _setControllerVibration()
     {
         _hapticsChannel.Mix(_hapticsClip);

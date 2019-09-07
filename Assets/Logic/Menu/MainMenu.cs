@@ -2,6 +2,9 @@
 using UnityEngine.SceneManagement;
 using SimpleFileBrowser;
 
+/**
+ * Main Menu UI script to handle button clicks.
+ **/
 public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenu;

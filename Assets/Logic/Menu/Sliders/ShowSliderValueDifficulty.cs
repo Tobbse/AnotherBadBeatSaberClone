@@ -1,6 +1,9 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
+/**
+ * Adds slider values to the difficulty slider.
+ **/
 public class ShowSliderValueDifficulty : MonoBehaviour
 {
     Text _sliderText;

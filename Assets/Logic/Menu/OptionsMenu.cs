@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System;
 
+/**
+ * Options Menu UI script to handle button clicks.
+ **/
 public class OptionsMenu : MonoBehaviour
 {
     private Action _backButtonCallback;

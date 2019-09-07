@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using BeatMappingConfigs;
 
+/**
+ * This class exposes an API to the MainEffectController to control laser effects.
+ **/
 public class LaserController : MonoBehaviour
 {
     private Rigidbody[] _laserRigids = {};

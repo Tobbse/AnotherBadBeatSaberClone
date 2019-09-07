@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+/**
+ * Builds a json string to save highscore data.
+ **/
 public class JsonHighscoreStringBuilder
 {
     private List<HighscoreData> _highscoreData;
@@ -27,8 +28,8 @@ public class JsonHighscoreStringBuilder
             highscore = _highscoreData[i];
             isLast = i >= _highscoreData.Count - 1;
 
-            temp = score + highscore.score.ToString() + ",";
-            temp += rank + highscore.rank.ToString();
+            temp = score + highscore.Score.ToString() + ",";
+            temp += rank + highscore.Rank.ToString();
             temp = _addBrackets(temp, isLast);
             _json += temp;
         }

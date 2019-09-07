@@ -1,6 +1,9 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
+/**
+ * Adds slider values to the awesome slider.
+ **/
 public class ShowSliderValueAwesome : MonoBehaviour
 {
     Text _sliderText;

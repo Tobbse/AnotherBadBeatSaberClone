@@ -15,6 +15,10 @@ public class ObstacleSpawner : ScriptableObject
     private float _bps;
     private float _relativeTravelTime;
 
+    /**
+    * Contains note mapping data and spawns obstacles at the correct time. The updating is triggered from the 'Game' object,
+    * which contains the main loop updating the spawner objects.
+     **/
     public ObstacleSpawner(List<ObstacleConfig> obstacleData, float bps, GameObject obstacle)
     {
         _obstacleData = obstacleData;
@@ -30,9 +34,9 @@ public class ObstacleSpawner : ScriptableObject
         while (_obstacleData.Count > 0)
         {
             _cfg = _obstacleData[0];
-            if (_cfg.time <= timePassed)
+            if (_cfg.Time <= timePassed)
             {
-                _handleObstacle(_cfg);
+                _spawnObstacle(_cfg);
                 _obstacleData.RemoveAt(0);
             }
             else break;
@@ -44,20 +48,21 @@ public class ObstacleSpawner : ScriptableObject
         return _relativeTravelTime;
     }
 
-    private void _handleObstacle(ObstacleConfig obstacleConfig)
+    // Spawns an obstacles object and sets the values of that object, according to the note config.
+    private void _spawnObstacle(ObstacleConfig obstacleConfig)
     {
-        if (!GlobalStaticSettings.USE_OBSTACLES) return;
+        if (!GlobalSettings.USE_OBSTACLES) return;
 
-        float obstacleLength = Mathf.Max(_secondsToScale(obstacleConfig.duration), 0.1f);
+        float obstacleLength = Mathf.Max(_secondsToScale(obstacleConfig.Duration), 0.1f);
         Vector3 position = new Vector3(
             OBSTACLE_DISTANCE * -1 - obstacleLength / 2,
             3f,
-            ObjectSpawnPositionProvider.getHorizontalPosition(obstacleConfig.lineIndex)
+            ObjectSpawnPositionProvider.getHorizontalPosition(obstacleConfig.LineIndex)
         );
 
         _obj = Instantiate(_obstacle, position, Quaternion.identity);
         _obj.layer = 11;
-        _obj.transform.localScale = new Vector3(obstacleLength, 3.0f, obstacleConfig.width);
+        _obj.transform.localScale = new Vector3(obstacleLength, 3.0f, obstacleConfig.Width);
         _obj.GetComponent<Rigidbody>().velocity = new Vector3(_speed, 0, 0);
     }
 

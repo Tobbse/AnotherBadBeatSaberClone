@@ -1,7 +1,14 @@
 ﻿using BeatMappingConfigs;
-using UnityEngine;
 using System.Collections.Generic;
+using System;
+using UnityEngine;
 
+/**
+ * After the initial analysis of the audio data and the creation of the note data, we iterate over those created blocks again.
+ * Some rule based behavior is used to create double notes and influence the positioning of the blocks, according to variables
+ * like their cut direction or obstacles next to them.
+ * In this process, also the timing of notes is changed and notes are deleted if nessecary.
+ **/
 public class PostOnsetAudioAnalyzer
 {
     private const float MIN_DOUBLE_BLOCK_NOTE_TIME_INTERVAL = 0.25f;
@@ -15,17 +22,19 @@ public class PostOnsetAudioAnalyzer
 
     private List<int[]> _doubleNoteIndices = new List<int[]>();
     private MappingContainer _beatMappingContainer;
+    private System.Random _rand;
 
     public PostOnsetAudioAnalyzer(MappingContainer beatMappingContainer)
     {
         _beatMappingContainer = beatMappingContainer;
+        _rand = new System.Random();
     }
 
     public void analyze()
     {
-        _handleCloseBlocks();
+        _createDoubleBlocks();
         _polishDoubleBlocks();
-        _polishSingleBlocks();
+        _finalPolish();
         _checkBlockDensity();
     }
 
@@ -34,15 +43,13 @@ public class PostOnsetAudioAnalyzer
         return _beatMappingContainer;
     }
 
-    private void _handleCloseBlocks()
+    // This will take all blocks of the same type (right, left) that are too close to each other
+    // and create double blocks from them (two blocks next to each other).
+    private void _createDoubleBlocks()
     {
-        // Iterate over all notes of the same type.
-        // If too close, make double blocks at the first time.
-        // Check if new blockades are created.
-
         NoteConfig lastNote = null;
         NoteConfig note;
-        List<NoteConfig> noteData = _beatMappingContainer.noteData;
+        List<NoteConfig> noteData = _beatMappingContainer.NoteData;
 
         for (int i = 0; i < noteData.Count; i++)
         {
@@ -54,13 +61,13 @@ public class PostOnsetAudioAnalyzer
                 continue;
             }
 
-            float distance = Mathf.Abs(note.time - lastNote.time);
+            float distance = Math.Abs(note.Time - lastNote.Time);
 
             if (distance < MIN_DOUBLE_BLOCK_NOTE_TIME_INTERVAL)
             {
                 _doubleNoteIndices.Add(new int[]{ i - 1, i });
 
-                NoteConfig[] newNotes = _getDoubleNotes(lastNote.time, lastNote.obstacleLineIndex);
+                NoteConfig[] newNotes = _getDoubleNotes(lastNote.Time, lastNote.ObstacleLineIndex);
                 noteData[i - 1] = newNotes[0];
                 noteData[i] = newNotes[1];
 
@@ -71,6 +78,8 @@ public class PostOnsetAudioAnalyzer
         }
     }
 
+    // Create a semi random double block at a given position. The cut direction depends on the position of
+    // the blocks, because with certain positions some cut directions are not really possible.
     private NoteConfig[] _getDoubleNotes(float time, int obstacleLineIndex)
     {
         int layerSeed = _getRandomLayerSeed();
@@ -80,28 +89,28 @@ public class PostOnsetAudioAnalyzer
         int leftLayer = _getLayer(layerSeed, true);
         int rightLayer = _getLayer(layerSeed, false);
 
-        int blockLineDistance = Mathf.Abs(leftLine - rightLine);
-        int blockLayerDistance = Mathf.Abs(leftLayer - rightLayer);
+        int blockLineDistance = Math.Abs(leftLine - rightLine);
+        int blockLayerDistance = Math.Abs(leftLayer - rightLayer);
 
         int[] cutDirections = _getRandomCutDirection(blockLineDistance, blockLayerDistance);
 
         NoteConfig leftDoubleNoteCfg = new NoteConfig();
-        leftDoubleNoteCfg.belongsToDoubleNote = true;
-        leftDoubleNoteCfg.type = NoteConfig.NOTE_TYPE_LEFT;
-        leftDoubleNoteCfg.time = time;
-        leftDoubleNoteCfg.lineLayer = leftLayer;
-        leftDoubleNoteCfg.lineIndex = leftLine;
-        leftDoubleNoteCfg.cutDirection = cutDirections[0];
-        leftDoubleNoteCfg.obstacleLineIndex = obstacleLineIndex;
+        leftDoubleNoteCfg.BelongsToDoubleNote = true;
+        leftDoubleNoteCfg.Type = NoteConfig.NOTE_TYPE_LEFT;
+        leftDoubleNoteCfg.Time = time;
+        leftDoubleNoteCfg.LineLayer = leftLayer;
+        leftDoubleNoteCfg.LineIndex = leftLine;
+        leftDoubleNoteCfg.CutDirection = cutDirections[0];
+        leftDoubleNoteCfg.ObstacleLineIndex = obstacleLineIndex;
 
         NoteConfig rightDoubleNoteCfg = new NoteConfig();
-        rightDoubleNoteCfg.belongsToDoubleNote = true;
-        rightDoubleNoteCfg.type = NoteConfig.NOTE_TYPE_RIGHT;
-        rightDoubleNoteCfg.time = time;
-        rightDoubleNoteCfg.lineLayer = rightLayer;
-        rightDoubleNoteCfg.lineIndex = rightLine;
-        rightDoubleNoteCfg.cutDirection = cutDirections[1];
-        rightDoubleNoteCfg.obstacleLineIndex = obstacleLineIndex;
+        rightDoubleNoteCfg.BelongsToDoubleNote = true;
+        rightDoubleNoteCfg.Type = NoteConfig.NOTE_TYPE_RIGHT;
+        rightDoubleNoteCfg.Time = time;
+        rightDoubleNoteCfg.LineLayer = rightLayer;
+        rightDoubleNoteCfg.LineIndex = rightLine;
+        rightDoubleNoteCfg.CutDirection = cutDirections[1];
+        rightDoubleNoteCfg.ObstacleLineIndex = obstacleLineIndex;
 
         NoteConfig[] newNotes = { leftDoubleNoteCfg, rightDoubleNoteCfg };
         return newNotes;
@@ -160,26 +169,11 @@ public class PostOnsetAudioAnalyzer
         return -1;
     }
 
+    // Returns a semi random cut direction, depending on some input positions.
+    // Certain cut directions are not possible with some doubel block positioning combinations.
     private int[] _getRandomCutDirection(int lineDistance, int layerDistance)
     {
-        // TODO implement this!
-        // TODO also after implementing this, you probably have to iterate over every double note again, check how close they are,
-        // and if they are close change the cut direction accordingly.
-        /*switch (layer)
-        {
-            case NoteConfig.LINE_LAYER_0:
-        }*/
-
-        // ALSO we have to iterate over all blocks again and calculate some sort of block_height_difference
-        // and block_horizontal_difference and if the distribution is spread out too much, align blocks better.
-        // OR basically if a double block is close to another one, just make the second one exactly the same but
-        // with inverted slicing direction
-
-        // When the blocks are adjacent, the cut direction cannot be horizontal as that's hardly possible to cut.
-        // Same with diagonal blocks, because they can also face each other.
-        // We then have to adjust the percentage steps.
-        int rand = Random.Range(0, 100);
-
+        int rand = _rand.Next(0, 100);
         bool shouldUseHorizontal = true;
         bool shouldUseDiagonal = true;
         bool shouldInvert = false;
@@ -230,19 +224,12 @@ public class PostOnsetAudioAnalyzer
         }
 
         int[] cutDirections = new int[] { randomCutDirection, randomCutDirection };
-        if (Random.Range(0, 100) > 90 || shouldInvert)
+        if (_rand.Next(0, 100) > 90 || shouldInvert)
         {
             cutDirections[1] = _getOppositeCutDirection(cutDirections[0]);
         }
         return cutDirections;
     }
-
-
-    // Meh, doesn't work like this unfortunately. Values have to be 0 to 8, because of BSaber. Can't use angles.
-    /*private int _getOppositeCutDirection(int cutDirection)
-    {
-        return Mathf.Abs(cutDirection - 180);
-    }*/
 
     private int _getOppositeCutDirection(int cutDirection)
     {
@@ -276,9 +263,10 @@ public class PostOnsetAudioAnalyzer
         return -1;
     }
 
+    // Iterates over the created double blocks and does some polishing. Creates some variance (random combinations) .
     private void _polishDoubleBlocks()
     {
-        List<NoteConfig> noteData = _beatMappingContainer.noteData;
+        List<NoteConfig> noteData = _beatMappingContainer.NoteData;
 
         NoteConfig lastLeftBlock = null;
         NoteConfig lastRightBlock = null;
@@ -287,85 +275,87 @@ public class PostOnsetAudioAnalyzer
         {
             NoteConfig leftBlock = noteData[doubleBlockIndices[0]];
             NoteConfig rightBlock = noteData[doubleBlockIndices[1]];
-            if (lastLeftBlock == null) // Should be okay to check only one of them, for performance reasons.
+            if (lastLeftBlock == null) // It's okay to check only one of them, for performance reasons.
             {
                 lastLeftBlock = leftBlock;
                 lastRightBlock = rightBlock;
                 continue;
             }
 
-            if (lastLeftBlock.time + DOUBLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL > leftBlock.time)
+            if (lastLeftBlock.Time + DOUBLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL > leftBlock.Time)
             {
-                leftBlock.cutDirection = _getOppositeCutDirection(lastLeftBlock.cutDirection);
-                rightBlock.cutDirection = _getOppositeCutDirection(lastRightBlock.cutDirection);
+                leftBlock.CutDirection = _getOppositeCutDirection(lastLeftBlock.CutDirection);
+                rightBlock.CutDirection = _getOppositeCutDirection(lastRightBlock.CutDirection);
 
-                int rand = Random.Range(0, 100);
+                int rand = _rand.Next(0, 100);
                 if (rand > 95)
                 {
-                    leftBlock.lineLayer  = Mathf.Max(NoteConfig.LINE_LAYER_0, lastLeftBlock.lineLayer  - 1);
-                    rightBlock.lineLayer = Mathf.Max(NoteConfig.LINE_LAYER_0, lastRightBlock.lineLayer - 1);
+                    leftBlock.LineLayer  = Math.Max(NoteConfig.LINE_LAYER_0, lastLeftBlock.LineLayer  - 1);
+                    rightBlock.LineLayer = Math.Max(NoteConfig.LINE_LAYER_0, lastRightBlock.LineLayer - 1);
                 } else if (rand > 90) {
-                    leftBlock.lineLayer  = Mathf.Min(NoteConfig.LINE_LAYER_3, lastLeftBlock.lineLayer  + 1);
-                    rightBlock.lineLayer = Mathf.Min(NoteConfig.LINE_LAYER_3, lastRightBlock.lineLayer + 1);
+                    leftBlock.LineLayer  = Math.Min(NoteConfig.LINE_LAYER_3, lastLeftBlock.LineLayer  + 1);
+                    rightBlock.LineLayer = Math.Min(NoteConfig.LINE_LAYER_3, lastRightBlock.LineLayer + 1);
                 } else
                 {
-                    leftBlock.lineLayer  = lastLeftBlock.lineLayer;
-                    rightBlock.lineLayer = lastRightBlock.lineLayer;
+                    leftBlock.LineLayer  = lastLeftBlock.LineLayer;
+                    rightBlock.LineLayer = lastRightBlock.LineLayer;
                 }
 
-                rand = Random.Range(0, 100);
+                rand = _rand.Next(0, 100);
                 if (rand > 92.5f)
                 {
-                    leftBlock.lineIndex = Mathf.Max(NoteConfig.LINE_INDEX_0, lastLeftBlock.lineIndex - 1);
-                    rightBlock.lineIndex = Mathf.Max(NoteConfig.LINE_INDEX_0, lastRightBlock.lineIndex - 1);
+                    leftBlock.LineIndex = Math.Max(NoteConfig.LINE_INDEX_0, lastLeftBlock.LineIndex - 1);
+                    rightBlock.LineIndex = Math.Max(NoteConfig.LINE_INDEX_0, lastRightBlock.LineIndex - 1);
                 }
                 else if (rand > 87.5f)
                 {
-                    leftBlock.lineIndex = Mathf.Min(NoteConfig.LINE_INDEX_3, lastLeftBlock.lineIndex + 1);
-                    rightBlock.lineIndex = Mathf.Min(NoteConfig.LINE_INDEX_3, lastRightBlock.lineIndex + 1);
+                    leftBlock.LineIndex = Math.Min(NoteConfig.LINE_INDEX_3, lastLeftBlock.LineIndex + 1);
+                    rightBlock.LineIndex = Math.Min(NoteConfig.LINE_INDEX_3, lastRightBlock.LineIndex + 1);
                 }
                 else
                 {
-                    leftBlock.lineIndex = lastLeftBlock.lineIndex;
-                    rightBlock.lineIndex = lastRightBlock.lineIndex;
+                    leftBlock.LineIndex = lastLeftBlock.LineIndex;
+                    rightBlock.LineIndex = lastRightBlock.LineIndex;
                 }
             }
 
-            if (leftBlock.obstacleLineIndex != -1 || rightBlock.obstacleLineIndex != -1)
+            if (leftBlock.ObstacleLineIndex != -1 || rightBlock.ObstacleLineIndex != -1)
             {
-                leftBlock.lineIndex = _getLineIndexNextToObstacle(leftBlock);
-                rightBlock.lineIndex = _getLineIndexNextToObstacle(rightBlock);
-                leftBlock.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
-                rightBlock.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
+                leftBlock.LineIndex = _getLineIndexNextToObstacle(leftBlock);
+                rightBlock.LineIndex = _getLineIndexNextToObstacle(rightBlock);
+                leftBlock.CutDirection = NoteConfig.CUT_DIRECTION_NONE;
+                rightBlock.CutDirection = NoteConfig.CUT_DIRECTION_NONE;
             }
         }
     }
 
-    private void _polishSingleBlocks()
+    // TODO some parts of those 2 loops seem unnessecary. Check what is really needed here.
+    // Iterates over all blocks and makes sure for example that they are positioned properly next to obstacles.
+    private void _finalPolish()
     {
         NoteConfig lastBlock = null;
-        for (int i = 0; i < _beatMappingContainer.noteData.Count; i++)
+        for (int i = 0; i < _beatMappingContainer.NoteData.Count; i++)
         {
-            NoteConfig block = _beatMappingContainer.noteData[i];
-            if (lastBlock == null || lastBlock.belongsToDoubleNote) // Should not move note to a double note, can't hit 3 at the same time.
+            NoteConfig block = _beatMappingContainer.NoteData[i];
+            if (lastBlock == null || lastBlock.BelongsToDoubleNote) // Should not move note to a double note, can't hit 3 at the same time.
             {
                 lastBlock = block;
                 continue;
             }
-            if (lastBlock.time + MIN_SINGLE_BLOCK_NOTE_TIME_INVERVAL > block.time)
+            if (lastBlock.Time + MIN_SINGLE_BLOCK_NOTE_TIME_INVERVAL > block.Time)
             {
-                block.time = lastBlock.time;
-                block.obstacleLineIndex = lastBlock.obstacleLineIndex;
-                block.type = lastBlock.type == NoteConfig.NOTE_TYPE_LEFT ? NoteConfig.NOTE_TYPE_RIGHT : NoteConfig.NOTE_TYPE_LEFT;
+                block.Time = lastBlock.Time;
+                block.ObstacleLineIndex = lastBlock.ObstacleLineIndex;
+                block.Type = lastBlock.Type == NoteConfig.NOTE_TYPE_LEFT ? NoteConfig.NOTE_TYPE_RIGHT : NoteConfig.NOTE_TYPE_LEFT;
 
-                if (block.obstacleLineIndex != -1)
+                if (block.ObstacleLineIndex != -1)
                 {
-                    block.lineIndex = _getLineIndexNextToObstacle(block);
-                    block.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
+                    block.LineIndex = _getLineIndexNextToObstacle(block);
+                    block.CutDirection = NoteConfig.CUT_DIRECTION_NONE;
                 }
-                if (block.lineIndex == lastBlock.lineIndex && block.lineLayer == lastBlock.lineLayer)
+                if (block.LineIndex == lastBlock.LineIndex && block.LineLayer == lastBlock.LineLayer)
                 {
-                    _beatMappingContainer.noteData.RemoveAt(i);
+                    _beatMappingContainer.NoteData.RemoveAt(i);
                     i--;
                     continue;
                 }
@@ -374,7 +364,7 @@ public class PostOnsetAudioAnalyzer
         }
 
         lastBlock = null;
-        foreach (NoteConfig block in _beatMappingContainer.noteData)
+        foreach (NoteConfig block in _beatMappingContainer.NoteData)
         {
             if (lastBlock == null) // Should be okay to check only one of them, for performance reasons.
             {
@@ -382,42 +372,42 @@ public class PostOnsetAudioAnalyzer
                 continue;
             }
 
-            if (lastBlock.time + SINGLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL > block.time)
+            if (lastBlock.Time + SINGLE_BLOCK_CONNECTION_NOTE_TIME_INTERVAL > block.Time)
             {
-                block.cutDirection = _getOppositeCutDirection(lastBlock.cutDirection);
+                block.CutDirection = _getOppositeCutDirection(lastBlock.CutDirection);
 
-                int rand = Random.Range(0, 100);
+                int rand = _rand.Next(0, 100);
                 if (rand > 95)
                 {
-                    block.lineLayer = Mathf.Max(NoteConfig.LINE_LAYER_0, lastBlock.lineLayer - 1);
+                    block.LineLayer = Math.Max(NoteConfig.LINE_LAYER_0, lastBlock.LineLayer - 1);
                 }
                 else if (rand > 90)
                 {
-                    block.lineLayer = Mathf.Min(NoteConfig.LINE_LAYER_3, lastBlock.lineLayer + 1);
+                    block.LineLayer = Math.Min(NoteConfig.LINE_LAYER_3, lastBlock.LineLayer + 1);
                 }
                 else
                 {
-                    block.lineLayer = lastBlock.lineLayer;
+                    block.LineLayer = lastBlock.LineLayer;
                 }
 
-                rand = Random.Range(0, 100);
+                rand = _rand.Next(0, 100);
                 if (rand > 92.5f)
                 {
-                    block.lineIndex = Mathf.Max(NoteConfig.LINE_INDEX_0, lastBlock.lineIndex - 1);
+                    block.LineIndex = Math.Max(NoteConfig.LINE_INDEX_0, lastBlock.LineIndex - 1);
                 }
                 else if (rand > 87.5f)
                 {
-                    block.lineIndex = Mathf.Min(NoteConfig.LINE_INDEX_3, lastBlock.lineIndex + 1);
+                    block.LineIndex = Math.Min(NoteConfig.LINE_INDEX_3, lastBlock.LineIndex + 1);
                 }
                 else
                 {
-                    block.lineIndex = lastBlock.lineIndex;
+                    block.LineIndex = lastBlock.LineIndex;
                 }
             }
-            if (block.obstacleLineIndex != -1)
+            if (block.ObstacleLineIndex != -1)
             {
-                block.lineIndex = _getLineIndexNextToObstacle(block);
-                block.cutDirection = NoteConfig.CUT_DIRECTION_NONE;
+                block.LineIndex = _getLineIndexNextToObstacle(block);
+                block.CutDirection = NoteConfig.CUT_DIRECTION_NONE;
             }
         }
     }
@@ -425,47 +415,40 @@ public class PostOnsetAudioAnalyzer
     private int _getLineIndexNextToObstacle(NoteConfig block)
     {
         
-        if (block.type == NoteConfig.NOTE_TYPE_LEFT)
+        if (block.Type == NoteConfig.NOTE_TYPE_LEFT)
         {
-            return block.obstacleLineIndex < 2 ? NoteConfig.LINE_INDEX_2 : NoteConfig.LINE_INDEX_0;
+            return block.ObstacleLineIndex < 2 ? NoteConfig.LINE_INDEX_2 : NoteConfig.LINE_INDEX_0;
         }
         else
         {
-            return block.obstacleLineIndex < 2 ? NoteConfig.LINE_INDEX_3 : NoteConfig.LINE_INDEX_1;
+            return block.ObstacleLineIndex < 2 ? NoteConfig.LINE_INDEX_3 : NoteConfig.LINE_INDEX_1;
         }
     }
 
+    // After polishing all blocks, checks again if there are some places with a block density that is too high,
+    // but not looking at the type of the block at all. Removes blocks in places where there are too many.
     private void _checkBlockDensity()
     {
         NoteConfig lastBlock = null;
         NoteConfig block;
 
-        for (int i = 0; i < _beatMappingContainer.noteData.Count; i++)
+        for (int i = 0; i < _beatMappingContainer.NoteData.Count; i++)
         {
-            block = _beatMappingContainer.noteData[i];
+            block = _beatMappingContainer.NoteData[i];
             if (lastBlock == null)
             {
                 lastBlock = block;
                 continue;
             }
-            if (lastBlock.time + MIN_NOTE_DISTANCE > block.time && !(block.belongsToDoubleNote || lastBlock.belongsToDoubleNote))
+            if (lastBlock.Time + MIN_NOTE_DISTANCE > block.Time && !(block.BelongsToDoubleNote || lastBlock.BelongsToDoubleNote))
             {
-                _beatMappingContainer.noteData.RemoveAt(i);
+                _beatMappingContainer.NoteData.RemoveAt(i);
                 i--;
                 continue;
             }
             lastBlock = block;
         }
     }
-
-    /*private int _getAdjacentOrSameLayer(int layer)
-    {
-        int newLayer = Mathf.CeilToInt(Random.Range(layer - 2, layer + 1));
-
-        if (newLayer < NoteConfig.LINE_LAYER_0) return NoteConfig.LINE_LAYER_0;
-        if (newLayer > NoteConfig.LINE_LAYER_3) return NoteConfig.LINE_LAYER_3;
-        return newLayer;
-    }*/
 
     private int _getOtherNoteType(int type)
     {
@@ -474,7 +457,7 @@ public class PostOnsetAudioAnalyzer
 
     private int _getRandomLayerSeed()
     {
-        int rand = Random.Range(0, 100);
+        int rand = _rand.Next(0, 100);
         if (rand > 95) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_8;  //  5 %
         if (rand > 90) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_7;  //  5 %
         if (rand > 85) return (int)DOUBLE_NOTE_LAYER_TYPES.LAYER_6;  //  5 %
@@ -487,7 +470,7 @@ public class PostOnsetAudioAnalyzer
 
     private int _getRandomIndexSeed()
     {
-        int rand = Random.Range(0, 100);
+        int rand = _rand.Next(0, 100);
         if (rand > 90) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_4;  // 10 %
         if (rand > 80) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_3;  // 10 %
         if (rand > 40) return (int)DOUBLE_NOTE_INDEX_TYPES.INDEX_2;  // 40 %

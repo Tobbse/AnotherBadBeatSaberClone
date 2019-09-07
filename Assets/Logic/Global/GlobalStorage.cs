@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using AudioSpectrumInfo;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
-using System.Collections.Generic;
 
+/*
+ * Global storage for data. This singleton data container can be accessed from all scenes.
+ **/
 public class GlobalStorage : ScriptableObject
 {
     private static GlobalStorage Instance;

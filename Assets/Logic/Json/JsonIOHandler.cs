@@ -3,8 +3,15 @@ using Newtonsoft.Json.Linq;
 using BeatMappingConfigs;
 using System.Collections.Generic;
 
-namespace JsonIOHandler {
+/**
+ * Classes in this namespace take care or writing out and parsing Json files.
+ **/
+namespace JsonIOHandler
+{
 
+    /**
+     * Writes a json file.
+     **/
     public static class JsonFileWriter
     {
         public static void writeFile(string json, FileInfo fileInfo)
@@ -24,6 +31,11 @@ namespace JsonIOHandler {
         }
     }
 
+    /**
+     * Parses a json file.
+     * Contains methods for specifically parsing either a beat mapping file returning a mapping container,
+     * or parsing an info file to get an info config.
+     **/
     public static class JsonFileReader
     {
         public static List<HighscoreData> readHighscoreFile(string filePath)
@@ -39,13 +51,14 @@ namespace JsonIOHandler {
             foreach (JToken child in highscoreToken.Children())
             {
                 HighscoreData score = new HighscoreData();
-                score.score = child["_score"].Value<int>();
-                score.rank = child["_rank"].Value<int>();
+                score.Score = child["_score"].Value<int>();
+                score.Rank = child["_rank"].Value<int>();
                 highscoreData.Add(score);
             }
             return highscoreData;
         }
 
+        // Returns Mapping Info config from info json file.
         public static MappingInfo readInfoFile(string filePath)
         {
             StreamReader reader = new StreamReader(filePath);
@@ -57,11 +70,12 @@ namespace JsonIOHandler {
 
             float bpm = obj["_beatsPerMinute"].Value<float>();
             if (bpm == 0f) bpm = 1;
-            info.bpm = bpm;
+            info.Bpm = bpm;
 
             return info;
         }
 
+        // Creates mapping container from a mapping json file.
         public static MappingContainer readMappingFile(string filePath)
         {
             StreamReader reader = new StreamReader(filePath);
@@ -76,10 +90,10 @@ namespace JsonIOHandler {
             List<BookmarkConfig> bookmarkData = _getBookmarkData(obj["_bookmarks"]);
 
             MappingContainer container = new MappingContainer();
-            container.eventData = eventData;
-            container.noteData = noteData;
-            container.obstacleData = obstacleData;
-            container.bookmarkData = bookmarkData;
+            container.EventData = eventData;
+            container.NoteData = noteData;
+            container.ObstacleData = obstacleData;
+            container.BookmarkData = bookmarkData;
 
             return container;
         }
@@ -90,9 +104,9 @@ namespace JsonIOHandler {
             foreach (JToken child in eventToken.Children())
             {
                 EventConfig eventConfig = new EventConfig();
-                eventConfig.time = child["_time"].Value<float>();
-                eventConfig.type = child["_type"].Value<int>();
-                eventConfig.value = child["_value"].Value<int>();
+                eventConfig.Time = child["_time"].Value<float>();
+                eventConfig.Type = child["_type"].Value<int>();
+                eventConfig.Value = child["_value"].Value<int>();
                 eventData.Add(eventConfig);
             }
             return eventData;
@@ -104,11 +118,11 @@ namespace JsonIOHandler {
             foreach (JToken child in noteToken.Children())
             {
                 NoteConfig noteConfig = new NoteConfig();
-                noteConfig.time = child["_time"].Value<float>();
-                noteConfig.lineIndex = child["_lineIndex"].Value<int>();
-                noteConfig.lineLayer = child["_lineLayer"].Value<int>();
-                noteConfig.type = child["_type"].Value<int>();
-                noteConfig.cutDirection = child["_cutDirection"].Value<int>();
+                noteConfig.Time = child["_time"].Value<float>();
+                noteConfig.LineIndex = child["_lineIndex"].Value<int>();
+                noteConfig.LineLayer = child["_lineLayer"].Value<int>();
+                noteConfig.Type = child["_type"].Value<int>();
+                noteConfig.CutDirection = child["_cutDirection"].Value<int>();
                 noteData.Add(noteConfig);
             }
             return noteData;
@@ -120,11 +134,11 @@ namespace JsonIOHandler {
             foreach (JToken child in obstacleToken.Children())
             {
                 ObstacleConfig obstacleConfig = new ObstacleConfig();
-                obstacleConfig.time = child["_time"].Value<float>();
-                obstacleConfig.lineIndex = child["_lineIndex"].Value<int>();
-                obstacleConfig.type = child["_type"].Value<int>();
-                obstacleConfig.duration = child["_duration"].Value<int>();
-                obstacleConfig.width = child["_width"].Value<float>();
+                obstacleConfig.Time = child["_time"].Value<float>();
+                obstacleConfig.LineIndex = child["_lineIndex"].Value<int>();
+                obstacleConfig.Type = child["_type"].Value<int>();
+                obstacleConfig.Duration = child["_duration"].Value<int>();
+                obstacleConfig.Width = child["_width"].Value<float>();
                 obstacleData.Add(obstacleConfig);
             }
             return obstacleData;
@@ -136,8 +150,8 @@ namespace JsonIOHandler {
             foreach (JToken child in bookmarkToken.Children())
             {
                 BookmarkConfig newConfig = new BookmarkConfig();
-                newConfig.time = child["_time"].Value<float>();
-                newConfig.name = child["_name"].Value<string>();
+                newConfig.Time = child["_time"].Value<float>();
+                newConfig.Name = child["_name"].Value<string>();
                 bookmarkData.Add(newConfig);
             }
             return bookmarkData;
@@ -145,3 +159,4 @@ namespace JsonIOHandler {
     }
 
 }
+ 

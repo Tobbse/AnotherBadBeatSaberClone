@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Globalization;
 
-public class JsonInfoStringBuilder : ScriptableObject
+public class JsonInfoStringBuilder
 {
     // TODO really not implemented yet. Most important part if just to get the BPM right as that will influence the tempo of the song.
     public string getJsonString(string trackName, float bpm)

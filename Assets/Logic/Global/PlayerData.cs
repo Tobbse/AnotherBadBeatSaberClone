@@ -1,84 +1,69 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 using UnityEngine.UI;
 
+/**
+ * Singleton that contains player data, like player health. Regenerates a small amount of health on update.
+ * Exposes API to take damage. Calls Game Over when the health reaches 0.
+ **/
 public class PlayerData : ScriptableObject
 {
     private static PlayerData Instance;
 
     private const float MAX_HEALTH = 100f;
+    private const float REGENERATION_RATE = 0.2f;
 
     private float _health;
-    private TextMeshPro _hitPointsText;
+    private bool _isGameOver;
     private RawImage _damageOverlay;
+
+    public bool IsGameOver { get => _isGameOver; set => _isGameOver = value; }
+
+    public PlayerData()
+    {
+        GameObject overlayObject = GameObject.Find("DamageOverlay");
+        overlayObject.SetActive(true);
+        _damageOverlay = overlayObject.GetComponent<RawImage>();
+        _damageOverlay.color = _getOverlayColorWithNewAlpha(_damageOverlay.color);
+
+        _setHealth(MAX_HEALTH);
+    }
+
+    public void reset()
+    {
+        _isGameOver = false;
+        _health = MAX_HEALTH;
+        _damageOverlay.color = _getOverlayColorWithNewAlpha(_damageOverlay.color);
+    }
 
     public void takeDamage(float damagePoints)
     {
-        if (GlobalStaticSettings.TAKE_DAMAGE == false) return;
+        if (GlobalSettings.TAKE_DAMAGE == false) return;
 
         _setHealth(_health - damagePoints);
         ScoreTracker.getInstance().resetComboCounter();
 
-        // Todo fix this
-        // GAME OVER SCREEN? GAME OVER SOUND?
-        // MAYBE JUST CHANGE THE HEADLINE OF THE SCORE SCREEN OR STH.
         if (_health <= 0f)
         {
+            _isGameOver = true;
             _gameOver();
-        } else if (_hitPointsText == null)
-        {
-            _hitPointsText = GameObject.Find("HitPointsText").GetComponent<TextMeshPro>();
-        } else if (_hitPointsText != null)
-        {
-            _hitPointsText.SetText(Mathf.CeilToInt(_health).ToString() + " HP");
         }
     }
 
     private void _setHealth(float value)
     {
         _health = value;
-        Color color = _damageOverlay.color;
-        _damageOverlay.color = new Color(color.r, color.g, color.b, (MAX_HEALTH - _health) / MAX_HEALTH);  // Will set alpha to 0 when full HP and 1 when 0 HP.
+        _damageOverlay.color = _getOverlayColorWithNewAlpha(_damageOverlay.color);
     }
 
     void Update()
     {
-        //_setHealth(Mathf.Max(_health + 0.1f, MAX_HEALTH));
-        _setHealth(50);
-
-        // TODO fix this too
-        if (_hitPointsText == null)
-        {
-            _hitPointsText = GameObject.Find("HitPointsText").GetComponent<TextMeshPro>();
-        }
-        else if (_hitPointsText != null)
-        {
-            _hitPointsText.SetText(Mathf.CeilToInt(_health).ToString() + " HP");
-        }
-    }
-
-    void Start()
-    {
-        GameObject overlayObject = GameObject.Find("DamageOverlay");
-        overlayObject.SetActive(true);
-        _damageOverlay = overlayObject.GetComponent<RawImage>();
-
-        _setHealth(MAX_HEALTH);
-
-        if (GlobalStaticSettings.TAKE_DAMAGE == false)
-        {
-            _hitPointsText = GameObject.Find("HitPointsText").GetComponent<TextMeshPro>();
-            if (_hitPointsText != null)
-            {
-                _hitPointsText.text = "INVINCIBLE!!!";
-            }
-        }
+        _setHealth(Mathf.Max(_health + REGENERATION_RATE, MAX_HEALTH));
     }
 
     private void _gameOver()
     {
-        SceneManager.LoadScene("ScoreMenu"); // TODO there should be some kind of game over screen.
+        SceneManager.LoadScene("ScoreMenu");
     }
 
     public static PlayerData getInstance()
@@ -88,6 +73,13 @@ public class PlayerData : ScriptableObject
             return new PlayerData();
         }
         return Instance;
+    }
+
+    private Color _getOverlayColorWithNewAlpha(Color color)
+    {
+        var alpha = Mathf.Max(0, (MAX_HEALTH - _health) / MAX_HEALTH - 0.2f);
+        // Will basically set alpha to 0 when full HP and 1 when 0 HP, with a small offset.
+        return new Color(color.r, color.g, color.b, alpha);
     }
 
     void Awake()

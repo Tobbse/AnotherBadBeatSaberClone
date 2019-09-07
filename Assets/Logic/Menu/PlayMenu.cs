@@ -3,9 +3,18 @@ using System;
 using SimpleFileBrowser;
 using UnityEngine.UI;
 
+/**
+ * Play Menu UI script to handle button clicks.
+ * The UI contains a 'Load File' button. When that button is clicked, a file browser window appears.
+ * This was done using the external 'SimpleFileBrowser' library.
+ * A song can be and the desired difficulty level can be chosen.
+ * 
+ * Currently the difficulty level is only used to decide which custom mapping should be loaded from
+ * cache. The Audio Analysis does NOT currently support difficulty levels.
+ **/
 public class PlayMenu : MonoBehaviour
 {
-    public GameObject audioLoadingStart;
+    public GameObject audioController;
     public GameObject loadingScreen;
     public GameObject leftSaber;
     public GameObject rightSaber;
@@ -35,12 +44,10 @@ public class PlayMenu : MonoBehaviour
         if (_path != null && _path.Length > 0)
         {
             GlobalStorage.getInstance().Difficulty = difficultyLabel.text;
-            Destroy(leftSaber.gameObject);
-            Destroy(rightSaber.gameObject);
             _setEnableButtons(false);
             gameObject.SetActive(false);
             loadingScreen.SetActive(true);
-            Instantiate(audioLoadingStart);
+            Instantiate(audioController); // This instantiated object will trigger the audio loading.
         }
     }
 

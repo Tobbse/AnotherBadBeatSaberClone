@@ -1,37 +1,62 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
 
+/**
+ * Score Menu UI script, showing the player's score data and the highscore.
+ * Also triggers resettings of player data and score tracker values for the next song to be played.
+ **/
 public class ScoreMenu : MonoBehaviour
 {
+    public TextMeshProUGUI headlineText;
+    public TextMeshProUGUI hitsText;
+    public TextMeshProUGUI missesText;
+    public TextMeshProUGUI beatsText;
+    public TextMeshProUGUI averageComboText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI rankText;
+    public TextMeshProUGUI highscoreText;
+
     private HighscoreData _currentScore;
     private List<HighscoreData> _highscores;
+    private PlayerData _playerData;
+    private ScoreTracker _scoreTracker;
 
     void Start()
     {
+        _scoreTracker = ScoreTracker.getInstance();
+        _playerData = PlayerData.getInstance();
+
         _handleHighscores();
         _displayScore();
     }
 
     private void _handleHighscores()
     {
-        HighscoreHandler handler = new HighscoreHandler(ScoreTracker.getInstance().Score);
+        HighscoreController handler = new HighscoreController(ScoreTracker.getInstance().Score);
         _highscores = handler.getHighscores();
         _currentScore = handler.CurrentScore;
     }
 
     private void _displayScore()
     {
-        GameObject.Find("HITS").GetComponent<TextMeshProUGUI>().text = "HITS: " + ScoreTracker.getInstance().Hits.ToString();
-        GameObject.Find("MISSES").GetComponent<TextMeshProUGUI>().text = "MISSES: " + ScoreTracker.getInstance().Misses.ToString();
-        GameObject.Find("BEATS").GetComponent<TextMeshProUGUI>().text = "BEATS: " + ScoreTracker.getInstance().NumBeats.ToString();
+        headlineText.text = _playerData.IsGameOver ? "GAME OVER :(" : "YOUR SCORE :)";
+        hitsText.text = "HITS: " + _scoreTracker.Hits.ToString();
+        missesText.text = "MISSES: " + _scoreTracker.Misses.ToString();
+        beatsText.text = "BEATS: " + _scoreTracker.NumBeats.ToString();
+        averageComboText.text = "BEATS: " + _scoreTracker.AverageCombo.ToString();
+        scoreText.text = "SCORE: " + _currentScore.Score;
+        rankText.text = "RANK: " + _currentScore.Rank;
+        highscoreText.text = "HIGHSCORE: " + _highscores[0].Score;
 
-        GameObject.Find("SCORE").GetComponent<TextMeshProUGUI>().text = "SCORE: " + _currentScore.score;
-        GameObject.Find("RANK").GetComponent<TextMeshProUGUI>().text = "RANK: " + _currentScore.rank;
-        GameObject.Find("HIGHSCORE").GetComponent<TextMeshProUGUI>().text = "HIGHSCORE: " + _highscores[0].score;
+        _resetGlobalInstances();
+    }
 
+    private void _resetGlobalInstances()
+    {
+        _playerData.reset();
+        _scoreTracker.reset();
     }
 
     public void clickReturnToMain()

@@ -3,6 +3,14 @@ using AudioSpectrumInfo;
 using System.Collections;
 using System.Collections.Generic;
 
+/**
+ * A sort of plotting component for a test scene, that is not needed anymore.
+ * That scene was needed to visualize the audio analysis when developing it.
+ * Basically what this does is to spawn a bunch of small cubes from the generated
+ * audio data and visualize the peaks and flux/threshold levels while the song is playing.
+ * 
+ * TODO: Check if this still works.
+ **/
 public class SpectrumPlotter : MonoBehaviour
 {
     public const string SHOW_PRUNED = "SHOW_PRUNED";
@@ -39,7 +47,7 @@ public class SpectrumPlotter : MonoBehaviour
     {
         _spectrumDataList = spectrumDataList;
         _type = type;
-        _bands = _spectrumDataList[0].bandBeatData.Count;
+        _bands = _spectrumDataList[0].BandBeatData.Count;
         _lastTime = Time.time;
         _isReady = true;
     }
@@ -49,14 +57,14 @@ public class SpectrumPlotter : MonoBehaviour
         _plotPoints = new List<Transform>();
         float localWidth = transform.Find("Point/BasePoint").localScale.x;
 
-        // -n/2...0...n/2
-        for (int i = 0; i < DISPLAY_WINDOW_SIZE; i++)
+        // Instantiates cubes depending on window size.
+        // The height of those cubes will later be changed on update, to visualize the spectrums.
+        for (int i = 0; i < DISPLAY_WINDOW_SIZE; i++)  // -n/2...0...n/2
         {
-            //Instantiate points
             GameObject point = Instantiate(pointPrefab);
             Transform pointTransform = point.transform;
             Transform originalPointTransform = transform.Find("Point");
-            // Applying original materials to all new sub points.
+            
             foreach (Transform child in originalPointTransform)
             {
                 string name = child.name;
@@ -65,7 +73,6 @@ public class SpectrumPlotter : MonoBehaviour
                 newPointRenderer.material = originalRenderer.material;
             }
 
-            // Set position
             float pointX = (DISPLAY_WINDOW_SIZE / 2) * -1 * localWidth + i * localWidth;
             pointTransform.localPosition = new Vector3(pointX, pointTransform.localPosition.y, pointTransform.localPosition.z);
             pointTransform.localPosition = new Vector3(pointX, pointTransform.localPosition.y, pointTransform.localPosition.z);
@@ -108,6 +115,8 @@ public class SpectrumPlotter : MonoBehaviour
         _spectrumIndex++;
     }
 
+    // Shows peaks.
+    // TODO: Don't use 'Find' in update functions. This class is not used anymore, so this has low priority.
     private void _showPeaks()
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
@@ -116,24 +125,26 @@ public class SpectrumPlotter : MonoBehaviour
 
             for (int j = 0; j < _bands; j++)
             {
-                BeatInfo bandData = info.bandBeatData[j];
+                BeatInfo bandData = info.BandBeatData[j];
 
                 Transform peak = _plotPoints[pointIndex].Find("Peak" + j.ToString());
 
                 Transform thresh = _plotPoints[pointIndex].Find("Thresh" + j.ToString());
 
-                Color peakColor = bandData.isPeak ? Color.red : Color.white;
-                float peakHeight = bandData.isPeak ? 1.0f : -100.0f;
+                Color peakColor = bandData.IsPeak ? Color.red : Color.white;
+                float peakHeight = bandData.IsPeak ? 1.0f : -100.0f;
 
                 _setPointHeight(peak, peakHeight);
-                peak.gameObject.SetActive(bandData.isPeak);
+                peak.gameObject.SetActive(bandData.IsPeak);
                 (peak.GetComponent<Renderer>() as Renderer).material.color = peakColor;
 
-                _setPointHeight(thresh, bandData.threshold);
+                _setPointHeight(thresh, bandData.Threshold);
             }
         }
     }
 
+    // Shows pruned flux levels.
+    // TODO: Don't use 'Find' in update functions. This class is not used anymore, so this has low priority.
     private void _showPruned()
     {
         for (int pointIndex = 0; pointIndex < DISPLAY_WINDOW_SIZE; pointIndex++)
@@ -142,12 +153,12 @@ public class SpectrumPlotter : MonoBehaviour
 
             for (int j = 0; j < _bands; j++)
             {
-                BeatInfo bandData = info.bandBeatData[j];
-                bool isZero = bandData.prunedSpectralFlux == 0;
+                BeatInfo bandData = info.BandBeatData[j];
+                bool isZero = bandData.PrunedSpectralFlux == 0;
 
                 Transform pruned = _plotPoints[pointIndex].Find("Pruned" + j.ToString());
                 float currentHeight = (pruned.GetComponent<Renderer>() as Renderer).bounds.size.y;
-                float newHeight = isZero ? 0.0005f : bandData.prunedSpectralFlux;
+                float newHeight = isZero ? 0.0005f : bandData.PrunedSpectralFlux;
                 Vector3 rescale = pruned.localScale;
                 rescale.y = newHeight * rescale.y / currentHeight;
                 pruned.localScale = rescale;
@@ -178,17 +189,17 @@ public class SpectrumPlotter : MonoBehaviour
     private AnalyzedSpectrumConfig _getEmptySpectrumInfo()
     {
         AnalyzedSpectrumConfig emptyInfo = new AnalyzedSpectrumConfig();
-        emptyInfo.hasPeak = false;
+        emptyInfo.HasPeak = false;
 
         for (int i = 0; i < _bands; i++)
         {
             BeatInfo bandData = new BeatInfo();
-            bandData.band = i;
-            bandData.isPeak = false;
-            bandData.spectralFlux = 0.0f;
-            bandData.prunedSpectralFlux = 0.0f;
-            bandData.threshold = 0.0f;
-            emptyInfo.bandBeatData.Add(bandData);
+            bandData.Band = i;
+            bandData.IsPeak = false;
+            bandData.SpectralFlux = 0.0f;
+            bandData.PrunedSpectralFlux = 0.0f;
+            bandData.Threshold = 0.0f;
+            emptyInfo.BandBeatData.Add(bandData);
         }
         return emptyInfo;
     }

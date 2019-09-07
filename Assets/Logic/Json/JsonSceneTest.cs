@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using BeatMappingConfigs;
 
+/**
+ * This was used in a test scene, just to quickly test out whether the parsing of a json mapping worked correctly,
+ * as there was quite some debugging necessary.
+ **/
 public class JsonSceneTest : MonoBehaviour
 {
     void Start()

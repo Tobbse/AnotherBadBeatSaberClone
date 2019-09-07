@@ -1,6 +1,9 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
+/**
+ * Shows float values on slider.
+ **/
 public class ShowSliderValueFloat : MonoBehaviour
 {
     Text _sliderText;

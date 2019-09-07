@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Numerics;
-using UnityEngine;
 using DSPLib;
 using AudioSpectrumInfo;
 using System.Collections.Generic;
 
+/**
+ * Provider for spectrum data generated from an array of audio samples.
+ * Uses an external library 'DSPLib' to get the spectrum data. DSPLib performs a Fast Fourier Transformation
+ * in which the time based audio sample data is transformed to frequency based spectrum data.
+ **/
 public class SpectrumProvider
 {
     public const int SAMPLE_SIZE = 1024;
@@ -19,6 +23,8 @@ public class SpectrumProvider
         _timePerSpectrumData = (1.0f / audioClipSampleRate) * SAMPLE_SIZE; // Duration per sample * amount of samples per spectrum.
     }
 
+    // Creates spectrum data from an array of mono audio samples.
+    // This uses the FFT library.
     public List<double[]> getSpectrums(float[] monoSamples)
     {
         int iterations = monoSamples.Length / SAMPLE_SIZE;
@@ -58,21 +64,25 @@ public class SpectrumProvider
         return spectrums;
     }
 
-    public List<AnalyzedSpectrumConfig> getSpectrumData(List<double[]> spectrums, int bands)
+    // Creates spectrum configs from spectrum data. Those configs are later used for the audio analysis,
+    // holding values like the spectral flux , which rougly translates to the increased amount of energy
+    // for this spectrum sample, compared to the previous one, or the time for the spectrum sample in the song.
+    // Each config contains a band config, because multiple frequency bands are analyzed.
+    public List<AnalyzedSpectrumConfig> getSpectrumConfigs(List<double[]> spectrums, int bands)
     {
         List<AnalyzedSpectrumConfig> spectrumDataList = new List<AnalyzedSpectrumConfig>();
 
         for (int i = 0; i < spectrums.Count; i++)
         {
             AnalyzedSpectrumConfig data = new AnalyzedSpectrumConfig();
-            data.time = _getAudioClipTimeFromIndex(i);
-            data.hasPeak = false;
-            data.spectrum = System.Array.ConvertAll(spectrums[i], doubleVal => (float)doubleVal);
+            data.Time = _getAudioClipTimeFromIndex(i);
+            data.HasPeak = false;
+            data.Spectrum = Array.ConvertAll(spectrums[i], doubleVal => (float)doubleVal);
 
             for (int j = 0; j < bands; j++)
             {
                 BeatInfo bandData = new BeatInfo();
-                data.bandBeatData.Add(bandData);
+                data.BandBeatData.Add(bandData);
             }
             spectrumDataList.Add(data);
         }
@@ -81,8 +91,6 @@ public class SpectrumProvider
 
     private float _getAudioClipTimeFromIndex(int spectrumDataIndex)
     {
-        //Debug.Log(_timePerSpectrumData * spectrumDataIndex);
         return _timePerSpectrumData * spectrumDataIndex;
     }
-
 }

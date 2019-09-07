@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 
+/**
+ * Behavior for the Note blocks, making sure that they despawn after a while or when they reach a certain position behind the player.
+ **/
 public class TimedBlock : MonoBehaviour
 {
     public int lifetimeCycles;
 
     void FixedUpdate()
     {
-        if (GlobalStaticSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
+        if (GlobalSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
 
         lifetimeCycles--;
-        if (lifetimeCycles < 0 || gameObject.transform.position.x > 6) // TODO 6 is super arbitrary, check this again.
+        if (lifetimeCycles < 0 || gameObject.transform.position.x > 5)
         {
-            missBlock();
+            MissBlock();
         }
     }
 
-    public void missBlock()
+    public void MissBlock()
     {
         ScoreTracker.getInstance().miss();
         Destroy(gameObject);

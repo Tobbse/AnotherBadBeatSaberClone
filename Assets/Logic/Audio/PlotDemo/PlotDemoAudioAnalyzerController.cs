@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
-using PAudioAnalyzer;
 using AudioSpectrumInfo;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
 using System.Collections.Generic;
 
+
+/**
+ * Audio analysis controller for a test scene, that is not needed anymore.
+ * That scene was needed to visualize the audio analysis when developing it.
+ * 
+ * TODO: Check if this still works.
+ **/
 public class PlotDemoAudioAnalyzerController : MonoBehaviour
 {
     private TrackConfig _analyzerConfig;
-    private SpectrumAnalyzer _spectrumAnalyzer;
+    private AudioAnalyzerHandler _spectrumAnalyzer;
     private SpectrumPlotter _spectrumPlotter;
     private List<AnalyzedSpectrumConfig> _spectrumDataList;
     private bool _started;
@@ -16,14 +22,15 @@ public class PlotDemoAudioAnalyzerController : MonoBehaviour
     void Start()
     {
         AudioSource audioSource = GetComponent<AudioSource>();
+        AudioClip clip = audioSource.clip;
         _analyzerConfig = new TrackConfig(audioSource.clip.frequency, audioSource.clip.name);
         SpectrumProvider audioProvider = new SpectrumProvider(_analyzerConfig.ClipSampleRate);
 
-        float[] samples = AudioSampleProvider.getMonoSamples(audioSource.clip);
+        float[] samples = AudioSampleProvider.getMonoSamples(AudioSampleProvider.getSamples(clip), clip.channels);
         List<double[]> spectrumsList = audioProvider.getSpectrums(samples);
-        _spectrumDataList = audioProvider.getSpectrumData(spectrumsList, _analyzerConfig.Bands);
+        _spectrumDataList = audioProvider.getSpectrumConfigs(spectrumsList, _analyzerConfig.Bands);
 
-        _spectrumAnalyzer = new SpectrumAnalyzer(_analyzerConfig, _spectrumDataList, new MappingContainer());
+        _spectrumAnalyzer = new AudioAnalyzerHandler(_analyzerConfig, _spectrumDataList, new MappingContainer());
         _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 
