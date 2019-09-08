@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using AudioSpectrumInfo;
+using SpectrumConfigs;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
@@ -110,7 +110,7 @@ public class AudioController : MonoBehaviour
     {
         if (_isComplete == true)
         {
-            SceneManager.LoadSceneAsync("Game");
+            SceneManager.LoadSceneAsync("MainGame");
             _isComplete = false;
             enabled = false;
         }

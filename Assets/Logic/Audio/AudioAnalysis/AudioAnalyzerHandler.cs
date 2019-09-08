@@ -1,4 +1,4 @@
-﻿using AudioSpectrumInfo;
+﻿using SpectrumConfigs;
 using System;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;

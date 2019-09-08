@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using DSPLib;
-using AudioSpectrumInfo;
+using SpectrumConfigs;
 using System.Collections.Generic;
 
 /**
@@ -81,7 +81,7 @@ public class SpectrumProvider
 
             for (int j = 0; j < bands; j++)
             {
-                BeatInfo bandData = new BeatInfo();
+                BeatConfig bandData = new BeatConfig();
                 data.BandBeatData.Add(bandData);
             }
             spectrumDataList.Add(data);

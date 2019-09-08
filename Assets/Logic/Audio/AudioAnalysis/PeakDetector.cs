@@ -1,4 +1,4 @@
-﻿using AudioSpectrumInfo;
+﻿using SpectrumConfigs;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ public class PeakDetector
     private List<AnalyzerBandConfig> _bandConfigs;
     private AnalyzedSpectrumConfig _currentSpectrumCfg;
     private MappingContainer _beatMappingContainer;
-    private BeatInfo _currentBeatInfo;
+    private BeatConfig _currentBeatInfo;
     private ObstacleConfig _lastObstacle;
     private Dictionary<int, float[]> _currentBandSpectrums;
     private Dictionary<int, float[]> _previousBandSpectrums;
