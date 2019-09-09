@@ -16,8 +16,6 @@ public class PlayMenu : MonoBehaviour
 {
     public GameObject audioController;
     public GameObject loadingScreen;
-    public GameObject leftSaber;
-    public GameObject rightSaber;
     public Text difficultyLabel;
 
     private string _path;

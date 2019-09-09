@@ -5,7 +5,7 @@
  **/
 public class TimedBlock : MonoBehaviour
 {
-    public int lifetimeCycles;
+    private int lifetimeCycles = 400;
 
     void FixedUpdate()
     {

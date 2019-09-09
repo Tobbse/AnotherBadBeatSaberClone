@@ -14,9 +14,8 @@ GameObject:
   - component: {fileID: 119281918999594520}
   - component: {fileID: 119281918999594527}
   - component: {fileID: 119281918999594526}
-  - component: {fileID: -5014839709830674098}
   m_Layer: 0
-  m_Name: Touchable Cube
+  m_Name: TouchableCubePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,16 +126,3 @@ MonoBehaviour:
   m_snapOrientation: 0
   m_snapOffset: {fileID: 0}
   m_grabPoints: []
---- !u!114 &-5014839709830674098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 119281918999594524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d6767112e9f590489882e770c006419, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifetimeCycles: 10

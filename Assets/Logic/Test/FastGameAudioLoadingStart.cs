@@ -20,8 +20,8 @@ public class FastGameAudioLoadingStart : MonoBehaviour
 
         //GlobalSettings.TAKE_DAMAGE = false;
         GlobalSettings.USE_CACHE = true;
-        GlobalSettings.USE_EFFECTS = false;
-
+        //GlobalSettings.USE_EFFECTS = false;
+        
         Instantiate(loader);
     }
 }

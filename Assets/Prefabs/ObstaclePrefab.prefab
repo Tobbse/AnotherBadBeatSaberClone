@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2474194551181166750}
   - component: {fileID: 3553805908319358428}
   - component: {fileID: -2103006173645825063}
-  - component: {fileID: -8619379744550154947}
+  - component: {fileID: 8838437921512906172}
   m_Layer: 11
   m_Name: ObstaclePrefab
   m_TagString: Untagged
@@ -121,7 +121,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-8619379744550154947
+--- !u!114 &8838437921512906172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 939061520324276704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01d0cc8b86c4cbc44beb3f36c940f5c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 57913265250c9014ab738a7d528ef200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleCollider: {fileID: 3553805908319358428}

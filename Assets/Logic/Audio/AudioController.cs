@@ -32,7 +32,7 @@ public class AudioController : MonoBehaviour
     private SpectrumProvider _spectrumProvider;
     private bool _isComplete;
     private TrackConfig _trackConfig;
-    private JsonController _jsonFileHandler;
+    private JsonController _jsonController;
     private float[] _stereoSamples;
     private AudioAnalyzerHandler _audioAnalyzerHandler;
     private int _channels;
@@ -59,12 +59,12 @@ public class AudioController : MonoBehaviour
     // Fills mapping container with data loaded from a cached mapping.
     private void loadMappingFromCache()
     {
-        string mappingPath = _jsonFileHandler.getFullMappingPath(
+        string mappingPath = _jsonController.getFullMappingPath(
             JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.getInstance().Difficulty);
-        string infoPath = _jsonFileHandler.getFullInfoPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName);
+        string infoPath = _jsonController.getFullInfoPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName);
 
-        MappingContainer mappingContainer = _jsonFileHandler.readMappingFile(mappingPath);
-        mappingContainer.MappingInfo = _jsonFileHandler.readInfoFile(infoPath);
+        MappingContainer mappingContainer = _jsonController.readMappingFile(mappingPath);
+        mappingContainer.MappingInfo = _jsonController.readInfoFile(infoPath);
         GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
         done();
@@ -78,8 +78,8 @@ public class AudioController : MonoBehaviour
         mappingContainer.sortMappings(); // Because multiple band spectrums are analyzed sequentially, we have to sort the mappings by time.
         GlobalStorage.getInstance().MappingContainer = mappingContainer;
 
-        _jsonFileHandler.writeMappingFile(mappingContainer, _trackConfig.TrackName, _difficulty);
-        _jsonFileHandler.writeInfoFile(mappingContainer, _trackConfig.TrackName, mappingContainer.MappingInfo.Bpm);
+        _jsonController.writeMappingFile(mappingContainer, _trackConfig.TrackName, _difficulty);
+        _jsonController.writeInfoFile(mappingContainer, _trackConfig.TrackName, mappingContainer.MappingInfo.Bpm);
 
         done();
     }
@@ -124,7 +124,7 @@ public class AudioController : MonoBehaviour
         _channels = _audioClip.channels;
 
         _difficulty = GlobalStorage.getInstance().Difficulty;
-        _jsonFileHandler = new JsonController();
+        _jsonController = new JsonController();
 
         // When loading .ogg files using WWW, the audio clip has no name, so we have to extract the name from the path. 
         string clipName = _audioClip.name;
@@ -154,8 +154,8 @@ public class AudioController : MonoBehaviour
         }
         _trackConfig = new TrackConfig(_audioClip.frequency, clipName);
 
-        string fullPath = _jsonFileHandler.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
-        if (GlobalSettings.USE_CACHE && _jsonFileHandler.fileExists(fullPath))
+        string fullPath = _jsonController.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
+        if (GlobalSettings.USE_CACHE && _jsonController.fileExists(fullPath))
         {
             Debug.Log("Loading track mapping from cache.");
             loadMappingFromCache();

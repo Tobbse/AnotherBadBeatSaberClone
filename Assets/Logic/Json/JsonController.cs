@@ -2,6 +2,7 @@
 using JsonIOHandler;
 using System.IO;
 using System.Collections.Generic;
+using JsonStringBuilders;
 
 /**
  * Controller for Json stuff.
@@ -30,9 +31,7 @@ public class JsonController
     {
         string folderPath = JsonFilePathUtils.getFolderPath(MAPPING_FOLDER_PATH, trackName);
         string infoFilePath = JsonFilePathUtils.getFullPath(folderPath, "info");
-
-        JsonInfoStringBuilder jsonBuilder = new JsonInfoStringBuilder();
-        string infoJson = jsonBuilder.getJsonString(trackName, bpm);
+        string infoJson = JsonInfoStringBuilder.getJsonString(trackName, bpm);
 
         JsonFileWriter.writeFile(infoJson, new FileInfo(infoFilePath));
     }

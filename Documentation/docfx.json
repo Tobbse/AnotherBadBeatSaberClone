@@ -1,0 +1,53 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../",
+          "files": [ "*.csproj" ]
+        }
+      ],
+      "dest": "api/"
+    }
+  ],
+  "build": {
+    "globalMetadata":
+    {
+      "_appTitle": "BeatSaberClone",
+      "_appFooter": ""BeatSaberClone",
+      "_enableSearch": true
+    },
+    "content": [
+      {
+        "files": [ "api/*.yml" ]
+      },
+      {
+        "src": "manual/",
+        "dest": "manual/",
+        "files": [ "toc.yml", "*.md" ]
+      },
+      {
+        "files": [ "toc.yml", "index.md" ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [ "resources/*" ]
+      }
+    ],
+    "sitemap":
+    {
+      "baseUrl": "https://github.com/Tobbse/VR_Project",
+      "changefreq": "weekly",
+      "fileOptions": {
+        "api/*":
+        {
+          "changefreq": "daily"
+        }
+      }
+    },
+    "xref": [ "https://github.com/Tobbse/VR_Project" ],
+    "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ],
+    "dest": "../_site/"
+  }
+}
