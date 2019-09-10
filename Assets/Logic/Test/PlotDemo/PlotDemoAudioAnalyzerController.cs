@@ -16,7 +16,7 @@ public class PlotDemoAudioAnalyzerController : MonoBehaviour
     private TrackConfig _analyzerConfig;
     private AudioAnalyzerHandler _spectrumAnalyzer;
     private SpectrumPlotter _spectrumPlotter;
-    private List<AnalyzedSpectrumConfig> _spectrumDataList;
+    private List<AnalyzedSpectrumConfig> _spectrumData;
     private bool _started;
 
     void Start()
@@ -28,17 +28,17 @@ public class PlotDemoAudioAnalyzerController : MonoBehaviour
 
         float[] samples = AudioSampleProvider.getMonoSamples(AudioSampleProvider.getSamples(clip), clip.channels);
         List<double[]> spectrumsList = audioProvider.getSpectrums(samples);
-        _spectrumDataList = audioProvider.getSpectrumConfigs(spectrumsList, _analyzerConfig.Bands);
+        _spectrumData = audioProvider.getSpectrumConfigs(spectrumsList, _analyzerConfig.Bands);
 
-        _spectrumAnalyzer = new AudioAnalyzerHandler(_analyzerConfig, _spectrumDataList, new MappingContainer());
+        _spectrumAnalyzer = new AudioAnalyzerHandler(_analyzerConfig, _spectrumData, new MappingContainer());
         _spectrumAnalyzer.analyzeSpectrumsList(done);
     }
 
     private void done()
     {
         enabled = false;
-        _spectrumDataList = _spectrumAnalyzer.getAnalyzedSpectrumData();
+        _spectrumData = _spectrumAnalyzer.getAnalyzedSpectrumData();
         _spectrumPlotter = GetComponent<SpectrumPlotter>();
-        _spectrumPlotter.setDataAndStart(_spectrumDataList, SpectrumPlotter.SHOW_PEAKS);
+        _spectrumPlotter.setDataAndStart(_spectrumData, SpectrumPlotter.SHOW_PEAKS);
     }
 }

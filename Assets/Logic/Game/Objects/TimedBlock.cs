@@ -5,11 +5,14 @@
  **/
 public class TimedBlock : MonoBehaviour
 {
+    public const float BLOCK_DAMAGE = 3.0f;
+    public const float BLOCK_HEAL = 5.0f;
+
     private int lifetimeCycles = 400;
 
     void FixedUpdate()
     {
-        if (GlobalSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
+        if (DevSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
 
         lifetimeCycles--;
         if (lifetimeCycles < 0 || gameObject.transform.position.x > 5)

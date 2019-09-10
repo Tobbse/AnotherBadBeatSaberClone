@@ -50,7 +50,7 @@ public class MainEffectController
     // it is fine to do it like this as an intermediate solution.
     public void _handleEvent(EventConfig cfg)
     {
-        if (GlobalSettings.USE_EFFECTS == false) return;
+        if (DevSettings.USE_EFFECTS == false) return;
 
         //_effectController.rotateRandom(cfg.value); // This is actually crazy.
         float rand = Random.Range(0, 100 + 1);

@@ -91,6 +91,6 @@ public class SpectrumProvider
 
     private float _getAudioClipTimeFromIndex(int spectrumDataIndex)
     {
-        return _timePerSpectrumData * spectrumDataIndex;
+        return (_timePerSpectrumData * spectrumDataIndex) - _timePerSpectrumData;
     }
 }

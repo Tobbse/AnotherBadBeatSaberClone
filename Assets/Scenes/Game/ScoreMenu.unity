@@ -776,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec51fbc7dda9f3d48af6d54220537026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headlineText: {fileID: 0}
+  headlineText: {fileID: 2051477817}
   hitsText: {fileID: 854326618}
   missesText: {fileID: 2061515058}
   beatsText: {fileID: 386358066}
@@ -1574,7 +1574,7 @@ PrefabInstance:
     - target: {fileID: 4543761014036878844, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.35
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4543761014036878844, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}

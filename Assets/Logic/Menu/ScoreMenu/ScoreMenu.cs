@@ -55,8 +55,9 @@ public class ScoreMenu : MonoBehaviour
 
     private void _resetGlobalInstances()
     {
-        _playerData.reset();
-        _scoreTracker.reset();
+        PlayerData.getInstance().destroy();
+        ScoreTracker.getInstance().destroy();
+        GlobalStorage.getInstance().destroy();
     }
 
     public void clickReturnToMain()

@@ -14,11 +14,11 @@ using System.Collections.Generic;
  */
 public class Game : MonoBehaviour
 {
-    public static string DIFFICULTY_EASY = "Easy";
-    public static string DIFFICULTY_NORMAL = "Normal";
-    public static string DIFFICULTY_HARD = "Hard";
-    public static string DIFFICULTY_EXPERT = "Expert";
-    public static string DIFFICULTY_EXPERT_PLUS = "ExpertPlus";
+    public const string DIFFICULTY_EASY = "Easy";
+    public const string DIFFICULTY_NORMAL = "Normal";
+    public const string DIFFICULTY_HARD = "Hard";
+    public const string DIFFICULTY_EXPERT = "Expert";
+    public const string DIFFICULTY_EXPERT_PLUS = "ExpertPlus";
 
     public GameObject leftTimedBlock;
     public GameObject rightTimedBlock;

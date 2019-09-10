@@ -41,8 +41,36 @@ namespace AudioAnalyzerConfigs {
         // This was setup in a generic way but currently has to use exactly 2 bands in order to work.
         private void _createAnalyzerConfigs()
         {
-            _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 25, 3.5f * GlobalSettings.ONSET_SENSITIVITY_MULT));
-            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 25, 2.3f * GlobalSettings.ONSET_SENSITIVITY_MULT));
+            float difficultyMult = 0f;
+            switch (GlobalStorage.getInstance().Difficulty)
+            {
+                case Game.DIFFICULTY_EASY:
+                    difficultyMult = 5.0f;
+                    break;
+
+                case Game.DIFFICULTY_NORMAL:
+                    difficultyMult = 4.0f;
+                    break;
+
+                case Game.DIFFICULTY_HARD:
+                    difficultyMult = 3.0f;
+                    break;
+
+                case Game.DIFFICULTY_EXPERT:
+                    difficultyMult = 2.0f;
+                    break;
+
+                case Game.DIFFICULTY_EXPERT_PLUS:
+                    difficultyMult = 1.0f;
+                    break;
+
+                default:
+                    Debug.LogError("UNKNOWN DIFFICULTY LEVEL.");
+                    break;
+            }
+
+            _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 25, 3.5f * difficultyMult));
+            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 25, 2.5f * difficultyMult));
         }
 
         private AnalyzerBandConfig _makeConfig(int band, int startIndex, int endIndex, int thresholdSize, int beatTime, float tresholdMult)

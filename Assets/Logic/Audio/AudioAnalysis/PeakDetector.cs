@@ -9,7 +9,7 @@ public class PeakDetector
     private static int MAX_BEAT_BLOCK_COUNTER = 5;
 
     private AnalyzerBandConfig _currentBandCfg;
-    private List<AnalyzedSpectrumConfig> _spectrumConfigs;
+    private List<AnalyzedSpectrumConfig> _spectrumData;
     private List<AnalyzerBandConfig> _bandConfigs;
     private AnalyzedSpectrumConfig _currentSpectrumCfg;
     private MappingContainer _beatMappingContainer;
@@ -30,10 +30,10 @@ public class PeakDetector
     private NoteConfig _lastRightNote;
     private Random _rand;
 
-    public PeakDetector(List<AnalyzerBandConfig> bandConfigs, List<AnalyzedSpectrumConfig> spectrumConfigs, TrackConfig config, MappingContainer beatMappingContainer)
+    public PeakDetector(List<AnalyzerBandConfig> bandConfigs, List<AnalyzedSpectrumConfig> spectrumData, TrackConfig config, MappingContainer beatMappingContainer)
     {
         _bandConfigs = bandConfigs;
-        _spectrumConfigs = spectrumConfigs;
+        _spectrumData = spectrumData;
         _beatMappingContainer = beatMappingContainer;
         _sampleRate = config.ClipSampleRate;
 
@@ -68,7 +68,7 @@ public class PeakDetector
 
     public List<AnalyzedSpectrumConfig> getSpectrumDataList()
     {
-        return _spectrumConfigs;
+        return _spectrumData;
     }
 
     public MappingContainer getBeatMappingContainer()
@@ -201,8 +201,8 @@ public class PeakDetector
         _band = band;
         _currentBandCfg = _bandConfigs[_band];
         _minIndex = _currentBandCfg.ThresholdSize;
-        _maxIndex = _spectrumConfigs.Count - 1;
-        _currentSpectrumCfg = _spectrumConfigs[index];
+        _maxIndex = _spectrumData.Count - 1;
+        _currentSpectrumCfg = _spectrumData[index];
         _currentBandSpectrums[_band].CopyTo(_previousBandSpectrums[_band], 0);
         _currentSpectrumCfg.Spectrum.CopyTo(_currentBandSpectrums[_band], 0);
         _currentBeatInfo = _currentSpectrumCfg.BandBeatData[_band];
@@ -230,7 +230,7 @@ public class PeakDetector
         float threshold = 0.0f;
         for (int i = start; i <= end; i++)
         {
-            threshold += _spectrumConfigs[i].BandBeatData[_band].SpectralFlux; // Add spectral flux over the window
+            threshold += _spectrumData[i].BandBeatData[_band].SpectralFlux; // Add spectral flux over the window
         }
 
         // Threshold is average flux multiplied by sensitivity constant.
@@ -247,7 +247,7 @@ public class PeakDetector
     // TODO this could be optimized. Change multiplier level? Use previous and post flux levels?
     private bool _isPeak()
     {
-        return _currentBeatInfo.PrunedSpectralFlux > _spectrumConfigs[_index - 1].BandBeatData[_band].PrunedSpectralFlux;
+        return _currentBeatInfo.PrunedSpectralFlux > _spectrumData[_index - 1].BandBeatData[_band].PrunedSpectralFlux;
     }
 
     private int _getNumIndicesFromSeconds(float duration)

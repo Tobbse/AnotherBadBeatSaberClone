@@ -9,8 +9,8 @@ using UnityEngine.UI;
  * This was done using the external 'SimpleFileBrowser' library.
  * A song can be and the desired difficulty level can be chosen.
  * 
- * Currently the difficulty level is only used to decide which custom mapping should be loaded from
- * cache. The Audio Analysis does NOT currently support difficulty levels.
+ * Currently the difficulty level determines the threshold level that will be used in the Audio Analysis.
+ * A lower threshold level means that more beats will be detected.
  **/
 public class PlayMenu : MonoBehaviour
 {

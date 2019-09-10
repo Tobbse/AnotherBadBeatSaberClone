@@ -7,7 +7,7 @@
  **/
 public class Obstacle : MonoBehaviour
 {
-    private const float DAMAGE_POINTS = 0.3f;
+    private const float OBSTACLE_DAMAGE = 0.4f;  // Applied for every collision update.
 
     public Collider obstacleCollider;
 
@@ -19,10 +19,10 @@ public class Obstacle : MonoBehaviour
         _playerCollider = GameObject.Find("PlayerCollider").GetComponent<Collider>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_playerCollider.bounds.Intersects(obstacleCollider.bounds)) {
-            PlayerData.getInstance().takeDamage(DAMAGE_POINTS);
+            PlayerData.getInstance().takeDamage(OBSTACLE_DAMAGE);
         }
     }
 }

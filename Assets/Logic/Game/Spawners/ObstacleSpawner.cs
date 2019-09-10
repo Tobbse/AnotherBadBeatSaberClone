@@ -51,7 +51,7 @@ public class ObstacleSpawner : ScriptableObject
     // Spawns an obstacles object and sets the values of that object, according to the note config.
     private void _spawnObstacle(ObstacleConfig obstacleConfig)
     {
-        if (!GlobalSettings.USE_OBSTACLES) return;
+        if (!DevSettings.USE_OBSTACLES) return;
 
         float obstacleLength = Mathf.Max(_secondsToScale(obstacleConfig.Duration), 0.1f);
         Vector3 position = new Vector3(

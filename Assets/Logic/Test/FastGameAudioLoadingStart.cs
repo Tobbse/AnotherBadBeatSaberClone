@@ -19,9 +19,10 @@ public class FastGameAudioLoadingStart : MonoBehaviour
         GlobalStorage.getInstance().AudioPath = path;
 
         //GlobalSettings.TAKE_DAMAGE = false;
-        GlobalSettings.USE_CACHE = true;
+        DevSettings.USE_CACHE = true;
+        DevSettings.TAKE_DAMAGE = false;
         //GlobalSettings.USE_EFFECTS = false;
-        
+
         Instantiate(loader);
     }
 }

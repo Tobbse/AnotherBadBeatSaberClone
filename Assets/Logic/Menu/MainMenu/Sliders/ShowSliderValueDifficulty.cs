@@ -11,6 +11,7 @@ public class ShowSliderValueDifficulty : MonoBehaviour
     void Start()
     {
         _sliderText = GetComponent<Text>();
+        _sliderText.text = Game.DIFFICULTY_EASY;
     }
 
     public void updateText(float value)

@@ -10,15 +10,15 @@ using System.Collections.Generic;
 **/
 public class AudioAnalyzerHandler
 {
-    private List<AnalyzedSpectrumConfig> _analyzedSpectrumConfigs;
+    private List<AnalyzedSpectrumConfig> _spectrumData;
     private TrackConfig _trackConfig;
     private PPostAudioAnalyzer _postAudioAnalyzer;
     private MappingContainer _beatMappingContainer;
 
-    public AudioAnalyzerHandler(TrackConfig trackConfig, List<AnalyzedSpectrumConfig> spectrumDataList, MappingContainer beatMappingContainer)
+    public AudioAnalyzerHandler(TrackConfig trackConfig, List<AnalyzedSpectrumConfig> spectrumData, MappingContainer beatMappingContainer)
     {
         _trackConfig = trackConfig;
-        _analyzedSpectrumConfigs = spectrumDataList;
+        _spectrumData = spectrumData;
         _beatMappingContainer = beatMappingContainer;
 
         // Bpm is only important for external mappings, because it influences the tempo.
@@ -29,7 +29,7 @@ public class AudioAnalyzerHandler
 
     public List<AnalyzedSpectrumConfig> getAnalyzedSpectrumData()
     {
-        return _analyzedSpectrumConfigs;
+        return _spectrumData;
     }
 
     public MappingContainer getBeatMappingContainer()
@@ -41,7 +41,7 @@ public class AudioAnalyzerHandler
     {
         List<AnalyzerBandConfig> beatConfigs = _trackConfig.AnalyzerConfigs;
 
-        PeakDetector beatDetector = new PeakDetector(beatConfigs, _analyzedSpectrumConfigs, _trackConfig, _beatMappingContainer);
+        PeakDetector beatDetector = new PeakDetector(beatConfigs, _spectrumData, _trackConfig, _beatMappingContainer);
         beatDetector.analyze();
         _beatMappingContainer = beatDetector.getBeatMappingContainer();
 

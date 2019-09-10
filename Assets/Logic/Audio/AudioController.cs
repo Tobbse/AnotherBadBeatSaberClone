@@ -155,7 +155,7 @@ public class AudioController : MonoBehaviour
         _trackConfig = new TrackConfig(_audioClip.frequency, clipName);
 
         string fullPath = _jsonController.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
-        if (GlobalSettings.USE_CACHE && _jsonController.fileExists(fullPath))
+        if (DevSettings.USE_CACHE && _jsonController.fileExists(fullPath))
         {
             Debug.Log("Loading track mapping from cache.");
             loadMappingFromCache();

@@ -1531,7 +1531,7 @@ PrefabInstance:
     - target: {fileID: 4543761014036878844, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.35
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4543761014036878844, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}
@@ -1583,17 +1583,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2754490512987982344, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4543761014808995748, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4543761014511337582, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2754490512987982344, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1991,7 +1991,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EASY
+  m_Text: 
 --- !u!222 &861696827
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2326,7 +2326,7 @@ MonoBehaviour:
   audioController: {fileID: 2751577912297773720, guid: 67c384af4484a5b44a43f69a9f988af7,
     type: 3}
   loadingScreen: {fileID: 1681307982}
-  difficultyLabel: {fileID: 235478888}
+  difficultyLabel: {fileID: 861696826}
 --- !u!1001 &1018655572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2954,26 +2954,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.77647066
-      objectReference: {fileID: 0}
-    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5193373672336173742, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.a
@@ -3107,6 +3087,26 @@ PrefabInstance:
     - target: {fileID: 5193373670845315486, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
         type: 3}
       propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.77647066
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193373672336173741, guid: 2fa10376aaa04de47927d8be4a3d1cc7,
+        type: 3}
+      propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5718,7 +5718,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4513922559133304122}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 0.74
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
