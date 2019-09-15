@@ -13,12 +13,8 @@
 /Build/
 
 # Some documentation stuff etc.
-docfx.yml
-filterConfig.yml
-toc.yml
-log.txt
+./log.txt
 /obj/
-/api/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
