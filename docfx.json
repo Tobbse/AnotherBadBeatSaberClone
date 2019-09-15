@@ -61,7 +61,7 @@
         ]
       }
     ],
-    "dest": "Docs/api_doc/_site",
+    "dest": "docs",
     "template": [
       "default"
     ]
