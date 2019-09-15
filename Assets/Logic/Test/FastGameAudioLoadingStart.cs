@@ -20,9 +20,7 @@ public class FastGameAudioLoadingStart : MonoBehaviour
 
         DevSettings.TAKE_DAMAGE = false;
         DevSettings.USE_CACHE = true;
-        DevSettings.EFFECT_SPAWN_CHANCE = 10f;
-        //GlobalSettings.USE_EFFECTS = false;
-        //GlobalSettings.TAKE_DAMAGE = false;
+        DevSettings.EFFECT_SPAWN_CHANCE = 10f; // Only 10 % spawn chance for effects. This is necessary for some songs, because they are simply too crazy otherwise.
 
         Instantiate(loader);
     }

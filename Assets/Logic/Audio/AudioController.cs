@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AudioAnalyzerConfigs;
 using BeatMappingConfigs;
-using System.Threading;
+using System.Threading.Tasks;
 
 /**
  * Loads an audio file and then triggers the AudioAnalyzerHandler.
@@ -44,71 +44,14 @@ public class AudioController : MonoBehaviour
         if (playerMenu != null) playerMenu.SetActive(false);
     }
 
+    // Load an audio file. Calls _clipLoaded() once completed.
     void Start()
     {
-        StartCoroutine(LoadAudioClip(GlobalStorage.getInstance().AudioPath));
-    }
-
-    // _isComplete is true once the song has been loaded and the mappings have been created,
-    // either from analyzing the spectrum data or loading a mapping from cache.
-    private void Update()
-    {
-        if (_isComplete == true)
-        {
-            SceneManager.LoadSceneAsync("MainGame");
-            _isComplete = false;
-            enabled = false;
-        }
-    }
-
-    // Gets mono samples and spectrum data from audio data. Then creates a list of configs and the
-    // mapping container that will be used in the analysis.
-    public void ProcessAudioData()
-    {
-        float[] monoSamples = AudioSampleProvider.getMonoSamples(_stereoSamples, _channels);
-        List<double[]> spectrumsList = _spectrumProvider.getSpectrums(monoSamples);
-
-        List<AnalyzedSpectrumConfig> spectrumDataList = _spectrumProvider.getSpectrumConfigs(spectrumsList, _trackConfig.Bands);
-        _audioAnalyzerHandler = new AudioAnalyzerHandler(_trackConfig, spectrumDataList, new MappingContainer());
-        _audioAnalyzerHandler.analyzeSpectrumsList(analysisFinished);
-    }
-
-    // Fills mapping container with data loaded from a cached mapping.
-    private void loadMappingFromCache()
-    {
-        string mappingPath = _jsonController.getFullMappingPath(
-            JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.getInstance().Difficulty);
-        string infoPath = _jsonController.getFullInfoPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName);
-
-        MappingContainer mappingContainer = _jsonController.readMappingFile(mappingPath);
-        mappingContainer.MappingInfo = _jsonController.readInfoFile(infoPath);
-        GlobalStorage.getInstance().MappingContainer = mappingContainer;
-
-        done();
-    }
-
-    // Fills mapping container with data created in the audio analysis.
-    private void analysisFinished()
-    {
-        MappingContainer mappingContainer = _audioAnalyzerHandler.getBeatMappingContainer();
-        mappingContainer.MappingInfo.Bpm = 1;
-        mappingContainer.sortMappings(); // Because multiple band spectrums are analyzed sequentially, we have to sort the mappings by time.
-        GlobalStorage.getInstance().MappingContainer = mappingContainer;
-
-        _jsonController.writeMappingFile(mappingContainer, _trackConfig.TrackName, _difficulty);
-        _jsonController.writeInfoFile(mappingContainer, _trackConfig.TrackName, mappingContainer.MappingInfo.Bpm);
-
-        done();
-    }
-
-    private void done()
-    {
-        GlobalStorage.getInstance().TrackConfig = _trackConfig;
-        _isComplete = true;
+        StartCoroutine(loadAudioClip(GlobalStorage.getInstance().AudioPath));
     }
 
     // Loads .mp3, .ogg or .egg audio file using either WWW or the MP3AudioLoader.
-    private IEnumerator LoadAudioClip(string path)
+    private IEnumerator loadAudioClip(string path)
     {
         if (path.Contains(".mp3"))
         {
@@ -145,45 +88,79 @@ public class AudioController : MonoBehaviour
         string clipName = _audioClip.name;
         if (_audioClip.name == "") clipName = _getClipName();
         _trackConfig = new TrackConfig(_audioClip.frequency, clipName);
-
         string fullPath = _jsonController.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
+
         if (DevSettings.USE_CACHE && _jsonController.fileExists(fullPath))
         {
             Debug.Log("Loading track mapping from cache.");
-            loadMappingFromCache();
-            return;
+            Task mappingLoading = new Task(loadMappingFromCache);
+            mappingLoading.Start();
+            mappingLoading.Wait();
+        }
+        else
+        {
+            Debug.Log("Analyzing audio data, no mapping has been found or cache has been disabled.");
+            Task audioProcessing = new Task(processAudioData);
+            audioProcessing.Start();
+            audioProcessing.Wait();
         }
 
+        GlobalStorage.getInstance().TrackConfig = _trackConfig;
+        SceneManager.LoadSceneAsync("MainGame");
+    }
+
+    // Fills mapping container with data loaded from a cached mapping.
+    private void loadMappingFromCache()
+    {
+        string mappingPath = _jsonController.getFullMappingPath(
+            JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, GlobalStorage.getInstance().Difficulty);
+        string infoPath = _jsonController.getFullInfoPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName);
+
+        MappingContainer mappingContainer = _jsonController.readMappingFile(mappingPath);
+        mappingContainer.MappingInfo = _jsonController.readInfoFile(infoPath);
+        GlobalStorage.getInstance().MappingContainer = mappingContainer;
+    }
+
+    // Gets mono samples and spectrum data from audio data. Then creates a list of configs and the
+    // mapping container that will be used in the analysis.
+    // Will call analysisFinished as a callback once the analysis has been completed.
+    public void processAudioData()
+    {
         _spectrumProvider = new SpectrumProvider(_trackConfig.ClipSampleRate);
         _stereoSamples = AudioSampleProvider.getSamples(_audioClip);
-        
-        Thread thread = new Thread(ProcessAudioData);
-        thread.Start();
+
+        float[] monoSamples = AudioSampleProvider.getMonoSamples(_stereoSamples, _channels);
+        List<double[]> spectrumsList = _spectrumProvider.getSpectrums(monoSamples);
+
+        List<AnalyzedSpectrumConfig> spectrumDataList = _spectrumProvider.getSpectrumConfigs(spectrumsList, _trackConfig.Bands);
+        _audioAnalyzerHandler = new AudioAnalyzerHandler(_trackConfig, spectrumDataList, new MappingContainer());
+        _audioAnalyzerHandler.analyzeSpectrumsList(analysisFinished);
+    }
+
+    // Fills mapping container with data created in the audio analysis.
+    private void analysisFinished()
+    {
+        MappingContainer mappingContainer = _audioAnalyzerHandler.getBeatMappingContainer();
+        mappingContainer.MappingInfo.Bpm = 1;
+        mappingContainer.sortMappings(); // Because multiple band spectrums are analyzed sequentially, we have to sort the mappings by time.
+        GlobalStorage.getInstance().MappingContainer = mappingContainer;
+
+        _jsonController.writeMappingFile(mappingContainer, _trackConfig.TrackName, _difficulty);
+        _jsonController.writeInfoFile(mappingContainer, _trackConfig.TrackName, mappingContainer.MappingInfo.Bpm);
     }
 
     // Extracts the name of a clip from the file path by pruning it until just the file name is left.
     private string _getClipName()
     {
         string clipName = GlobalStorage.getInstance().AudioPath;
-        while (clipName.Contains("/"))
-        {
-            clipName = clipName.Substring(clipName.LastIndexOf("/") + 1);
-        }
-        while (clipName.Contains("\\"))
-        {
-            clipName = clipName.Substring(clipName.LastIndexOf("\\") + 1);
-        }
+
+        while (clipName.Contains("/")) { clipName = clipName.Substring(clipName.LastIndexOf("/") + 1); }
+        while (clipName.Contains("\\")) { clipName = clipName.Substring(clipName.LastIndexOf("\\") + 1); }
+
         while (clipName.Length > 2)
         {
-            if (clipName[clipName.Length - 1] != '.')
-            {
-                clipName = clipName.Remove(clipName.Length - 1);
-            }
-            else
-            {
-                clipName = clipName.Remove(clipName.Length - 1);
-                break;
-            }
+            if (clipName[clipName.Length - 1] != '.') clipName = clipName.Remove(clipName.Length - 1);
+            else clipName = clipName.Remove(clipName.Length - 1); break;
         }
         return clipName;
     }
