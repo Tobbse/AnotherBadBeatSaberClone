@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Laser_1
+  m_Name: Laser_Pink_3
   m_Shader: {fileID: 4800000, guid: a6b700a358a79f445add9a15b906f33b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
@@ -73,7 +73,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _MKGlowPower: 1
-    - _MKGlowTexStrength: 4
+    - _MKGlowTexStrength: 8.5
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -84,7 +84,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.60275805, b: 0, a: 1}
+    - _Color: {r: 0.9411764, g: 0, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MKGlowColor: {r: 1, g: 0.53792745, b: 0, a: 1}
-    - _MKGlowTexColor: {r: 1, g: 0.5001359, b: 0, a: 1}
+    - _MKGlowColor: {r: 0.96470594, g: 0, b: 1, a: 1}
+    - _MKGlowTexColor: {r: 0.79386455, g: 0.45594516, b: 0.8867924, a: 1}

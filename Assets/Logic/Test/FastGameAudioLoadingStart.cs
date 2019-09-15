@@ -19,7 +19,8 @@ public class FastGameAudioLoadingStart : MonoBehaviour
         GlobalStorage.getInstance().AudioPath = path;
 
         DevSettings.TAKE_DAMAGE = false;
-        //DevSettings.USE_CACHE = false;
+        DevSettings.USE_CACHE = true;
+        DevSettings.EFFECT_SPAWN_CHANCE = 10f;
         //GlobalSettings.USE_EFFECTS = false;
         //GlobalSettings.TAKE_DAMAGE = false;
 

@@ -14,8 +14,8 @@ namespace SpectrumConfigs
         public float[] Spectrum { get; set; }
         public float Time { get; set; }
         public bool HasPeak { get; set; }
-        public List<int> PeakBands { get; set; }
-        public List<BeatConfig> BandBeatData { get; set; }
+        public List<int> PeakBands { get; set; } = new List<int>();
+        public List<BeatConfig> BandBeatData { get; set; } = new List<BeatConfig>();
     }
 
     /**

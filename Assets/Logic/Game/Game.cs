@@ -96,7 +96,7 @@ public class Game : MonoBehaviour
         enabled = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // Not ideal I guess, but currently contains _bigSpinnerRigids and _smallSpinnerRigids contain only one rigid, so that should be fine.
         foreach (Rigidbody smallSpinner in _smallSpinnerRigids)

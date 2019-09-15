@@ -16,10 +16,10 @@ namespace BeatMappingConfigs {
      **/
     public class MappingContainer
     {
-        public List<EventConfig> EventData { get; set; }
-        public List<NoteConfig> NoteData { get; set; }
-        public List<ObstacleConfig> ObstacleData { get; set; }
-        public List<BookmarkConfig> BookmarkData { get; set; }
+        public List<EventConfig> EventData { get; set; } = new List<EventConfig>();
+        public List<NoteConfig> NoteData { get; set; } = new List<NoteConfig>();
+        public List<ObstacleConfig> ObstacleData { get; set; } = new List<ObstacleConfig>();
+        public List<BookmarkConfig> BookmarkData { get; set; } = new List<BookmarkConfig>();
         public MappingInfo MappingInfo { get; set; }
 
         public void sortMappings()

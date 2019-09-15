@@ -44,6 +44,23 @@ public class AudioController : MonoBehaviour
         if (playerMenu != null) playerMenu.SetActive(false);
     }
 
+    void Start()
+    {
+        StartCoroutine(LoadAudioClip(GlobalStorage.getInstance().AudioPath));
+    }
+
+    // _isComplete is true once the song has been loaded and the mappings have been created,
+    // either from analyzing the spectrum data or loading a mapping from cache.
+    private void Update()
+    {
+        if (_isComplete == true)
+        {
+            SceneManager.LoadSceneAsync("MainGame");
+            _isComplete = false;
+            enabled = false;
+        }
+    }
+
     // Gets mono samples and spectrum data from audio data. Then creates a list of configs and the
     // mapping container that will be used in the analysis.
     public void ProcessAudioData()
@@ -90,30 +107,28 @@ public class AudioController : MonoBehaviour
         _isComplete = true;
     }
 
-    void Start()
+    // Loads .mp3, .ogg or .egg audio file using either WWW or the MP3AudioLoader.
+    private IEnumerator LoadAudioClip(string path)
     {
-        string path = GlobalStorage.getInstance().AudioPath;
-
         if (path.Contains(".mp3"))
         {
-            StartCoroutine(LoadMp3AudioClip(path));
+            _audioClip = Mp3Loader.LoadMp3(path);
+        }
+        else if (path.Contains(".ogg") || path.Contains(".egg"))
+        {
+            _audioClip = new WWW("file://" + path).GetAudioClip(true, false, AudioType.OGGVORBIS);
         }
         else
         {
-            StartCoroutine(LoadOggAudioClip(path));
+            Debug.LogError("Audio File not supported. Files has to be one of those types: .egg, .ogg, .mp3");
+            yield break;
         }
-    }
-
-    // _isComplete is true once the song has been loaded and the mappings have been created,
-    // either from analyzing the spectrum data or loading a mapping from cache.
-    private void Update()
-    {
-        if (_isComplete == true)
+        while (!_audioClip.isReadyToPlay)
         {
-            SceneManager.LoadSceneAsync("MainGame");
-            _isComplete = false;
-            enabled = false;
+            yield return _audioClip;
         }
+        _audioClip.LoadAudioData();
+        _clipLoaded();
     }
 
     // Prepares track config after loading the audio clip. Extracts the track name from the file path.
@@ -128,30 +143,7 @@ public class AudioController : MonoBehaviour
 
         // When loading .ogg files using WWW, the audio clip has no name, so we have to extract the name from the path. 
         string clipName = _audioClip.name;
-        if (_audioClip.name == "")
-        {
-            clipName = GlobalStorage.getInstance().AudioPath;
-            while (clipName.Contains("/"))
-            {
-                clipName = clipName.Substring(clipName.LastIndexOf("/") + 1);
-            }
-            while (clipName.Contains("\\"))
-            {
-                clipName = clipName.Substring(clipName.LastIndexOf("\\") + 1);
-            }
-            while (clipName.Length > 2)
-            {
-                if (clipName[clipName.Length - 1] != '.')
-                {
-                    clipName = clipName.Remove(clipName.Length - 1);
-                }
-                else
-                {
-                    clipName = clipName.Remove(clipName.Length - 1);
-                    break;
-                }
-            }
-        }
+        if (_audioClip.name == "") clipName = _getClipName();
         _trackConfig = new TrackConfig(_audioClip.frequency, clipName);
 
         string fullPath = _jsonController.getFullMappingPath(JsonController.MAPPING_FOLDER_PATH, _trackConfig.TrackName, _difficulty);
@@ -169,28 +161,30 @@ public class AudioController : MonoBehaviour
         thread.Start();
     }
 
-    // Loads .mp3 file using external class MP3Loader that has been modified slightly.
-    private IEnumerator LoadMp3AudioClip(string path)
+    // Extracts the name of a clip from the file path by pruning it until just the file name is left.
+    private string _getClipName()
     {
-        _audioClip = Mp3Loader.LoadMp3(path);
-        while (!_audioClip.isReadyToPlay)
+        string clipName = GlobalStorage.getInstance().AudioPath;
+        while (clipName.Contains("/"))
         {
-            yield return _audioClip;
+            clipName = clipName.Substring(clipName.LastIndexOf("/") + 1);
         }
-        _audioClip.LoadAudioData();
-        _clipLoaded();
-    }
-
-    // Loads .ogg or .egg audio file using WWW.
-    private IEnumerator LoadOggAudioClip(string path)
-    {
-        WWW m_get = new WWW("file://" + path);
-        _audioClip = m_get.GetAudioClip(true, false, AudioType.OGGVORBIS);
-        while (!_audioClip.isReadyToPlay)
+        while (clipName.Contains("\\"))
         {
-            yield return _audioClip;
+            clipName = clipName.Substring(clipName.LastIndexOf("\\") + 1);
         }
-        _audioClip.LoadAudioData();
-        _clipLoaded();
+        while (clipName.Length > 2)
+        {
+            if (clipName[clipName.Length - 1] != '.')
+            {
+                clipName = clipName.Remove(clipName.Length - 1);
+            }
+            else
+            {
+                clipName = clipName.Remove(clipName.Length - 1);
+                break;
+            }
+        }
+        return clipName;
     }
 }

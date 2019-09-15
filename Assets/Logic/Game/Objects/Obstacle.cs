@@ -4,6 +4,7 @@
  * Defines the behavior of obstacles. Checks if the obstacle collider intersects with the player collider bounds
  * on every update. Has to be done like this, because we don't want actual collision here, we just want to
  * know if there is an intersection to apply damage.
+ * Also makes sure that the obstacle despawns after a while.
  **/
 public class Obstacle : MonoBehaviour
 {
@@ -12,10 +13,10 @@ public class Obstacle : MonoBehaviour
     public Collider obstacleCollider;
 
     private Collider _playerCollider;
+    private int lifetimeCycles = 400;
 
     private void Start()
     {
-        // Has to be done using 'Find' AFAIK because this is a prefab.
         _playerCollider = GameObject.Find("PlayerCollider").GetComponent<Collider>();
     }
 
@@ -23,6 +24,11 @@ public class Obstacle : MonoBehaviour
     {
         if (_playerCollider.bounds.Intersects(obstacleCollider.bounds)) {
             PlayerData.getInstance().takeDamage(OBSTACLE_DAMAGE);
+        }
+        lifetimeCycles--;
+        if (lifetimeCycles < 0 || gameObject.transform.position.x > 100)
+        {
+            Destroy(gameObject);
         }
     }
 }

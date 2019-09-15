@@ -244,7 +244,7 @@ public class PeakDetector
         return Math.Max(0f, _currentBeatInfo.SpectralFlux - _currentBeatInfo.Threshold);
     }
 
-    // TODO this could be optimized. Change multiplier level? Use previous and post flux levels?
+    // Determines if there is a peak. This is the case when the previous and the next flux levels are both lower.
     private bool _isPeak()
     {
         float previousPrunedFlux = _spectrumData[_index - 1].BandBeatData[_band].PrunedSpectralFlux;

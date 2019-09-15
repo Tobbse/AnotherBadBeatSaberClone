@@ -53,6 +53,11 @@ public class MainEffectController
     {
         if (DevSettings.USE_EFFECTS == false) return;
 
+        if (DevSettings.EFFECT_SPAWN_CHANCE > 0 && Random.Range(0, 100 + 1) > DevSettings.EFFECT_SPAWN_CHANCE)
+        {
+            return;
+        }
+
         //_effectController.rotateRandom(cfg.value); // This is actually crazy, don't do it.
         float rand = Random.Range(0, 100 + 1);
 

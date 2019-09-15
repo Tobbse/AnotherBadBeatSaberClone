@@ -45,19 +45,19 @@ namespace AudioAnalyzerConfigs {
             switch (GlobalStorage.getInstance().Difficulty)
             {
                 case Game.DIFFICULTY_EASY:
-                    difficultyMult = 5.0f;
-                    break;
-
-                case Game.DIFFICULTY_NORMAL:
-                    difficultyMult = 4.0f;
-                    break;
-
-                case Game.DIFFICULTY_HARD:
                     difficultyMult = 3.0f;
                     break;
 
-                case Game.DIFFICULTY_EXPERT:
+                case Game.DIFFICULTY_NORMAL:
+                    difficultyMult = 2.5f;
+                    break;
+
+                case Game.DIFFICULTY_HARD:
                     difficultyMult = 2.0f;
+                    break;
+
+                case Game.DIFFICULTY_EXPERT:
+                    difficultyMult = 1.5f;
                     break;
 
                 case Game.DIFFICULTY_EXPERT_PLUS:

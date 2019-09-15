@@ -11,6 +11,7 @@ public class Sabre : MonoBehaviour
     private const string NO_DIRECTION = "NoDirection";
 
     public int blockHitLayer;
+    public Transform generated;
 
     private ScoreTracker _scoreTracker;
     private Vector3[] _prevPositions;
@@ -99,21 +100,22 @@ public class Sabre : MonoBehaviour
             for (int i = 0; i < slicedObjects.Length; i++)
             {
                 sliced = slicedObjects[i];
+                sliced.transform.parent = generated;
                 sliced.AddComponent<Rigidbody>();
                 sliced.AddComponent<SlicedObject>(); // Script that will despawn object after some time.
 
-                float addYVelocity = (i == 0) ? 2f : 0f;
+                float addedYVelocity = (i == 0) ? 2f : 0f;
 
                 Rigidbody rigid = sliced.GetComponent<Rigidbody>();
                 rigid.angularVelocity = new Vector3(
-                    Random.Range(direction.x * -10, direction.x * 10),
-                    Random.Range(direction.y * -10, direction.y * 10),
-                    Random.Range(direction.z * -10, direction.z * 10)
+                    Random.Range(direction.x * -5, direction.x * 5),
+                    Random.Range(direction.y * -5, direction.y * 5),
+                    Random.Range(direction.z * -5, direction.z * 5)
                 );
                 rigid.velocity = new Vector3(
                     Random.Range(direction.x * 10, direction.x * 15),
-                    Random.Range(direction.y * 10, direction.y * 15 + addYVelocity), // Adding some extra upwards velocity to seperate the lower from the upper hull a bit more.
-                    Random.Range(direction.z * 10, direction.z * 15)
+                    Random.Range(direction.y * 1, direction.y * 2 + addedYVelocity), // Adding some extra upwards velocity to seperate the lower from the upper hull a bit more. Looks nicer.
+                    Random.Range(direction.z * 5, direction.z * 10)
                 );
             }
         }

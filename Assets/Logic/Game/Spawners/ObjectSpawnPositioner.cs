@@ -44,7 +44,7 @@ public static class ObjectSpawnPositionProvider
         _verticalMapping = new Dictionary<int, float>();
 
         float step = 0.50f;
-        float baseY = 0.1f;
+        float baseY = 0.5f;
         _verticalMapping[NoteConfig.LINE_LAYER_0] = baseY;
         _verticalMapping[NoteConfig.LINE_LAYER_1] = baseY + step;
         _verticalMapping[NoteConfig.LINE_LAYER_2] = baseY + step * 2;

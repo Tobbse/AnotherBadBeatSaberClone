@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6637729988558303784}
   - component: {fileID: 4435865687745718669}
   m_Layer: 0
-  m_Name: Laser1_1
+  m_Name: Laser_Yellow_2
   m_TagString: Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 01d4f052acd852a478bdc4ac1e9c9eb7, type: 2}
+  - {fileID: 2100000, guid: aabe24b8c690e65478ef0e861882f53e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
