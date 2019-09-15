@@ -4,7 +4,7 @@
       "src": [
         {
           "files": [
-            "*.csproj"
+            "Assets/Logic/**.cs"
           ],
           "cwd": ".",
           "exclude": [
@@ -14,6 +14,7 @@
           ]
         }
       ],
+      "filter": "filterConfig.yml",
       "dest": "obj/api"
     }
   ],

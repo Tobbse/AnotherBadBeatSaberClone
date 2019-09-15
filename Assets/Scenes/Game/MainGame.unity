@@ -1706,6 +1706,7 @@ MonoBehaviour:
   rightTimedBlockNoDirection: {fileID: 119281918999594524, guid: 98400189f5a224977a30affe3390f04c,
     type: 3}
   obstacle: {fileID: 939061520324276704, guid: 334bf45385941144f8f9439d2f4ef9d1, type: 3}
+  generated: {fileID: 538029823}
   laserController: {fileID: 894060752}
   spinnerLightController: {fileID: 25397651}
   fogController: {fileID: 894060753}
@@ -3203,6 +3204,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 538009065}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &538029822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538029823}
+  m_Layer: 0
+  m_Name: Generated
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &538029823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538029822}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.047262788, y: 1.3288296, z: 0.30639783}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &546480728
 PrefabInstance:
   m_ObjectHideFlags: 0

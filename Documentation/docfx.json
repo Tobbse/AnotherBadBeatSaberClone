@@ -3,8 +3,7 @@
     {
       "src": [
         {
-          "src": "../",
-          "files": [ "*.csproj" ]
+          "files": [ "../Assembly-CSharp.csproj" ]
         }
       ],
       "dest": "api/"
@@ -13,8 +12,8 @@
   "build": {
     "globalMetadata":
     {
-      "_appTitle": "BeatSaberClone",
-      "_appFooter": ""BeatSaberClone",
+      "_appTitle": "VR_Project",
+      "_appFooter": "VR_Project",
       "_enableSearch": true
     },
     "content": [
@@ -46,7 +45,7 @@
         }
       }
     },
-    "xref": [ "https://github.com/Tobbse/VR_Project" ],
+    "xref": [ "https://normanderwan.github.io/DocFxForUnity/Unity/xrefmap.yml" ],
     "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ],
     "dest": "../_site/"
   }

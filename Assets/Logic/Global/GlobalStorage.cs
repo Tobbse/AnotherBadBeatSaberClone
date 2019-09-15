@@ -9,17 +9,11 @@ public class GlobalStorage : ScriptableObject
 {
     private static GlobalStorage Instance;
 
-    private AudioClip _audioClip;
-    private TrackConfig _trackConfig;
-    private string _audioPath;
-    private MappingContainer _mappingContainer;
-    private string _difficulty;
-
-    public AudioClip AudioClip { get => _audioClip; set => _audioClip = value; }
-    public TrackConfig TrackConfig { get => _trackConfig; set => _trackConfig = value; }
-    public string AudioPath { get => _audioPath; set => _audioPath = value; }
-    public MappingContainer MappingContainer { get => _mappingContainer; set => _mappingContainer = value; }
-    public string Difficulty { get => _difficulty; set => _difficulty = value; }
+    public AudioClip AudioClip { get; set; }
+    public TrackConfig TrackConfig { get; set; }
+    public string AudioPath { get; set; }
+    public MappingContainer MappingContainer { get; set; }
+    public string Difficulty { get; set; }
 
     public static GlobalStorage getInstance()
     {

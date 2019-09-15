@@ -13,6 +13,10 @@ public class HighscoreController
     private List<HighscoreData> _highscoreData;
     private HighscoreData _currentScore;
 
+    public HighscoreData CurrentScore { get { return _currentScore; } }
+
+    public List<HighscoreData> getHighscores() { return _highscoreData; }
+
     public HighscoreController(int newScore)
     {
         _jsonFileHandler = new JsonController();
@@ -31,16 +35,6 @@ public class HighscoreController
             _handleHighscores();
         }
         _writeHighscores();
-    }
-
-    public HighscoreData CurrentScore
-    {
-        get { return _currentScore; }
-    }
-
-    public List<HighscoreData> getHighscores()
-    {
-        return _highscoreData;
     }
 
     private void _handleHighscores()

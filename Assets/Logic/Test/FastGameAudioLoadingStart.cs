@@ -18,10 +18,10 @@ public class FastGameAudioLoadingStart : MonoBehaviour
         GlobalStorage.getInstance().Difficulty = Game.DIFFICULTY_EASY;
         GlobalStorage.getInstance().AudioPath = path;
 
-        //GlobalSettings.TAKE_DAMAGE = false;
-        DevSettings.USE_CACHE = true;
         DevSettings.TAKE_DAMAGE = false;
+        //DevSettings.USE_CACHE = false;
         //GlobalSettings.USE_EFFECTS = false;
+        //GlobalSettings.TAKE_DAMAGE = false;
 
         Instantiate(loader);
     }

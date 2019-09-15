@@ -10,6 +10,7 @@ public class ObstacleSpawner : ScriptableObject
     private GameObject _obstacle;
     private List<ObstacleConfig> _obstacleData;
     private GameObject _obj;
+    private Transform _generated;
     private ObstacleConfig _cfg;
     private float _speed;
     private float _bps;
@@ -19,11 +20,12 @@ public class ObstacleSpawner : ScriptableObject
     * Contains note mapping data and spawns obstacles at the correct time. The updating is triggered from the 'Game' object,
     * which contains the main loop updating the spawner objects.
      **/
-    public ObstacleSpawner(List<ObstacleConfig> obstacleData, float bps, GameObject obstacle)
+    public ObstacleSpawner(List<ObstacleConfig> obstacleData, float bps, GameObject obstacle, Transform generated)
     {
         _obstacleData = obstacleData;
         _obstacle = obstacle;
         _bps = bps;
+        _generated = generated;
 
         _relativeTravelTime = OBSTACLE_TRAVEL_TIME;
         _speed = OBSTACLE_DISTANCE / _relativeTravelTime;
@@ -61,6 +63,7 @@ public class ObstacleSpawner : ScriptableObject
         );
 
         _obj = Instantiate(_obstacle, position, Quaternion.identity);
+        _obj.transform.parent = _generated;
         _obj.layer = 11;
         _obj.transform.localScale = new Vector3(obstacleLength, 3.0f, obstacleConfig.Width);
         _obj.GetComponent<Rigidbody>().velocity = new Vector3(_speed, 0, 0);

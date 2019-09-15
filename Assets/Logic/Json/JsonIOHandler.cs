@@ -84,17 +84,13 @@ namespace JsonIOHandler
 
             JObject obj = JObject.Parse(text);
 
-            List<EventConfig> eventData = _getEventData(obj["_events"]);
-            List<NoteConfig> noteData = _getNoteData(obj["_notes"]);
-            List<ObstacleConfig> obstacleData = _getObstacleData(obj["_obstacles"]);
-            List<BookmarkConfig> bookmarkData = _getBookmarkData(obj["_bookmarks"]);
-
-            MappingContainer container = new MappingContainer();
-            container.EventData = eventData;
-            container.NoteData = noteData;
-            container.ObstacleData = obstacleData;
-            container.BookmarkData = bookmarkData;
-
+            MappingContainer container = new MappingContainer()
+            {
+                EventData = _getEventData(obj["_events"]),
+                NoteData = _getNoteData(obj["_notes"]),
+                ObstacleData = _getObstacleData(obj["_obstacles"]),
+                BookmarkData = _getBookmarkData(obj["_bookmarks"])
+            };
             return container;
         }
 
@@ -103,10 +99,12 @@ namespace JsonIOHandler
             List<EventConfig> eventData = new List<EventConfig>(); 
             foreach (JToken child in eventToken.Children())
             {
-                EventConfig eventConfig = new EventConfig();
-                eventConfig.Time = child["_time"].Value<float>();
-                eventConfig.Type = child["_type"].Value<int>();
-                eventConfig.Value = child["_value"].Value<int>();
+                EventConfig eventConfig = new EventConfig()
+                {
+                    Time = child["_time"].Value<float>(),
+                    Type = child["_type"].Value<int>(),
+                    Value = child["_value"].Value<int>()
+                };
                 eventData.Add(eventConfig);
             }
             return eventData;
@@ -117,12 +115,14 @@ namespace JsonIOHandler
             List<NoteConfig> noteData = new List<NoteConfig>();
             foreach (JToken child in noteToken.Children())
             {
-                NoteConfig noteConfig = new NoteConfig();
-                noteConfig.Time = child["_time"].Value<float>();
-                noteConfig.LineIndex = child["_lineIndex"].Value<int>();
-                noteConfig.LineLayer = child["_lineLayer"].Value<int>();
-                noteConfig.Type = child["_type"].Value<int>();
-                noteConfig.CutDirection = child["_cutDirection"].Value<int>();
+                NoteConfig noteConfig = new NoteConfig()
+                {
+                    Time = child["_time"].Value<float>(),
+                    LineIndex = child["_lineIndex"].Value<int>(),
+                    LineLayer = child["_lineLayer"].Value<int>(),
+                    Type = child["_type"].Value<int>(),
+                    CutDirection = child["_cutDirection"].Value<int>()
+                };
                 noteData.Add(noteConfig);
             }
             return noteData;
@@ -133,12 +133,14 @@ namespace JsonIOHandler
             List<ObstacleConfig> obstacleData = new List<ObstacleConfig>();
             foreach (JToken child in obstacleToken.Children())
             {
-                ObstacleConfig obstacleConfig = new ObstacleConfig();
-                obstacleConfig.Time = child["_time"].Value<float>();
-                obstacleConfig.LineIndex = child["_lineIndex"].Value<int>();
-                obstacleConfig.Type = child["_type"].Value<int>();
-                obstacleConfig.Duration = child["_duration"].Value<int>();
-                obstacleConfig.Width = child["_width"].Value<float>();
+                ObstacleConfig obstacleConfig = new ObstacleConfig()
+                {
+                    Time = child["_time"].Value<float>(),
+                    LineIndex = child["_lineIndex"].Value<int>(),
+                    Type = child["_type"].Value<int>(),
+                    Duration = child["_duration"].Value<int>(),
+                    Width = child["_width"].Value<float>()
+                };
                 obstacleData.Add(obstacleConfig);
             }
             return obstacleData;
@@ -149,9 +151,10 @@ namespace JsonIOHandler
             List<BookmarkConfig> bookmarkData = new List<BookmarkConfig>();
             foreach (JToken child in bookmarkToken.Children())
             {
-                BookmarkConfig newConfig = new BookmarkConfig();
-                newConfig.Time = child["_time"].Value<float>();
-                newConfig.Name = child["_name"].Value<string>();
+                BookmarkConfig newConfig = new BookmarkConfig()
+                {
+                    Time = child["_time"].Value<float>(), Name = child["_name"].Value<string>()
+                };
                 bookmarkData.Add(newConfig);
             }
             return bookmarkData;

@@ -69,13 +69,29 @@ namespace AudioAnalyzerConfigs {
                     break;
             }
 
+            /**
+             * These configs determine directly how peaks will be detected in the PeakDetector.
+             * 
+             * Each AnalyzerConfig created represents one frequency band that will be used for peak detection with the set parameters.
+             * The startIndex and endIndex represent the range of frequency bins. Assuming a sample rate of 44.100 Hz this results in a
+             * per-bin frequency range of 42,982 Hz. The start and end indices have been chosen in a way so that low frequency bass
+             * instruments like kickdrums can be detected in the first and higher frequency instruments like snare drums can be detected
+             * in the second frequency band. The first one has a frequency range of 0 to 258 Hz, the second one has a range of 1289 to 17193 Hz.
+             * Currently the audio analysis is pretty much hardcoded to using exactly 2 bands, so there should always be 2 bands created.
+             * 
+             * Take a look at the documentation for further information about the audio analysis using the spectral flux approach.
+             **/
             _analyzerConfigs.Add(_makeConfig(0, 0, 6, 20, 25, 3.5f * difficultyMult));
-            _analyzerConfigs.Add(_makeConfig(1, 30, 450, 20, 25, 2.5f * difficultyMult));
+            _analyzerConfigs.Add(_makeConfig(1, 30, 400, 20, 25, 2.5f * difficultyMult));
         }
 
         private AnalyzerBandConfig _makeConfig(int band, int startIndex, int endIndex, int thresholdSize, int beatTime, float tresholdMult)
         {
-            return new AnalyzerBandConfig(band, startIndex, endIndex, _hzPerBin * startIndex, _hzPerBin * endIndex, thresholdSize, beatTime, tresholdMult);
+            return new AnalyzerBandConfig()
+            {
+                Band = band, StartIndex = startIndex, EndIndex = endIndex, StartFrequency = _hzPerBin * startIndex,
+                EndFrequency = _hzPerBin * endIndex, ThresholdSize = thresholdSize, BeatBlockCounter = beatTime, TresholdMult = tresholdMult
+            };
         }
     }
 
@@ -86,34 +102,13 @@ namespace AudioAnalyzerConfigs {
      **/
     public class AnalyzerBandConfig
     {
-        public int _band;
-        public int _startIndex;
-        public int _endIndex; // End index is NOT included
-        public int _thresholdSize;
-        public int _beatBlockCounter;
-        public float _startFrequency;
-        public float _endFrequency;
-        public float _tresholdMult;
-
-        public int Band { get { return _band; } set { _band = value; } }
-        public int StartIndex { get { return _startIndex; } set { _startIndex = value; } }
-        public int EndIndex { get { return _endIndex; } set { _endIndex = value; } }
-        public int ThresholdSize { get { return _thresholdSize; } set { _thresholdSize = value; } }
-        public int BeatBlockCounter { get { return _beatBlockCounter; } set { _beatBlockCounter = value; } }
-        public float StartFrequency { get { return _startFrequency; } set { _startFrequency = value; } }
-        public float EndFrequency { get { return _endFrequency; } set { _endFrequency = value; } }
-        public float TresholdMult { get { return _tresholdMult; } set { _tresholdMult = value; } }
-
-        public AnalyzerBandConfig(int bandP = 0, int startIndexP = 0, int endIndexP = 0, float startFrequencyP = 0, float endFrequencyP = 0, int thresholdSizeP = 0, int beatTimeP = 0, float tresholdMultP = 0)
-        {
-            _band = bandP;
-            StartIndex = startIndexP;
-            EndIndex = endIndexP;
-            StartFrequency = startFrequencyP;
-            EndFrequency = endFrequencyP;
-            ThresholdSize = thresholdSizeP;
-            BeatBlockCounter = beatTimeP;
-            TresholdMult = tresholdMultP;
-        }
+        public int Band { get; set; }
+        public int StartIndex { get; set; }
+        public int EndIndex { get; set; } // End index is NOT included
+        public int ThresholdSize { get; set; }
+        public int BeatBlockCounter { get; set; }
+        public float StartFrequency { get; set; }
+        public float EndFrequency { get; set; }
+        public float TresholdMult { get; set; }
     }
 }

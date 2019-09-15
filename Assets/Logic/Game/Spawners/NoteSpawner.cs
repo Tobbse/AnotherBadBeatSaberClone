@@ -15,15 +15,17 @@ public class NoteSpawner : ScriptableObject
     private GameObject _rightTimedBlock;
     private GameObject _leftTimedBlockNoDirection;
     private GameObject _rightTimedBlockNoDirection;
+    private Transform _generated;
+    private GameObject _obj;
     private List<NoteConfig> _noteData;
     private List<GameObject> _blocks = new List<GameObject>();
-    private GameObject _obj;
     private NoteConfig _cfg;
     private float _bps;
     private float _relativeTravelTime;
     private float _speed;
 
-    public NoteSpawner(List<NoteConfig> noteData, float bps, GameObject leftTimedBlock, GameObject rightTimedBlock, GameObject leftTimedBlockNoDirection, GameObject rightTimedBlockNoDirection)
+    public NoteSpawner(List<NoteConfig> noteData, float bps, GameObject leftTimedBlock, GameObject rightTimedBlock,
+        GameObject leftTimedBlockNoDirection, GameObject rightTimedBlockNoDirection, Transform generated)
     {
         _noteData = noteData;
         _bps = bps;
@@ -31,6 +33,7 @@ public class NoteSpawner : ScriptableObject
         _rightTimedBlock = rightTimedBlock;
         _leftTimedBlockNoDirection = leftTimedBlockNoDirection;
         _rightTimedBlockNoDirection = rightTimedBlockNoDirection;
+        _generated = generated;
 
         _relativeTravelTime = BLOCK_TRAVEL_TIME /*/ _bps*/;
         _speed = BLOCK_DISTANCE / _relativeTravelTime;
@@ -78,6 +81,7 @@ public class NoteSpawner : ScriptableObject
         }
 
         _obj = Instantiate(prefab, position, Quaternion.identity);
+        _obj.transform.parent = _generated;
         _obj.transform.Rotate(new Vector3(cutDirection, 0, 0));
         _obj.GetComponent<Rigidbody>().velocity = new Vector3(_speed, 0, 0);
         _blocks.Add(_obj);

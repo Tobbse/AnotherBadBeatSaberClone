@@ -94,23 +94,27 @@ public class PostOnsetAudioAnalyzer
 
         int[] cutDirections = _getRandomCutDirection(blockLineDistance, blockLayerDistance);
 
-        NoteConfig leftDoubleNoteCfg = new NoteConfig();
-        leftDoubleNoteCfg.BelongsToDoubleNote = true;
-        leftDoubleNoteCfg.Type = NoteConfig.NOTE_TYPE_LEFT;
-        leftDoubleNoteCfg.Time = time;
-        leftDoubleNoteCfg.LineLayer = leftLayer;
-        leftDoubleNoteCfg.LineIndex = leftLine;
-        leftDoubleNoteCfg.CutDirection = cutDirections[0];
-        leftDoubleNoteCfg.ObstacleLineIndex = obstacleLineIndex;
+        NoteConfig leftDoubleNoteCfg = new NoteConfig()
+        {
+            BelongsToDoubleNote = true,
+            Type = NoteConfig.NOTE_TYPE_LEFT,
+            Time = time,
+            LineLayer = leftLayer,
+            LineIndex = leftLine,
+            CutDirection = cutDirections[0],
+            ObstacleLineIndex = obstacleLineIndex,
+        };
 
-        NoteConfig rightDoubleNoteCfg = new NoteConfig();
-        rightDoubleNoteCfg.BelongsToDoubleNote = true;
-        rightDoubleNoteCfg.Type = NoteConfig.NOTE_TYPE_RIGHT;
-        rightDoubleNoteCfg.Time = time;
-        rightDoubleNoteCfg.LineLayer = rightLayer;
-        rightDoubleNoteCfg.LineIndex = rightLine;
-        rightDoubleNoteCfg.CutDirection = cutDirections[1];
-        rightDoubleNoteCfg.ObstacleLineIndex = obstacleLineIndex;
+        NoteConfig rightDoubleNoteCfg = new NoteConfig()
+        {
+            BelongsToDoubleNote = true,
+            Type = NoteConfig.NOTE_TYPE_RIGHT,
+            Time = time,
+            LineLayer = rightLayer,
+            LineIndex = rightLine,
+            CutDirection = cutDirections[1],
+            ObstacleLineIndex = obstacleLineIndex,
+        };
 
         NoteConfig[] newNotes = { leftDoubleNoteCfg, rightDoubleNoteCfg };
         return newNotes;

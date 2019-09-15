@@ -45,16 +45,19 @@ public class MainEffectController
         }
     }
 
-
-    // Yes, this is somewhat messy, but it works and since I have no way of interpreting the event values right now,
-    // it is fine to do it like this as an intermediate solution.
+    // This function handles an EventConfig by completely ignoring its content and
+    // creating a completely random event instead. This is done because I have no way
+    // of interpreting this data as there is no information available that tells me
+    // what the event data actually means.
     public void _handleEvent(EventConfig cfg)
     {
         if (DevSettings.USE_EFFECTS == false) return;
 
-        //_effectController.rotateRandom(cfg.value); // This is actually crazy.
+        //_effectController.rotateRandom(cfg.value); // This is actually crazy, don't do it.
         float rand = Random.Range(0, 100 + 1);
 
+        // Yes, this is somewhat messy, but it works and since I have no way of interpreting the event values
+        // right now, it is fine to do it like this as an intermediate solution.
         if (rand > 98f)
         {
             _spinnyLightController.frontBackTransition(FrontBackTransitionSpinnerLightEffectHandler.TRANSITION_DIRECTION_BACK_TO_FRONT, FrontBackTransitionSpinnerLightEffectHandler.TYPE_VERTICAL, SpinnerLightController.SPINNERS_TYPE_BIG, Random.Range(5, 20), 0, Random.Range(3, 8));

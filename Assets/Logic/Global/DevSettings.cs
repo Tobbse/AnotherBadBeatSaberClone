@@ -6,10 +6,10 @@
  **/
 public static class DevSettings
 {
-    public static bool USE_CACHE = true; // Cache can be disabled during development so that changes always have an effect.
-    public static bool USE_OBSTACLES = true;
-    public static bool OVERRIDE_BLOCK_DESPAWN = false;
-    public static bool USE_SABRE_DEBUG_RAYS = false; // Enable only for debugging purposes.
-    public static bool TAKE_DAMAGE = true;
-    public static bool USE_EFFECTS = false;
+    public static bool USE_CACHE              = true;  // DEFAULT  TRUE
+    public static bool USE_OBSTACLES          = true;  // DEFAULT  TRUE
+    public static bool OVERRIDE_BLOCK_DESPAWN = false; // DEFAULT FALSE
+    public static bool USE_SABRE_DEBUG_RAYS   = false; // DEFAULT FALSE
+    public static bool TAKE_DAMAGE            = true;  // DEFAULT  TRUE
+    public static bool USE_EFFECTS            = true;  // DEFAULT  TRUE
 }

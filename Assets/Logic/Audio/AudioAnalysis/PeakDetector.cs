@@ -213,9 +213,9 @@ public class PeakDetector
     {
         float flux = 0f;
         int firstBin = _currentBandCfg.StartIndex;
-        int secondBin = _currentBandCfg.EndIndex;
+        int lastBin = _currentBandCfg.EndIndex;
 
-        for (int i = firstBin; i <= secondBin; i++)
+        for (int i = firstBin; i <= lastBin; i++)
         {
             flux += Math.Max(0f, _currentBandSpectrums[_band][i] - _previousBandSpectrums[_band][i]);
         }
@@ -247,7 +247,16 @@ public class PeakDetector
     // TODO this could be optimized. Change multiplier level? Use previous and post flux levels?
     private bool _isPeak()
     {
-        return _currentBeatInfo.PrunedSpectralFlux > _spectrumData[_index - 1].BandBeatData[_band].PrunedSpectralFlux;
+        float previousPrunedFlux = _spectrumData[_index - 1].BandBeatData[_band].PrunedSpectralFlux;
+        float currentPrunedFlux = _spectrumData[_index].BandBeatData[_band].PrunedSpectralFlux;
+
+        if (_index + 1 < _bandConfigs.Count) {
+            float nextPrunedFlux = _spectrumData[_index + 1].BandBeatData[_band].PrunedSpectralFlux;
+            return currentPrunedFlux > previousPrunedFlux &&
+                currentPrunedFlux > nextPrunedFlux;
+        } else {
+            return currentPrunedFlux > previousPrunedFlux;
+        }
     }
 
     private int _getNumIndicesFromSeconds(float duration)

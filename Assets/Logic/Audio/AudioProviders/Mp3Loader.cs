@@ -2,6 +2,9 @@
 using NLayer;
 using UnityEngine;
 
+/**
+ * This class is used to load .mp3 files by using the NLayer library.
+ **/
 public static class Mp3Loader
 {
     private static MpegFile mpegFile = null;
@@ -13,8 +16,8 @@ public static class Mp3Loader
 
         mpegFile = new MpegFile(filePath);
 
-        // assign mpegFile's info into AudioClip
-        AudioClip ac = AudioClip.Create(System.IO.Path.GetFileNameWithoutExtension(filePath),
+        // Assign mp3 file info into AudioClip
+        AudioClip audioClip = AudioClip.Create(System.IO.Path.GetFileNameWithoutExtension(filePath),
                                         (int)(mpegFile.Length / sizeof(float) / mpegFile.Channels),
                                         mpegFile.Channels,
                                         mpegFile.SampleRate,
@@ -22,16 +25,16 @@ public static class Mp3Loader
                                         OnMp3Read,
                                         OnClipPositionSet);
 
-        return ac;
+        return audioClip;
     }
 
-    // PCMReaderCallback will called each time AudioClip reads data.
+    // PCMReaderCallback will be called each time AudioClip reads data.
     private static void OnMp3Read(float[] data)
     {
         int actualReadCount = mpegFile.ReadSamples(data, 0, data.Length);
     }
 
-    // PCMSetPositionCallback will called when first loading this audioclip
+    // PCMSetPositionCallback will be called when first loading this AudioClip.
     private static void OnClipPositionSet(int position)
     {
         mpegFile = new MpegFile(_filePath);

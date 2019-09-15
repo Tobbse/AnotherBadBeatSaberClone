@@ -1,0 +1,18 @@
+apiRules:
+- include:
+    uidRegex: ^*.*
+    type: Class
+- include:
+    uidRegex: ^*.cs
+- include:
+    uidRegex: ^*/*.cs
+    type: Class
+- include:
+    uidRegex: ^*/*.cs
+    type: Type
+- include:
+    uidRegex: ^*/*
+    type: Namespace
+- include:
+    uidRegex: ^*/*
+    type: Type

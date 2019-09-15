@@ -1,0 +1,440 @@
+{
+  "homepages": [],
+  "source_base_path": "E:/Daten/coding_projects/Unity Projects/VR_Project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "README.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.html",
+          "hash": "2BDdeFyG+uoveff7u8DdVw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "PczCoK8c1FFyAQrZQCCJ1w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "n5n9j/1SvJNS3rZsTqW37A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "PI/E80O8rC2MrZGqTGyMRg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AudioAnalyzerConfigs.AnalyzerBandConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AudioAnalyzerConfigs.AnalyzerBandConfig.html",
+          "hash": "/k/5HfqQM4Nfu+G/T7q5UQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AudioAnalyzerConfigs.TrackConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AudioAnalyzerConfigs.TrackConfig.html",
+          "hash": "ooAjIS3NyOwdK8axHqEeJw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/AudioAnalyzerConfigs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AudioAnalyzerConfigs.html",
+          "hash": "dSu0vtJJSNrk/8NQMNTdoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.BookmarkConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.BookmarkConfig.html",
+          "hash": "SjohJmewAg/FsCIcWCbG0A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.EventConfig.TYPES.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.EventConfig.TYPES.html",
+          "hash": "77VKil7lgIYxZbkiEICSIA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.EventConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.EventConfig.html",
+          "hash": "jdFgjpucsVjEAC4tSeP0Iw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.MappingContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.MappingContainer.html",
+          "hash": "QeuHqK4kJVBYG7oqm5WCcQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.MappingInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.MappingInfo.html",
+          "hash": "CWsibAivapomYByBX2X8mg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.NoteConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.NoteConfig.html",
+          "hash": "Fg9/g7SaS3nanw4pyOQABg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.ObstacleConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.ObstacleConfig.html",
+          "hash": "0kR59zWV3+rS7KM+nJqsHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/BeatMappingConfigs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BeatMappingConfigs.html",
+          "hash": "SuNzkdfvqCT0ZA+IYXaC4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/JsonIOHandler.JsonFileReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/JsonIOHandler.JsonFileReader.html",
+          "hash": "P1/+2+Jsbq4QgDQwFn7PFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/JsonIOHandler.JsonFileWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/JsonIOHandler.JsonFileWriter.html",
+          "hash": "tRbnAZd4PIikET2D0mZFJg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/JsonIOHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/JsonIOHandler.html",
+          "hash": "e9OmpFSWJgppAC+Je5OzEA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/JsonStringBuilders.JsonHighscoreStringBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/JsonStringBuilders.JsonHighscoreStringBuilder.html",
+          "hash": "wQX/frOv7bAO/y81ldU/Jw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/JsonStringBuilders.JsonInfoStringBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/JsonStringBuilders.JsonInfoStringBuilder.html",
+          "hash": "7ZEYdMr6wI+c4/ONmpKqig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/JsonStringBuilders.JsonMappingStringBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/JsonStringBuilders.JsonMappingStringBuilder.html",
+          "hash": "x/kl7G0Z1d0HSL5+LRw/Yw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/JsonStringBuilders.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/JsonStringBuilders.html",
+          "hash": "PPLjk635kNchpXz8FyQJAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/SpectrumConfigs.AnalyzedSpectrumConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SpectrumConfigs.AnalyzedSpectrumConfig.html",
+          "hash": "IK/f3NTglJ7hbikuVQyOpA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/SpectrumConfigs.BeatConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SpectrumConfigs.BeatConfig.html",
+          "hash": "/ZA7BwKnlvorNP0PTNykHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/SpectrumConfigs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SpectrumConfigs.html",
+          "hash": "hY6V4LFQTF/F+8jJnxc2/g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/SpinnerLightEffects.BaseSpinnerLightEffectHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SpinnerLightEffects.BaseSpinnerLightEffectHandler.html",
+          "hash": "2LBsgCoUz78fSLMPoodM9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/SpinnerLightEffects.BlinkAllSpinnerLightEffectHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SpinnerLightEffects.BlinkAllSpinnerLightEffectHandler.html",
+          "hash": "/D3LlVQiiXIwsq68mC6gNQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/SpinnerLightEffects.FrontBackTransitionSpinnerLightEffectHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SpinnerLightEffects.FrontBackTransitionSpinnerLightEffectHandler.html",
+          "hash": "XFgJbdrfJknTnJnkq6M/rg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/SpinnerLightEffects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SpinnerLightEffects.html",
+          "hash": "tdKy+WCeEeoPm4Ki0LN58w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "obj/api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "xkN0D64ppihCuZdYUMKGTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "Sg+nKmnHP++YKMT39ruhpw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 4,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 25,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

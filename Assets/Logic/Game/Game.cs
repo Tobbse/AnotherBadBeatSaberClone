@@ -25,6 +25,7 @@ public class Game : MonoBehaviour
     public GameObject leftTimedBlockNoDirection;
     public GameObject rightTimedBlockNoDirection;
     public GameObject obstacle;
+    public Transform generated;
     public LaserController laserController;
     public SpinnerLightController spinnerLightController;
     public FogController fogController;
@@ -45,7 +46,7 @@ public class Game : MonoBehaviour
     private float _relativeObstacleTravelTime;
     private float _relativeTimePassed;
     
-    // Preparomg controllers and passing data to them.
+    // Preparing controllers and passing data to them.
     // Preparing score tracking and the audio clip.
     // Calculates the start point.
     void Start()
@@ -68,9 +69,11 @@ public class Game : MonoBehaviour
             _bps = mappingContainer.MappingInfo.Bpm / 60;
         }
         
-        _noteSpawner = new NoteSpawner(mappingContainer.NoteData, _bps, leftTimedBlock, rightTimedBlock, leftTimedBlockNoDirection, rightTimedBlockNoDirection);
-        _obstacleSpawner = new ObstacleSpawner(mappingContainer.ObstacleData, _bps, obstacle);
-        _effectController = new MainEffectController(laserController, spinnerLightController, fogController, mappingContainer.EventData, _bps);
+        _noteSpawner = new NoteSpawner(mappingContainer.NoteData, _bps, leftTimedBlock, rightTimedBlock,
+            leftTimedBlockNoDirection, rightTimedBlockNoDirection, generated);
+        _obstacleSpawner = new ObstacleSpawner(mappingContainer.ObstacleData, _bps, obstacle, generated);
+        _effectController = new MainEffectController(laserController, spinnerLightController,
+            fogController, mappingContainer.EventData, _bps);
 
         _relativeNoteTravelTime = _noteSpawner.getRelativeTravelTime();
         _relativeObstacleTravelTime = _obstacleSpawner.getRelativeTravelTime();

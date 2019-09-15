@@ -1,10 +1,7 @@
 apiRules:
 - include:
-    uidRegex: ^Assets\.Logic\.Audio
-    type: Namespace
-- exclude:
     uidRegex: ^Assets\.Logic
     type: Namespace
 - exclude:
-    uidRegex: ^*
+    uidRegex: .*
     type: Namespace
