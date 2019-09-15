@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "README.html",
-          "hash": "aIhsp8EG+kCMKWMX9aXljA=="
+          "hash": "2BDdeFyG+uoveff7u8DdVw=="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "7ORuJnOdzPsXUJbtL5XPXA=="
+          "hash": "gu44xi7c4dPF3Xf+gnOhmg=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "JT0BUH6LXjD5Dgi0DaMZNA=="
+          "hash": "n5n9j/1SvJNS3rZsTqW37A=="
         }
       },
       "is_incremental": false,
@@ -46,18 +46,6 @@
         ".html": {
           "relative_path": "articles/toc.html",
           "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "index.md",
-      "output": {
-        ".html": {
-          "relative_path": "index.html",
-          "hash": "AZBTLza1YQnOLOISSRV8iQ=="
         }
       },
       "is_incremental": false,
@@ -1114,16 +1102,16 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 4,
-          "skipped_file_count": 0
-        },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 84,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
           "skipped_file_count": 0
         }
       }
