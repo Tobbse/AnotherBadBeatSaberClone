@@ -12,6 +12,12 @@
 # Build Files
 /Build/
 
+# Some documentation stuff etc.
+docfx.yml
+filterConfig.yml
+toc.yml
+log.txt
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
