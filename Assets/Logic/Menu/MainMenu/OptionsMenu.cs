@@ -1,21 +1,25 @@
 ﻿using UnityEngine;
 using System;
 
-/**
- * Options Menu UI script to handle button clicks.
- **/
-public class OptionsMenu : MonoBehaviour
+namespace MenuMainMenu
 {
-    private Action _backButtonCallback;
-
-    public void setBackCallback(Action backButtonCallback)
+    /**
+     * Options Menu UI script to handle button clicks.
+     **/
+    public class OptionsMenu : MonoBehaviour
     {
-        _backButtonCallback = backButtonCallback;
+        private Action _backButtonCallback;
+
+        public void setBackCallback(Action backButtonCallback)
+        {
+            _backButtonCallback = backButtonCallback;
+        }
+
+        public void clickBack()
+        {
+            _backButtonCallback();
+            gameObject.SetActive(false);
+        }
     }
 
-    public void clickBack()
-    {
-        _backButtonCallback();
-        gameObject.SetActive(false);
-    }
 }

@@ -1,34 +1,40 @@
 ﻿using UnityEngine;
+using Global;
 
-/**
- * Defines the behavior of obstacles. Checks if the obstacle collider intersects with the player collider bounds
- * on every update. Has to be done like this, because we don't want actual collision here, we just want to
- * know if there is an intersection to apply damage.
- * Also makes sure that the obstacle despawns after a while.
- **/
-public class Obstacle : MonoBehaviour
+namespace GameSpawnedObjects
 {
-    private const float OBSTACLE_DAMAGE = 0.4f;  // Applied for every collision update.
-
-    public Collider obstacleCollider;
-
-    private Collider _playerCollider;
-    private int lifetimeCycles = 400;
-
-    private void Start()
+    /**
+     * Defines the behavior of obstacles. Checks if the obstacle collider intersects with the player collider bounds
+     * on every update. Has to be done like this, because we don't want actual collision here, we just want to
+     * know if there is an intersection to apply damage.
+     * Also makes sure that the obstacle despawns after a while.
+     **/
+    public class Obstacle : MonoBehaviour
     {
-        _playerCollider = GameObject.Find("PlayerCollider").GetComponent<Collider>();
-    }
+        private const float OBSTACLE_DAMAGE = 0.4f;  // Applied for every collision update.
 
-    private void FixedUpdate()
-    {
-        if (_playerCollider.bounds.Intersects(obstacleCollider.bounds)) {
-            PlayerData.getInstance().takeDamage(OBSTACLE_DAMAGE);
-        }
-        lifetimeCycles--;
-        if (lifetimeCycles < 0 || gameObject.transform.position.x > 100)
+        public Collider obstacleCollider;
+
+        private Collider _playerCollider;
+        private int lifetimeCycles = 400;
+
+        private void Start()
         {
-            Destroy(gameObject);
+            _playerCollider = GameObject.Find("PlayerCollider").GetComponent<Collider>();
+        }
+
+        private void FixedUpdate()
+        {
+            if (_playerCollider.bounds.Intersects(obstacleCollider.bounds))
+            {
+                PlayerData.getInstance().takeDamage(OBSTACLE_DAMAGE);
+            }
+            lifetimeCycles--;
+            if (lifetimeCycles < 0 || gameObject.transform.position.x > 100)
+            {
+                Destroy(gameObject);
+            }
         }
     }
+
 }

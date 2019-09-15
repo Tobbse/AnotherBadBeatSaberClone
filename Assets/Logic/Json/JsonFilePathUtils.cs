@@ -1,17 +1,21 @@
-﻿/**
- * Util class to get file and folder paths.
- **/
-public static class JsonFilePathUtils
+﻿namespace Json
 {
-    private const string BASE_FOLDER = "Assets/Resources/SongData/";
-
-    public static string getFolderPath(string subFolder, string shortFileName)
+    /**
+     * Util class to get file and folder paths.
+     **/
+    public static class JsonFilePathUtils
     {
-        return BASE_FOLDER + subFolder + shortFileName + "/";
+        private const string BASE_FOLDER = "Assets/Resources/SongData/";
+
+        public static string getFolderPath(string subFolder, string shortFileName)
+        {
+            return BASE_FOLDER + subFolder + shortFileName + "/";
+        }
+
+        public static string getFullPath(string folderPath, string shortFileName)
+        {
+            return folderPath + shortFileName + ".dat";
+        }
     }
 
-    public static string getFullPath(string folderPath, string shortFileName)
-    {
-        return folderPath + shortFileName + ".dat";
-    }
 }

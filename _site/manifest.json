@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "README.html",
-          "hash": "2BDdeFyG+uoveff7u8DdVw=="
+          "hash": "aIhsp8EG+kCMKWMX9aXljA=="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "PczCoK8c1FFyAQrZQCCJ1w=="
+          "hash": "7ORuJnOdzPsXUJbtL5XPXA=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "n5n9j/1SvJNS3rZsTqW37A=="
+          "hash": "JT0BUH6LXjD5Dgi0DaMZNA=="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "PI/E80O8rC2MrZGqTGyMRg=="
+          "hash": "AZBTLza1YQnOLOISSRV8iQ=="
         }
       },
       "is_incremental": false,
@@ -65,11 +65,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/AudioAnalyzerConfigs.AnalyzerBandConfig.yml",
+      "source_relative_path": "obj/api/Audio.AudioController.yml",
       "output": {
         ".html": {
-          "relative_path": "api/AudioAnalyzerConfigs.AnalyzerBandConfig.html",
-          "hash": "/k/5HfqQM4Nfu+G/T7q5UQ=="
+          "relative_path": "api/Audio.AudioController.html",
+          "hash": "bVrhIzPJ1ruwa0zUaQvvGg=="
         }
       },
       "is_incremental": false,
@@ -77,11 +77,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/AudioAnalyzerConfigs.TrackConfig.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.BookmarkConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/AudioAnalyzerConfigs.TrackConfig.html",
-          "hash": "ooAjIS3NyOwdK8axHqEeJw=="
+          "relative_path": "api/Audio.BeatMappingConfigs.BookmarkConfig.html",
+          "hash": "+NMMQeteInlCUZYKD/IBbw=="
         }
       },
       "is_incremental": false,
@@ -89,11 +89,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/AudioAnalyzerConfigs.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.EventConfig.TYPES.yml",
       "output": {
         ".html": {
-          "relative_path": "api/AudioAnalyzerConfigs.html",
-          "hash": "dSu0vtJJSNrk/8NQMNTdoA=="
+          "relative_path": "api/Audio.BeatMappingConfigs.EventConfig.TYPES.html",
+          "hash": "SVOpqzrssbAsHgcRqHNnlQ=="
         }
       },
       "is_incremental": false,
@@ -101,11 +101,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.BookmarkConfig.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.EventConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.BookmarkConfig.html",
-          "hash": "SjohJmewAg/FsCIcWCbG0A=="
+          "relative_path": "api/Audio.BeatMappingConfigs.EventConfig.html",
+          "hash": "2eSfbfAWRiHVoNNzr44y8Q=="
         }
       },
       "is_incremental": false,
@@ -113,11 +113,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.EventConfig.TYPES.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.MappingContainer.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.EventConfig.TYPES.html",
-          "hash": "77VKil7lgIYxZbkiEICSIA=="
+          "relative_path": "api/Audio.BeatMappingConfigs.MappingContainer.html",
+          "hash": "ZQR3mXKoP/jFJjHfc9h7ow=="
         }
       },
       "is_incremental": false,
@@ -125,11 +125,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.EventConfig.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.MappingInfo.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.EventConfig.html",
-          "hash": "jdFgjpucsVjEAC4tSeP0Iw=="
+          "relative_path": "api/Audio.BeatMappingConfigs.MappingInfo.html",
+          "hash": "koAwypTt3FE8cZRCwpKCzw=="
         }
       },
       "is_incremental": false,
@@ -137,11 +137,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.MappingContainer.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.NoteConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.MappingContainer.html",
-          "hash": "QeuHqK4kJVBYG7oqm5WCcQ=="
+          "relative_path": "api/Audio.BeatMappingConfigs.NoteConfig.html",
+          "hash": "QNohlQuJf1UyR/E5f9xvNg=="
         }
       },
       "is_incremental": false,
@@ -149,11 +149,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.MappingInfo.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.ObstacleConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.MappingInfo.html",
-          "hash": "CWsibAivapomYByBX2X8mg=="
+          "relative_path": "api/Audio.BeatMappingConfigs.ObstacleConfig.html",
+          "hash": "k+7GAdP5iiaOF1JPK/GPkQ=="
         }
       },
       "is_incremental": false,
@@ -161,11 +161,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.NoteConfig.yml",
+      "source_relative_path": "obj/api/Audio.BeatMappingConfigs.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.NoteConfig.html",
-          "hash": "Fg9/g7SaS3nanw4pyOQABg=="
+          "relative_path": "api/Audio.BeatMappingConfigs.html",
+          "hash": "kIKTQnMYqKKpZn+NZwanLw=="
         }
       },
       "is_incremental": false,
@@ -173,11 +173,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.ObstacleConfig.yml",
+      "source_relative_path": "obj/api/Audio.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.ObstacleConfig.html",
-          "hash": "0kR59zWV3+rS7KM+nJqsHQ=="
+          "relative_path": "api/Audio.html",
+          "hash": "c/AgOZ3jUKP0AgxjnTF1EA=="
         }
       },
       "is_incremental": false,
@@ -185,11 +185,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/BeatMappingConfigs.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.AudioAnalyzerConfigs.AnalyzerBandConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/BeatMappingConfigs.html",
-          "hash": "SuNzkdfvqCT0ZA+IYXaC4g=="
+          "relative_path": "api/AudioAnalysis.AudioAnalyzerConfigs.AnalyzerBandConfig.html",
+          "hash": "9r3lk7z1KtX5rOa9F8QjJQ=="
         }
       },
       "is_incremental": false,
@@ -197,11 +197,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/JsonIOHandler.JsonFileReader.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.AudioAnalyzerConfigs.TrackConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/JsonIOHandler.JsonFileReader.html",
-          "hash": "P1/+2+Jsbq4QgDQwFn7PFQ=="
+          "relative_path": "api/AudioAnalysis.AudioAnalyzerConfigs.TrackConfig.html",
+          "hash": "JIS/J1zROoAKuI+7y3CMmA=="
         }
       },
       "is_incremental": false,
@@ -209,11 +209,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/JsonIOHandler.JsonFileWriter.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.AudioAnalyzerConfigs.yml",
       "output": {
         ".html": {
-          "relative_path": "api/JsonIOHandler.JsonFileWriter.html",
-          "hash": "tRbnAZd4PIikET2D0mZFJg=="
+          "relative_path": "api/AudioAnalysis.AudioAnalyzerConfigs.html",
+          "hash": "szn/C9gxr/voUCttNwrEQg=="
         }
       },
       "is_incremental": false,
@@ -221,11 +221,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/JsonIOHandler.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.AudioAnalyzerHandler.yml",
       "output": {
         ".html": {
-          "relative_path": "api/JsonIOHandler.html",
-          "hash": "e9OmpFSWJgppAC+Je5OzEA=="
+          "relative_path": "api/AudioAnalysis.AudioAnalyzerHandler.html",
+          "hash": "hyZexhaxdgHApgc/cM+0+g=="
         }
       },
       "is_incremental": false,
@@ -233,11 +233,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/JsonStringBuilders.JsonHighscoreStringBuilder.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.PeakDetector.yml",
       "output": {
         ".html": {
-          "relative_path": "api/JsonStringBuilders.JsonHighscoreStringBuilder.html",
-          "hash": "wQX/frOv7bAO/y81ldU/Jw=="
+          "relative_path": "api/AudioAnalysis.PeakDetector.html",
+          "hash": "B4SIVC9a4jNsKiBNcJHgIg=="
         }
       },
       "is_incremental": false,
@@ -245,11 +245,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/JsonStringBuilders.JsonInfoStringBuilder.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.PostOnsetAudioAnalyzer.yml",
       "output": {
         ".html": {
-          "relative_path": "api/JsonStringBuilders.JsonInfoStringBuilder.html",
-          "hash": "7ZEYdMr6wI+c4/ONmpKqig=="
+          "relative_path": "api/AudioAnalysis.PostOnsetAudioAnalyzer.html",
+          "hash": "ClkuHCxniXObhHOJRt6SAA=="
         }
       },
       "is_incremental": false,
@@ -257,11 +257,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/JsonStringBuilders.JsonMappingStringBuilder.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.SpectrumAnalysisUtils.yml",
       "output": {
         ".html": {
-          "relative_path": "api/JsonStringBuilders.JsonMappingStringBuilder.html",
-          "hash": "x/kl7G0Z1d0HSL5+LRw/Yw=="
+          "relative_path": "api/AudioAnalysis.SpectrumAnalysisUtils.html",
+          "hash": "gZRB7NawDmIqD2QaimyjUA=="
         }
       },
       "is_incremental": false,
@@ -269,11 +269,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/JsonStringBuilders.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.SpectrumConfigs.AnalyzedSpectrumConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/JsonStringBuilders.html",
-          "hash": "PPLjk635kNchpXz8FyQJAg=="
+          "relative_path": "api/AudioAnalysis.SpectrumConfigs.AnalyzedSpectrumConfig.html",
+          "hash": "UH4bpfA404Ur376EAs2ssw=="
         }
       },
       "is_incremental": false,
@@ -281,11 +281,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/SpectrumConfigs.AnalyzedSpectrumConfig.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.SpectrumConfigs.BeatConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/SpectrumConfigs.AnalyzedSpectrumConfig.html",
-          "hash": "IK/f3NTglJ7hbikuVQyOpA=="
+          "relative_path": "api/AudioAnalysis.SpectrumConfigs.BeatConfig.html",
+          "hash": "R4X8vGHHl8EHzm2I2OVaMg=="
         }
       },
       "is_incremental": false,
@@ -293,11 +293,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/SpectrumConfigs.BeatConfig.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.SpectrumConfigs.yml",
       "output": {
         ".html": {
-          "relative_path": "api/SpectrumConfigs.BeatConfig.html",
-          "hash": "/ZA7BwKnlvorNP0PTNykHQ=="
+          "relative_path": "api/AudioAnalysis.SpectrumConfigs.html",
+          "hash": "X4iGv0DGQ3r94+sSSzV3VQ=="
         }
       },
       "is_incremental": false,
@@ -305,11 +305,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/SpectrumConfigs.yml",
+      "source_relative_path": "obj/api/AudioAnalysis.yml",
       "output": {
         ".html": {
-          "relative_path": "api/SpectrumConfigs.html",
-          "hash": "hY6V4LFQTF/F+8jJnxc2/g=="
+          "relative_path": "api/AudioAnalysis.html",
+          "hash": "mB197AfjNCMOHSKadGQrsQ=="
         }
       },
       "is_incremental": false,
@@ -317,11 +317,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/SpinnerLightEffects.BaseSpinnerLightEffectHandler.yml",
+      "source_relative_path": "obj/api/AudioProviders.AudioSampleProvider.yml",
       "output": {
         ".html": {
-          "relative_path": "api/SpinnerLightEffects.BaseSpinnerLightEffectHandler.html",
-          "hash": "2LBsgCoUz78fSLMPoodM9g=="
+          "relative_path": "api/AudioProviders.AudioSampleProvider.html",
+          "hash": "RIMOaISWKh4uLMSJqno8yQ=="
         }
       },
       "is_incremental": false,
@@ -329,11 +329,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/SpinnerLightEffects.BlinkAllSpinnerLightEffectHandler.yml",
+      "source_relative_path": "obj/api/AudioProviders.Mp3Loader.yml",
       "output": {
         ".html": {
-          "relative_path": "api/SpinnerLightEffects.BlinkAllSpinnerLightEffectHandler.html",
-          "hash": "/D3LlVQiiXIwsq68mC6gNQ=="
+          "relative_path": "api/AudioProviders.Mp3Loader.html",
+          "hash": "mCJawruYROQgZezF1GXFyg=="
         }
       },
       "is_incremental": false,
@@ -341,11 +341,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/SpinnerLightEffects.FrontBackTransitionSpinnerLightEffectHandler.yml",
+      "source_relative_path": "obj/api/AudioProviders.SpectrumProvider.yml",
       "output": {
         ".html": {
-          "relative_path": "api/SpinnerLightEffects.FrontBackTransitionSpinnerLightEffectHandler.html",
-          "hash": "XFgJbdrfJknTnJnkq6M/rg=="
+          "relative_path": "api/AudioProviders.SpectrumProvider.html",
+          "hash": "q7yD1zdjd/GPpNga4BWbxw=="
         }
       },
       "is_incremental": false,
@@ -353,11 +353,719 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/api/SpinnerLightEffects.yml",
+      "source_relative_path": "obj/api/AudioProviders.yml",
       "output": {
         ".html": {
-          "relative_path": "api/SpinnerLightEffects.html",
-          "hash": "tdKy+WCeEeoPm4Ki0LN58w=="
+          "relative_path": "api/AudioProviders.html",
+          "hash": "OxdjH+u1Kgk4r2//X6OSIA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Game.GameController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Game.GameController.html",
+          "hash": "9QSKpn3euNG6wDT8XFV5Aw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Game.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Game.html",
+          "hash": "vqoLTTybCRjGlQDsEfAMSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.FogController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.FogController.html",
+          "hash": "z55xyuKCsS+6rdIVMwkiOA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.LaserController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.LaserController.html",
+          "hash": "vljsW9BPYPIPzQsPQbJXQw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.MainEffectController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.MainEffectController.html",
+          "hash": "TCTEOcHtcOTxNeNZNbKhiQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.SpinnerLight.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.SpinnerLight.html",
+          "hash": "jmlgnQXpyyOe6jSbjI5Taw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.SpinnerLightController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.SpinnerLightController.html",
+          "hash": "n7OA8z62HTq3VvY209wPJQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.SpinnerLightEffects.BaseSpinnerLightEffectHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.SpinnerLightEffects.BaseSpinnerLightEffectHandler.html",
+          "hash": "wRzx8AOUalbGrdk487H3RQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.SpinnerLightEffects.BlinkAllSpinnerLightEffectHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.SpinnerLightEffects.BlinkAllSpinnerLightEffectHandler.html",
+          "hash": "XmvIVlzHwry+Mao/VQUdIg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.SpinnerLightEffects.FrontBackTransitionSpinnerLightEffectHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.SpinnerLightEffects.FrontBackTransitionSpinnerLightEffectHandler.html",
+          "hash": "9UsGrXzOMwT9JjAMBixtWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.SpinnerLightEffects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.SpinnerLightEffects.html",
+          "hash": "05WViHQ2RtKYDexDMjYYBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.VolumetricFogEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.VolumetricFogEffect.html",
+          "hash": "XkmXAXIk8psTRJxryg755Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameEffects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameEffects.html",
+          "hash": "uCBNY3s5AhyGwt3rBz6cbg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawnedObjects.Obstacle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawnedObjects.Obstacle.html",
+          "hash": "zcxkzVBwz4AMbT/E0n93/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawnedObjects.Sabre.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawnedObjects.Sabre.html",
+          "hash": "nZ1Chi9dtytdwDWccSbdLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawnedObjects.SlicedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawnedObjects.SlicedObject.html",
+          "hash": "1VWvQE0zaehIzAfS0I+wXg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawnedObjects.TimedBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawnedObjects.TimedBlock.html",
+          "hash": "DgUmVrkDEstAAwdWqRJrYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawnedObjects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawnedObjects.html",
+          "hash": "Xq7urKsuRY5cgca93Hn/uA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawners.NoteSpawner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawners.NoteSpawner.html",
+          "hash": "Doyo4ejQYdEDkNTMqBwQUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawners.ObjectSpawnPositionProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawners.ObjectSpawnPositionProvider.html",
+          "hash": "iOi4MzN25RTmDZFBPT18Zw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawners.ObstacleSpawner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawners.ObstacleSpawner.html",
+          "hash": "xvy9hHQD29JBkDKkzid+lQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/GameSpawners.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/GameSpawners.html",
+          "hash": "7cdyAgYUSoyslUCIQxw8UA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Global.DevSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.DevSettings.html",
+          "hash": "SgKzWcpn/T5GHR5hQULtXg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Global.GlobalStorage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.GlobalStorage.html",
+          "hash": "MxFY2cy5T1jr5hIhBqfn8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Global.PlayerData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.PlayerData.html",
+          "hash": "x5Q8sSdj0jACCYRFpGe4vg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Global.ScoreTracker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.ScoreTracker.html",
+          "hash": "V2FQlxk8Xvl3LT88s6k7tQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Global.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Global.html",
+          "hash": "nOfqAC1KlLOOutPZP50HFg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonController.html",
+          "hash": "m0UHg1HPcTCbb8X+hi76KQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonFilePathUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonFilePathUtils.html",
+          "hash": "fqr6XHYeCYo7o1j3Fz4lFg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonIOHandler.JsonFileReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonIOHandler.JsonFileReader.html",
+          "hash": "9IlsPnLQ5+wBGSG/qI7d0A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonIOHandler.JsonFileWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonIOHandler.JsonFileWriter.html",
+          "hash": "sGKu86U+WNVX+dKVNHtOaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonIOHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonIOHandler.html",
+          "hash": "t2ZsnNoxoAF5SjZ97Vol/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonStringBuilders.JsonHighscoreStringBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonStringBuilders.JsonHighscoreStringBuilder.html",
+          "hash": "vkszdJ6FJ6ge9+UoF6O34A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonStringBuilders.JsonInfoStringBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonStringBuilders.JsonInfoStringBuilder.html",
+          "hash": "YC3Y0ZZUL0U8pShhwk6DQQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonStringBuilders.JsonMappingStringBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonStringBuilders.JsonMappingStringBuilder.html",
+          "hash": "QZKxugvNUaJgoSL90fmFgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.JsonStringBuilders.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.JsonStringBuilders.html",
+          "hash": "IMmCyQBrWD8O/kWkw7IIiQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Json.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Json.html",
+          "hash": "PS+kvmhEM/mnXPF7jKoowQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.MainMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.MainMenu.html",
+          "hash": "gsS1qsTtoDtrCZQYaAyOsQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.OptionsMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.OptionsMenu.html",
+          "hash": "6CncSsBhVrd0cdUvm5UB1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.PlayMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.PlayMenu.html",
+          "hash": "CV7vAYJpTbjlk/qJMngBAw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.ShowSliderValueAwesome.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.ShowSliderValueAwesome.html",
+          "hash": "ujNRvXi0t9gM7j5qs6t+yw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.ShowSliderValueDifficulty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.ShowSliderValueDifficulty.html",
+          "hash": "hynIVetLhSGJk3Ygpk0n5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.ShowSliderValueFloat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.ShowSliderValueFloat.html",
+          "hash": "V90BcwONZsaCoWMqPAGBlQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.ShowSliderValueInt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.ShowSliderValueInt.html",
+          "hash": "GP7fO5+RXJHSKYUpD7tmZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuMainMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuMainMenu.html",
+          "hash": "1aNfn9iXG6Enh6nZnU0Yug=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuScoreMenu.HighscoreController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuScoreMenu.HighscoreController.html",
+          "hash": "gTjk6FyACbCb61gqLdArWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuScoreMenu.HighscoreData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuScoreMenu.HighscoreData.html",
+          "hash": "/+9FsikpLTaTvYYQ3ycD1w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuScoreMenu.ScoreMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuScoreMenu.ScoreMenu.html",
+          "hash": "HqnpeVsQF/g+WVFn66RLwA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/MenuScoreMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MenuScoreMenu.html",
+          "hash": "eguc6okkhNrQiRMkwkky5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Test.FastGameAudioLoadingStart.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Test.FastGameAudioLoadingStart.html",
+          "hash": "UgFXwuUlXYTX6+CQ0wC53A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Test.JsonSceneTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Test.JsonSceneTest.html",
+          "hash": "WGxF9pmIX72wYAqdQH5/Nw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Test.SabreTest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Test.SabreTest.html",
+          "hash": "K+XSevhFl1OhE7W/dqcvkQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Test.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Test.html",
+          "hash": "kCYTCe7OTfG9qWc1Z7/Fmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/TestOldDeprecatedStuff.PLogarithmUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TestOldDeprecatedStuff.PLogarithmUtils.html",
+          "hash": "OZm/XZPd8nrd1xy5kIIy9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/TestOldDeprecatedStuff.PPostAudioAnalyzer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TestOldDeprecatedStuff.PPostAudioAnalyzer.html",
+          "hash": "axTOatPNz1Byfbz05Nousw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/TestOldDeprecatedStuff.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TestOldDeprecatedStuff.html",
+          "hash": "dZZR3bjicKKBBv1L12wsvw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/TestPlotDemo.PlotDemoAudioAnalyzerController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TestPlotDemo.PlotDemoAudioAnalyzerController.html",
+          "hash": "AiDHVcwnvteq2sykWdb5xQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/TestPlotDemo.SpectrumPlotter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TestPlotDemo.SpectrumPlotter.html",
+          "hash": "8rClRwf/P1hicJw0EtxnPw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/TestPlotDemo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TestPlotDemo.html",
+          "hash": "loe2Hq8xsmXSNz4kSZzvaA=="
         }
       },
       "is_incremental": false,
@@ -369,7 +1077,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "xkN0D64ppihCuZdYUMKGTQ=="
+          "hash": "lG57a/FYnoNCl7H5rpHAkA=="
         }
       },
       "is_incremental": false,
@@ -415,7 +1123,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 25,
+          "total_file_count": 84,
           "skipped_file_count": 0
         }
       }

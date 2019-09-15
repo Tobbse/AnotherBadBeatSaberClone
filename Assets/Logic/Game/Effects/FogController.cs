@@ -1,62 +1,66 @@
 ﻿using UnityEngine;
 
-/**
- * This class exposes an API to the MainEffectController to control fog lighting effects.
- **/
-public class FogController : MonoBehaviour
-{
-    public MeshRenderer baseFog;
-    public VolumetricFogEffect redFog;
-    public VolumetricFogEffect yellowFog;
-    public VolumetricFogEffect greenFog;
-    public VolumetricFogEffect blackFog;
-    public VolumetricFogEffect blueFog;
-
-    private int _disableBaseFogForFrames;
-
-    public void redBlink(int frames)
+namespace GameEffects {
+    /**
+     * This class exposes an API to the MainEffectController to control fog lighting effects.
+     **/
+    public class FogController : MonoBehaviour
     {
-        redFog.ActiveFrames = frames;
-        _disableBaseFogForFrames = frames;
-        baseFog.enabled = false;
-    }
+        public MeshRenderer baseFog;
+        public VolumetricFogEffect redFog;
+        public VolumetricFogEffect yellowFog;
+        public VolumetricFogEffect greenFog;
+        public VolumetricFogEffect blackFog;
+        public VolumetricFogEffect blueFog;
 
-    public void yellowBlink(int frames)
-    {
-        yellowFog.ActiveFrames = frames;
-        _disableBaseFogForFrames = frames;
-        baseFog.enabled = false;
-    }
+        private int _disableBaseFogForFrames;
 
-    public void greenBlink(int frames)
-    {
-        greenFog.ActiveFrames = frames;
-        _disableBaseFogForFrames = frames;
-        baseFog.enabled = false;
-    }
-
-    public void blackBlink(int frames)
-    {
-        blackFog.ActiveFrames = frames;
-        _disableBaseFogForFrames = frames;
-        baseFog.enabled = false;
-    }
-
-    public void blueBlink(int frames)
-    {
-        blueFog.ActiveFrames = frames;
-        _disableBaseFogForFrames = frames;
-        baseFog.enabled = false;
-    }
-
-    void Update()
-    {
-        if (_disableBaseFogForFrames > 0)
+        public void redBlink(int frames)
         {
-            _disableBaseFogForFrames--;
-        } else
+            redFog.ActiveFrames = frames;
+            _disableBaseFogForFrames = frames;
+            baseFog.enabled = false;
+        }
+
+        public void yellowBlink(int frames)
         {
-            baseFog.enabled = true;
+            yellowFog.ActiveFrames = frames;
+            _disableBaseFogForFrames = frames;
+            baseFog.enabled = false;
+        }
+
+        public void greenBlink(int frames)
+        {
+            greenFog.ActiveFrames = frames;
+            _disableBaseFogForFrames = frames;
+            baseFog.enabled = false;
+        }
+
+        public void blackBlink(int frames)
+        {
+            blackFog.ActiveFrames = frames;
+            _disableBaseFogForFrames = frames;
+            baseFog.enabled = false;
+        }
+
+        public void blueBlink(int frames)
+        {
+            blueFog.ActiveFrames = frames;
+            _disableBaseFogForFrames = frames;
+            baseFog.enabled = false;
+        }
+
+        void Update()
+        {
+            if (_disableBaseFogForFrames > 0)
+            {
+                _disableBaseFogForFrames--;
+            }
+            else
+            {
+                baseFog.enabled = true;
+            }
         }
     }
+
 }

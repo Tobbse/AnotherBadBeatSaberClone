@@ -1,53 +1,58 @@
 ﻿using UnityEngine;
 
-/**
- * Behavior for spinner objects. Light material can be enabled for an
- * amount of frames and is then disabled again. 
- **/
-public class SpinnerLight : MonoBehaviour
+namespace GameEffects
 {
-    public GameObject topLight;
-    public GameObject rightLight;
-    public GameObject bottomLight;
-    public GameObject leftLight;
-
-    private int _horizontalLightFrames;
-    private int _verticalLightFrames;
-
-    public int HorizontalLightFrames { get => _horizontalLightFrames; set => _horizontalLightFrames = value; }
-    public int VerticalLightFrames { get => _verticalLightFrames; set => _verticalLightFrames = value; }
-
-    private void Start()
+    /**
+     * Behavior for spinner objects. Light material can be enabled for an
+     * amount of frames and is then disabled again. 
+     **/
+    public class SpinnerLight : MonoBehaviour
     {
-        topLight.SetActive(false);
-        rightLight.SetActive(false);
-        bottomLight.SetActive(false);
-        leftLight.SetActive(false);
-    }
+        public GameObject topLight;
+        public GameObject rightLight;
+        public GameObject bottomLight;
+        public GameObject leftLight;
 
-    void Update()
-    {
-        if (_horizontalLightFrames > 0)
-        {
-            leftLight.SetActive(true);
-            rightLight.SetActive(true);
-            _horizontalLightFrames--;
-        } else
-        {
-            leftLight.SetActive(false);
-            rightLight.SetActive(false);
-        }
+        private int _horizontalLightFrames;
+        private int _verticalLightFrames;
 
-        if (_verticalLightFrames > 0)
+        public int HorizontalLightFrames { get => _horizontalLightFrames; set => _horizontalLightFrames = value; }
+        public int VerticalLightFrames { get => _verticalLightFrames; set => _verticalLightFrames = value; }
+
+        private void Start()
         {
-            bottomLight.SetActive(true);
-            topLight.SetActive(true);
-            _verticalLightFrames--;
-        }
-        else
-        {
-            bottomLight.SetActive(false);
             topLight.SetActive(false);
+            rightLight.SetActive(false);
+            bottomLight.SetActive(false);
+            leftLight.SetActive(false);
+        }
+
+        void Update()
+        {
+            if (_horizontalLightFrames > 0)
+            {
+                leftLight.SetActive(true);
+                rightLight.SetActive(true);
+                _horizontalLightFrames--;
+            }
+            else
+            {
+                leftLight.SetActive(false);
+                rightLight.SetActive(false);
+            }
+
+            if (_verticalLightFrames > 0)
+            {
+                bottomLight.SetActive(true);
+                topLight.SetActive(true);
+                _verticalLightFrames--;
+            }
+            else
+            {
+                bottomLight.SetActive(false);
+                topLight.SetActive(false);
+            }
         }
     }
+
 }

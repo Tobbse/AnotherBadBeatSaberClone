@@ -1,27 +1,33 @@
 ﻿using UnityEngine;
+using Global;
+using Game;
 
-/**
- * Helper script used in the 'FastGame' scene. Used for development purposes only.
- * Some settings are set to make the developer's life easier and the audio loading is
- * triggered immediately, without going to the menu screen.
- **/
-public class FastGameAudioLoadingStart : MonoBehaviour
+namespace Test
 {
-    public GameObject loader;
-
-    public void Start()
+    /**
+     * Helper script used in the 'FastGame' scene. Used for development purposes only.
+     * Some settings are set to make the developer's life easier and the audio loading is
+     * triggered immediately, without going to the menu screen.
+     **/
+    public class FastGameAudioLoadingStart : MonoBehaviour
     {
-        string path = "Assets/Resources/Audio/beats.mp3";
-        //string path = "Assets/Resources/Audio/trancesystem.mp3";
-        //string path = "Assets/Resources/Audio/02 - A Subtle Dagger.mp3";
+        public GameObject loader;
 
-        GlobalStorage.getInstance().Difficulty = Game.DIFFICULTY_EASY;
-        GlobalStorage.getInstance().AudioPath = path;
+        public void Start()
+        {
+            string path = "Assets/Resources/Audio/beats.mp3";
+            //string path = "Assets/Resources/Audio/trancesystem.mp3";
+            //string path = "Assets/Resources/Audio/02 - A Subtle Dagger.mp3";
 
-        DevSettings.TAKE_DAMAGE = false;
-        DevSettings.USE_CACHE = true;
-        DevSettings.EFFECT_SPAWN_CHANCE = 10f; // Only 10 % spawn chance for effects. This is necessary for some songs, because they are simply too crazy otherwise.
+            GlobalStorage.getInstance().Difficulty = GameController.DIFFICULTY_EASY;
+            GlobalStorage.getInstance().AudioPath = path;
 
-        Instantiate(loader);
+            DevSettings.TAKE_DAMAGE = false;
+            DevSettings.USE_CACHE = true;
+            DevSettings.EFFECT_SPAWN_CHANCE = 10f; // Only 10 % spawn chance for effects. This is necessary for some songs, because they are simply too crazy otherwise.
+
+            Instantiate(loader);
+        }
     }
+
 }

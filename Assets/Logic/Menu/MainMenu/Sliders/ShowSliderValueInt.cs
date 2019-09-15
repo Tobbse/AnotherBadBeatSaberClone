@@ -1,20 +1,24 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-/**
- * Shows int values on slider.
- **/
-public class ShowSliderValueInt : MonoBehaviour
+namespace MenuMainMenu
 {
-    Text _sliderText;
-
-    void Start()
+    /**
+     * Shows int values on slider.
+     **/
+    public class ShowSliderValueInt : MonoBehaviour
     {
-        _sliderText = GetComponent<Text>();
+        Text _sliderText;
+
+        void Start()
+        {
+            _sliderText = GetComponent<Text>();
+        }
+
+        public void updateText(float value)
+        {
+            _sliderText.text = Mathf.RoundToInt(value).ToString();
+        }
     }
 
-    public void updateText(float value)
-    {
-        _sliderText.text = Mathf.RoundToInt(value).ToString();
-    }
 }

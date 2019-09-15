@@ -1,20 +1,24 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-/**
- * Shows float values on slider.
- **/
-public class ShowSliderValueFloat : MonoBehaviour
+namespace MenuMainMenu
 {
-    Text _sliderText;
-
-    void Start()
+    /**
+     * Shows float values on slider.
+     **/
+    public class ShowSliderValueFloat : MonoBehaviour
     {
-        _sliderText = GetComponent<Text>();
+        Text _sliderText;
+
+        void Start()
+        {
+            _sliderText = GetComponent<Text>();
+        }
+
+        public void updateText(float value)
+        {
+            _sliderText.text = value.ToString();
+        }
     }
 
-    public void updateText(float value)
-    {
-        _sliderText.text = value.ToString();
-    }
 }

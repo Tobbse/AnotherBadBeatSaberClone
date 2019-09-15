@@ -1,51 +1,56 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using Game;
 
-/**
- * Adds slider values to the difficulty slider.
- **/
-public class ShowSliderValueDifficulty : MonoBehaviour
+namespace MenuMainMenu
 {
-    Text _sliderText;
-
-    void Start()
+    /**
+     * Adds slider values to the difficulty slider.
+     **/
+    public class ShowSliderValueDifficulty : MonoBehaviour
     {
-        _sliderText = GetComponent<Text>();
-        _sliderText.text = Game.DIFFICULTY_EASY;
-    }
+        Text _sliderText;
 
-    public void updateText(float value)
-    {
-        int intVal = Mathf.RoundToInt(value);
-        string text;
-
-        switch (intVal)
+        void Start()
         {
-            case 1:
-                text = Game.DIFFICULTY_EASY;
-                break;
-
-            case 2:
-                text = Game.DIFFICULTY_NORMAL;
-                break;
-
-            case 3:
-                text = Game.DIFFICULTY_HARD;
-                break;
-
-            case 4:
-                text = Game.DIFFICULTY_EXPERT;
-                break;
-
-            case 5:
-                text = Game.DIFFICULTY_EXPERT_PLUS;
-                break;
-
-            default:
-                text = Game.DIFFICULTY_EASY;
-                break;
+            _sliderText = GetComponent<Text>();
+            _sliderText.text = GameController.DIFFICULTY_EASY;
         }
 
-        _sliderText.text = text;
+        public void updateText(float value)
+        {
+            int intVal = Mathf.RoundToInt(value);
+            string text;
+
+            switch (intVal)
+            {
+                case 1:
+                    text = GameController.DIFFICULTY_EASY;
+                    break;
+
+                case 2:
+                    text = GameController.DIFFICULTY_NORMAL;
+                    break;
+
+                case 3:
+                    text = GameController.DIFFICULTY_HARD;
+                    break;
+
+                case 4:
+                    text = GameController.DIFFICULTY_EXPERT;
+                    break;
+
+                case 5:
+                    text = GameController.DIFFICULTY_EXPERT_PLUS;
+                    break;
+
+                default:
+                    text = GameController.DIFFICULTY_EASY;
+                    break;
+            }
+
+            _sliderText.text = text;
+        }
     }
+
 }

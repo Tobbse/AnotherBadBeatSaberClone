@@ -1,86 +1,94 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Json;
+using Global;
 
-/**
- * Controller for highscores.
- * Writes and reads highscores files. Interpretes those files and creatings a ranking out of it.
- * Used in the scorescreen.
- * The 10 highest scores are saved. Adds the player's score in the correct spot, if high enough.
- **/
-public class HighscoreController
+namespace MenuScoreMenu
 {
-    private JsonController _jsonFileHandler;
-    private List<HighscoreData> _highscoreData;
-    private HighscoreData _currentScore;
-
-    public HighscoreData CurrentScore { get { return _currentScore; } }
-
-    public List<HighscoreData> getHighscores() { return _highscoreData; }
-
-    public HighscoreController(int newScore)
+    /**
+     * Controller for highscores.
+     * Writes and reads highscores files. Interpretes those files and creatings a ranking out of it.
+     * Used in the scorescreen.
+     * The 10 highest scores are saved. Adds the player's score in the correct spot, if high enough.
+     **/
+    public class HighscoreController
     {
-        _jsonFileHandler = new JsonController();
-        _highscoreData = _getHighscores();
+        private JsonController _jsonFileHandler;
+        private List<HighscoreData> _highscoreData;
+        private HighscoreData _currentScore;
 
-        _currentScore = new HighscoreData();
-        _currentScore.Score = newScore;
+        public HighscoreData CurrentScore { get { return _currentScore; } }
 
-        if (_highscoreData == null)
+        public List<HighscoreData> getHighscores() { return _highscoreData; }
+
+        public HighscoreController(int newScore)
         {
-            _currentScore.Rank = 1;
-            _highscoreData = new List<HighscoreData>();
-            _highscoreData.Add(_currentScore);
-        } else
-        {
-            _handleHighscores();
-        }
-        _writeHighscores();
-    }
+            _jsonFileHandler = new JsonController();
+            _highscoreData = _getHighscores();
 
-    private void _handleHighscores()
-    {
-        _highscoreData.Sort(delegate (HighscoreData obj1, HighscoreData obj2) { return obj2.Score.CompareTo(obj1.Score); });
+            _currentScore = new HighscoreData();
+            _currentScore.Score = newScore;
 
-        bool added = false;
-        for (int i = 0; i < _highscoreData.Count; i++)
-        {
-            HighscoreData score = _highscoreData[i];
-            if (!added && score.Score < _currentScore.Score)
+            if (_highscoreData == null)
             {
-                added = true;
-                _currentScore.Rank = i + 1;
-                _highscoreData.Insert(i, _currentScore);
+                _currentScore.Rank = 1;
+                _highscoreData = new List<HighscoreData>();
+                _highscoreData.Add(_currentScore);
             }
-            _highscoreData[i].Rank = i + 1;
+            else
+            {
+                _handleHighscores();
+            }
+            _writeHighscores();
         }
-        if (!added)
+
+        private void _handleHighscores()
         {
-            _currentScore.Rank = _highscoreData.Count + 1;
-            _highscoreData.Add(_currentScore);
+            _highscoreData.Sort(delegate (HighscoreData obj1, HighscoreData obj2) { return obj2.Score.CompareTo(obj1.Score); });
+
+            bool added = false;
+            for (int i = 0; i < _highscoreData.Count; i++)
+            {
+                HighscoreData score = _highscoreData[i];
+                if (!added && score.Score < _currentScore.Score)
+                {
+                    added = true;
+                    _currentScore.Rank = i + 1;
+                    _highscoreData.Insert(i, _currentScore);
+                }
+                _highscoreData[i].Rank = i + 1;
+            }
+            if (!added)
+            {
+                _currentScore.Rank = _highscoreData.Count + 1;
+                _highscoreData.Add(_currentScore);
+            }
+
+            while (_highscoreData.Count > 10)
+            {
+                _highscoreData.RemoveAt(_highscoreData.Count - 1);
+            }
         }
 
-        while (_highscoreData.Count > 10)
+        private List<HighscoreData> _getHighscores()
         {
-            _highscoreData.RemoveAt(_highscoreData.Count - 1);
+            string shortFileName = GlobalStorage.getInstance().TrackConfig.TrackName;
+            string difficulty = GlobalStorage.getInstance().Difficulty;
+            string fullFilePath = _jsonFileHandler.getFullMappingPath(JsonController.HIGHSCORE_FOLDER_PATH, shortFileName, difficulty);
+
+            if (!File.Exists(fullFilePath))
+            {
+                return null;
+            }
+            return _jsonFileHandler.readHighscoreFile(fullFilePath);
+        }
+
+        private void _writeHighscores()
+        {
+            string trackName = GlobalStorage.getInstance().TrackConfig.TrackName;
+            string difficulty = GlobalStorage.getInstance().Difficulty;
+            _jsonFileHandler.writeHighscoreFile(_highscoreData, trackName, difficulty);
         }
     }
 
-    private List<HighscoreData> _getHighscores()
-    {
-        string shortFileName = GlobalStorage.getInstance().TrackConfig.TrackName;
-        string difficulty = GlobalStorage.getInstance().Difficulty;
-        string fullFilePath = _jsonFileHandler.getFullMappingPath(JsonController.HIGHSCORE_FOLDER_PATH, shortFileName, difficulty);
-
-        if (!File.Exists(fullFilePath)) {
-            return null;
-        }
-        return _jsonFileHandler.readHighscoreFile(fullFilePath);
-    }
-
-    private void _writeHighscores()
-    {
-        string trackName = GlobalStorage.getInstance().TrackConfig.TrackName;
-        string difficulty = GlobalStorage.getInstance().Difficulty;
-        _jsonFileHandler.writeHighscoreFile(_highscoreData, trackName, difficulty);
-    }
 }

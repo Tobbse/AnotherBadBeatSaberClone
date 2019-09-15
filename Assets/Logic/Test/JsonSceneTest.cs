@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
-using BeatMappingConfigs;
+using Audio.BeatMappingConfigs;
+using Json;
 
-/**
- * This was used in a test scene, just to quickly test out whether the parsing of a json mapping worked correctly,
- * as there was quite some debugging necessary.
- **/
-public class JsonSceneTest : MonoBehaviour
+namespace Test
 {
-    void Start()
+    /**
+     * This was used in a test scene, just to quickly test out whether the parsing of a json mapping worked correctly,
+     * as there was quite some debugging necessary.
+     **/
+    public class JsonSceneTest : MonoBehaviour
     {
-        JsonController handler = new JsonController();
-        MappingContainer mappingContainer = handler.readMappingFile("Assets/Resources/SongData/BeatMappings/mapping_example/Easy.dat");
-        int i = 0;
+        void Start()
+        {
+            JsonController handler = new JsonController();
+            MappingContainer mappingContainer = handler.readMappingFile("Assets/Resources/SongData/BeatMappings/mapping_example/Easy.dat");
+            int i = 0;
+        }
     }
+
 }

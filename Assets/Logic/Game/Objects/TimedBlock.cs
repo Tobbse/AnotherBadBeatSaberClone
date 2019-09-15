@@ -1,29 +1,35 @@
 ﻿using UnityEngine;
+using Global;
+using MenuScoreMenu;
 
-/**
- * Behavior for the Note blocks, making sure that they despawn after a while or when they reach a certain position behind the player.
- **/
-public class TimedBlock : MonoBehaviour
+namespace GameSpawnedObjects
 {
-    public const float BLOCK_DAMAGE = 3.0f;
-    public const float BLOCK_HEAL = 5.0f;
-
-    private int lifetimeCycles = 400;
-
-    void FixedUpdate()
+    /**
+     * Behavior for the Note blocks, making sure that they despawn after a while or when they reach a certain position behind the player.
+     **/
+    public class TimedBlock : MonoBehaviour
     {
-        if (DevSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
+        public const float BLOCK_DAMAGE = 3.0f;
+        public const float BLOCK_HEAL = 5.0f;
 
-        lifetimeCycles--;
-        if (lifetimeCycles < 0 || gameObject.transform.position.x > 5)
+        private int lifetimeCycles = 400;
+
+        void FixedUpdate()
         {
-            MissBlock();
+            if (DevSettings.OVERRIDE_BLOCK_DESPAWN) enabled = false;
+
+            lifetimeCycles--;
+            if (lifetimeCycles < 0 || gameObject.transform.position.x > 5)
+            {
+                MissBlock();
+            }
+        }
+
+        public void MissBlock()
+        {
+            ScoreTracker.getInstance().miss();
+            Destroy(gameObject);
         }
     }
 
-    public void MissBlock()
-    {
-        ScoreTracker.getInstance().miss();
-        Destroy(gameObject);
-    }
 }

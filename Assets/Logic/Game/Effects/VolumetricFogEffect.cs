@@ -1,33 +1,37 @@
 ﻿using UnityEngine;
 
-/**
- * Effect behavior that is added to fog objects and enables or disables the fog renderer,
- * depending on whether or not it should currently be active (meaning an effect is running).
- **/
-public class VolumetricFogEffect : MonoBehaviour
+namespace GameEffects
 {
-    private int _activeFrames;
-    private MeshRenderer meshRenderer;
-
-    public int ActiveFrames { get => _activeFrames; set => _activeFrames = value; }
-
-    void Start()
+    /**
+     * Effect behavior that is added to fog objects and enables or disables the fog renderer,
+     * depending on whether or not it should currently be active (meaning an effect is running).
+     **/
+    public class VolumetricFogEffect : MonoBehaviour
     {
-        meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        meshRenderer.enabled = false;
-    }
+        private int _activeFrames;
+        private MeshRenderer meshRenderer;
 
-    void Update()
-    {
-        // TODO don't update this all the time?
-        if (_activeFrames > 0)
+        public int ActiveFrames { get => _activeFrames; set => _activeFrames = value; }
+
+        void Start()
         {
-            meshRenderer.enabled = true;
-            _activeFrames--;
-        }
-        else
-        {
+            meshRenderer = gameObject.GetComponent<MeshRenderer>();
             meshRenderer.enabled = false;
         }
+
+        void Update()
+        {
+            // TODO don't update this all the time?
+            if (_activeFrames > 0)
+            {
+                meshRenderer.enabled = true;
+                _activeFrames--;
+            }
+            else
+            {
+                meshRenderer.enabled = false;
+            }
+        }
     }
+
 }
