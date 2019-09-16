@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace TestOldDeprecatedStuff
 {
+    /// <summary>
+    /// Old Post Audio Analyzer. Not used anymore. Wasn't good.
+    /// </summary>
     public class PPostAudioAnalyzer
     {
         private List<AnalyzedSpectrumConfig> _spectrumDataList;

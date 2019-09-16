@@ -4,9 +4,9 @@ using SimpleFileBrowser;
 
 namespace MenuMainMenu
 {
-    /**
-     * Main Menu UI script to handle button clicks.
-     **/
+    /// <summary>
+    /// Main Menu UI script to handle button clicks.
+    /// </summary>
     public class MainMenu : MonoBehaviour
     {
         public GameObject mainMenu;

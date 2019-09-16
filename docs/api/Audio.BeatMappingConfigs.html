@@ -82,7 +82,13 @@
       <h4><a class="xref" href="Audio.BeatMappingConfigs.EventConfig.html">EventConfig</a></h4>
       <section></section>
       <h4><a class="xref" href="Audio.BeatMappingConfigs.MappingContainer.html">MappingContainer</a></h4>
-      <section></section>
+      <section><p>Container for all beat mapping information.
+This contains lists of event configs, obstacle configs, note configs etc. - Basically all relevant
+informatio needed to display a beat mapping in the game.</p>
+<p>The mapping have to be sorted, because the audio data is analyzed in different bands, so the timing
+of the created configs is not nessecarily consecutive.
+The configs are sorted based on the timing values during the song.</p>
+</section>
       <h4><a class="xref" href="Audio.BeatMappingConfigs.MappingInfo.html">MappingInfo</a></h4>
       <section></section>
       <h4><a class="xref" href="Audio.BeatMappingConfigs.NoteConfig.html">NoteConfig</a></h4>

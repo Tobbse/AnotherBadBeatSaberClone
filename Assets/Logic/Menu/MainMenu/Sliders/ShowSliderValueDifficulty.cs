@@ -4,9 +4,9 @@ using Game;
 
 namespace MenuMainMenu
 {
-    /**
-     * Adds slider values to the difficulty slider.
-     **/
+    /// <summary>
+    /// Adds slider values to the difficulty slider.
+    /// </summary>
     public class ShowSliderValueDifficulty : MonoBehaviour
     {
         Text _sliderText;

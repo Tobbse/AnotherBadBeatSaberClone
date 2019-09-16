@@ -7,15 +7,15 @@ namespace Audio
      **/
     namespace BeatMappingConfigs
     {
-        /**
-         * Container for all beat mapping information.
-         * This contains lists of event configs, obstacle configs, note configs etc. - Basically all relevant
-         * informatio needed to display a beat mapping in the game.
-         * 
-         * The mapping have to be sorted, because the audio data is analyzed in different bands, so the timing
-         * of the created configs is not nessecarily consecutive.
-         * The configs are sorted based on the timing values during the song.
-         **/
+        /// <summary>
+        /// Container for all beat mapping information.
+        /// This contains lists of event configs, obstacle configs, note configs etc. - Basically all relevant
+        /// informatio needed to display a beat mapping in the game.
+        ///
+        /// The mapping have to be sorted, because the audio data is analyzed in different bands, so the timing
+        /// of the created configs is not nessecarily consecutive.
+        /// The configs are sorted based on the timing values during the song.
+        /// </summary>
         public class MappingContainer
         {
             public List<EventConfig> EventData { get; set; } = new List<EventConfig>();

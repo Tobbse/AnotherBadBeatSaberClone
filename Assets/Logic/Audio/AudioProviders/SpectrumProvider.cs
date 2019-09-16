@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace AudioProviders
 {
-    /**
-     * Provider for spectrum data generated from an array of audio samples.
-     * Uses an external library 'DSPLib' to get the spectrum data. DSPLib performs a Fast Fourier Transformation
-     * in which the time based audio sample data is transformed to frequency based spectrum data.
-     **/
+    /// <summary>
+    /// Provider for spectrum data generated from an array of audio samples.
+    /// Uses an external library 'DSPLib' to get the spectrum data.DSPLib performs a Fast Fourier Transformation
+    /// in which the time based audio sample data is transformed to frequency based spectrum data.
+    /// </summary>
     public class SpectrumProvider
     {
         public const int SAMPLE_SIZE = 1024;

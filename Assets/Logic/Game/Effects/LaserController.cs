@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace GameEffects
 {
-    /**
-     * This class exposes an API to the MainEffectController to control laser effects.
-     **/
+    /// <summary>
+    /// This class exposes an API to the MainEffectController to control laser effects.
+    /// </summary>
     public class LaserController : MonoBehaviour
     {
         private Rigidbody[] _laserRigids = { };

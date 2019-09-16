@@ -4,10 +4,10 @@ using Audio.BeatMappingConfigs;
 using Global;
 
 namespace GameSpawners {
-    /**
-     * Contains note mapping data and spawns obstacles at the correct time. The updating is triggered from the 'Game' object,
-     * which contains the main loop updating the spawner objects.
-     **/
+    /// <summary>
+    /// Contains note mapping data and spawns obstacles at the correct time.The updating is triggered from the 'Game' object,
+    /// which contains the main loop updating the spawner objects.
+    /// </summary>
     public class ObstacleSpawner : ScriptableObject
     {
         public const float OBSTACLE_DISTANCE = 40;

@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 namespace Global
 {
-    /**
-     * Singleton that contains player data, like player health. Regenerates a small amount of health on update.
-     * Exposes API to take damage. Calls Game Over when the health reaches 0.
-     **/
+    /// <summary>
+    /// Singleton that contains player data, like player health. Regenerates a small amount of health on update.
+    /// Exposes API to take damage. Calls Game Over when the health reaches 0.
+    /// </summary>
     public class PlayerData : ScriptableObject
     {
         private static PlayerData Instance;

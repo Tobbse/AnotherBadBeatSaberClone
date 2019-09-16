@@ -73,7 +73,13 @@
   
   <h1 id="Audio_BeatMappingConfigs_MappingContainer" data-uid="Audio.BeatMappingConfigs.MappingContainer" class="text-break">Class MappingContainer
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Container for all beat mapping information.
+This contains lists of event configs, obstacle configs, note configs etc. - Basically all relevant
+informatio needed to display a beat mapping in the game.</p>
+<p>The mapping have to be sorted, because the audio data is analyzed in different bands, so the timing
+of the created configs is not nessecarily consecutive.
+The configs are sorted based on the timing values during the song.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>

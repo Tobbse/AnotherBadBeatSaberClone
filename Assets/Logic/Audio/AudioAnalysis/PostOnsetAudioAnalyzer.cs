@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace AudioAnalysis
 {
-    /**
-     * After the initial analysis of the audio data and the creation of the note data, we iterate over those created blocks again.
-     * Some rule based behavior is used to create double notes and influence the positioning of the blocks, according to variables
-     * like their cut direction or obstacles next to them.
-     * In this process, also the timing of notes is changed and notes are deleted if nessecary.
-     **/
+    /// <summary>
+    /// After the initial analysis of the audio data and the creation of the note data, we iterate over those created blocks again.
+    /// Some rule based behavior is used to create double notes and influence the positioning of the blocks, according to variables
+    /// like their cut direction or obstacles next to them.
+    /// In this process, also the timing of notes is changed and notes are deleted if nessecary.
+    /// </summary>
     public class PostOnsetAudioAnalyzer
     {
         private const float MIN_DOUBLE_BLOCK_NOTE_TIME_INTERVAL = 0.25f;

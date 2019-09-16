@@ -3,10 +3,10 @@ using Audio.BeatMappingConfigs;
 
 namespace GameSpawners
 {
-    /**
-     * Static class containing mappings for the line layers, line inidces and cut directions
-     * for the positioning of spawned objects.
-     **/
+    /// <summary>
+    /// Static class containing mappings for the line layers, line inidces and cut directions
+    /// for the positioning of spawned objects.
+    /// </summary>
     public static class ObjectSpawnPositionProvider
     {
         private static Dictionary<int, float> _horizontalMapping;

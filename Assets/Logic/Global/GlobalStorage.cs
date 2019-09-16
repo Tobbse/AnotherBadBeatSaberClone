@@ -4,9 +4,9 @@ using Audio.BeatMappingConfigs;
 
 namespace Global
 {
-    /*
-     * Global storage for data. This singleton data container can be accessed from all scenes.
-     **/
+    /// <summary>
+    /// Global storage for data. This singleton data container can be accessed from all scenes.
+    /// </summary>
     public class GlobalStorage : ScriptableObject
     {
         private static GlobalStorage Instance;

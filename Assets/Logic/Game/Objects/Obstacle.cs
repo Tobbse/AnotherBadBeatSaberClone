@@ -3,12 +3,12 @@ using Global;
 
 namespace GameSpawnedObjects
 {
-    /**
-     * Defines the behavior of obstacles. Checks if the obstacle collider intersects with the player collider bounds
-     * on every update. Has to be done like this, because we don't want actual collision here, we just want to
-     * know if there is an intersection to apply damage.
-     * Also makes sure that the obstacle despawns after a while.
-     **/
+    /// <summary>
+    /// Defines the behavior of obstacles.Checks if the obstacle collider intersects with the player collider bounds
+    /// on every update. Has to be done like this, because we don't want actual collision here, we just want to
+    /// know if there is an intersection to apply damage.
+    /// Also makes sure that the obstacle despawns after a while.
+    /// </summary>
     public class Obstacle : MonoBehaviour
     {
         private const float OBSTACLE_DAMAGE = 0.4f;  // Applied for every collision update.

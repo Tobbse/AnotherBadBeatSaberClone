@@ -4,10 +4,10 @@ using Audio.BeatMappingConfigs;
 
 namespace GameSpawners
 {
-    /**
-     * Contains note mapping data and spawns notes at the correct time. The updating is triggered from the 'Game' object,
-     * which contains the main loop updating the spawner objects.
-     **/
+    /// <summary>
+    /// Contains note mapping data and spawns notes at the correct time.The updating is triggered from the 'Game' object,
+    /// which contains the main loop updating the spawner objects.
+    /// </summary>
     public class NoteSpawner : ScriptableObject
     {
         public const float BLOCK_DISTANCE = 20;

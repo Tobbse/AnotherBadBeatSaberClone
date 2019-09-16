@@ -2,9 +2,9 @@
 
 namespace GameSpawnedObjects
 {
-    /**
-     * An object that was cut and has to despawn after some time. After cutting a block, 2 of these objects will be created.
-     **/
+    /// <summary>
+    /// An object that was cut and has to despawn after some time. After cutting a block, 2 of these objects will be created.
+    /// </summary>
     public class SlicedObject : MonoBehaviour
     {
         private const int MAX_LIFECYCLES = 150;

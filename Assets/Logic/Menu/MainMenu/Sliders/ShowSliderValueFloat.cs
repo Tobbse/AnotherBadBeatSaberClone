@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace MenuMainMenu
 {
-    /**
-     * Shows float values on slider.
-     **/
+    /// <summary>
+    /// Shows float values on slider.
+    /// </summary>
     public class ShowSliderValueFloat : MonoBehaviour
     {
         Text _sliderText;

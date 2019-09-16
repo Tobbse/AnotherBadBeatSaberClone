@@ -8,9 +8,9 @@ namespace GameEffects
      **/
     namespace SpinnerLightEffects
     {
-        /**
-         * Base class for spinner light effects.
-         **/
+        /// <summary>
+        /// Base class for spinner light effects.
+        /// </summary>
         public class BaseSpinnerLightEffectHandler
         {
             protected bool _isDone;
@@ -27,10 +27,10 @@ namespace GameEffects
         }
 
 
-        /**
-         * This effect will light up all spinners of a certain type consecutively with a delay, so that a
-         * transition from the front to the back (or the other direction) is created.
-        **/
+        /// <summary>
+        /// This effect will light up all spinners of a certain type consecutively with a delay, so that a
+        /// transition from the front to the back(or the other direction) is created.
+        /// </summary>
         public class FrontBackTransitionSpinnerLightEffectHandler : BaseSpinnerLightEffectHandler
         {
             public const string TRANSITION_DIRECTION_FRONT_TO_BACK = "TRANSITION_DIRECTION_FRONT_TO_BACK";
@@ -102,10 +102,10 @@ namespace GameEffects
         }
 
 
-        /**
-         * This effect will make all spinners of a certain type (veritcal, horizontal...)
-         * light up for a certain amount of frames.
-         **/
+        /// <summary>
+        /// This effect will make all spinners of a certain type(veritcal, horizontal...)
+        /// light up for a certain amount of frames.
+        /// </summary>
         public class BlinkAllSpinnerLightEffectHandler : BaseSpinnerLightEffectHandler
         {
             public const string TYPE_VERTICAL = "TYPE_VERTICAL";

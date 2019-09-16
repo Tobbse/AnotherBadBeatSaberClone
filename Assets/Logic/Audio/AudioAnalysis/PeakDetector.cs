@@ -7,16 +7,16 @@ using System;
 
 namespace AudioAnalysis
 {
-    /**
-     * This is the actual Onset Detection class. Audio data is analyzed and beats are found using the Spectral Flux approach. Spectral Flux
-     * is a value that gives information about how big the increase of energy is compared to the last sample.
-     * There are several frequency bands for which this analysis is applied.
-     * First, we iterate over all data to calculate the spectral flux (and the pruned spectral flux, taking the threshold into account).
-     * Second, we iterate over all spectral flux values and try to determine beats by compared the current flux value to a window of
-     * previous flux levels. If a certain threshold is exceeded and some conditions are met, there is a peak.
-     * 
-     * See the documentation for further information.
-     **/
+    /// <summary>
+    /// This is the actual Onset Detection class. Audio data is analyzed and beats are found using the Spectral Flux approach.Spectral Flux
+    /// is a value that gives information about how big the increase of energy is compared to the last sample.
+    /// There are several frequency bands for which this analysis is applied.
+    /// First, we iterate over all data to calculate the spectral flux (and the pruned spectral flux, taking the threshold into account).
+    /// Second, we iterate over all spectral flux values and try to determine beats by compared the current flux value to a window of
+    /// previous flux levels. If a certain threshold is exceeded and some conditions are met, there is a peak.
+    ///
+    /// See the documentation for further information.
+    /// </summary>
     public class PeakDetector
     {
         private static int MAX_BEAT_BLOCK_COUNTER = 5;

@@ -2,10 +2,10 @@
 
 namespace GameEffects
 {
-    /**
-     * Behavior for spinner objects. Light material can be enabled for an
-     * amount of frames and is then disabled again. 
-     **/
+    /// <summary>
+    /// Behavior for spinner objects.Light material can be enabled for an
+    /// amount of frames and is then disabled again.
+    /// </summary>
     public class SpinnerLight : MonoBehaviour
     {
         public GameObject topLight;

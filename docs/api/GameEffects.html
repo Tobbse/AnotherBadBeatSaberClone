@@ -78,17 +78,33 @@
     <h3 id="classes">Classes
   </h3>
       <h4><a class="xref" href="GameEffects.FogController.html">FogController</a></h4>
-      <section></section>
+      <section><p>This class exposes an API to the MainEffectController to control fog lighting effects</p>
+</section>
       <h4><a class="xref" href="GameEffects.LaserController.html">LaserController</a></h4>
-      <section></section>
+      <section><p>This class exposes an API to the MainEffectController to control laser effects.</p>
+</section>
       <h4><a class="xref" href="GameEffects.MainEffectController.html">MainEffectController</a></h4>
-      <section></section>
+      <section><p>The main effect controller handling effects like lighting.
+It holds all the effect controllers for handling those effects and accesses their APIs when an effect should be triggered.</p>
+<p>It also contains the event data from the beat mapping, checking if there is a new update available on each update.</p>
+<p>The choice of effects if random at the moment, as the meaning of the event values from the bsaber-mappings is unknown
+and seemingly not documented ANYWHERE in the internet.
+Therefore random effeects are chosen with a certain probability for each effect, balancing the effect distribution.</p>
+</section>
       <h4><a class="xref" href="GameEffects.SpinnerLight.html">SpinnerLight</a></h4>
-      <section></section>
+      <section><p>Behavior for spinner objects.Light material can be enabled for an
+amount of frames and is then disabled again.</p>
+</section>
       <h4><a class="xref" href="GameEffects.SpinnerLightController.html">SpinnerLightController</a></h4>
-      <section></section>
+      <section><p>Effect controller for the Spinner Lights exposing an API to the MainEffectController to control spinning light effects.</p>
+<p>This controller is more complicated then the other effect controllers.It contains the big and small spinner game objects
+and adds various blinking and transition effects to them.</p>
+<p>It holds all running effects and disposes them when they have been executed.</p>
+</section>
       <h4><a class="xref" href="GameEffects.VolumetricFogEffect.html">VolumetricFogEffect</a></h4>
-      <section></section>
+      <section><p>Effect behavior that is added to fog objects and enables or disables the fog renderer,
+depending on whether or not it should currently be active(meaning an effect is running).</p>
+</section>
 </article>
           </div>
           

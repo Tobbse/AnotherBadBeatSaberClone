@@ -73,7 +73,13 @@
   
   <h1 id="Game_GameController" data-uid="Game.GameController" class="text-break">Class GameController
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Contains the main game loop.
+Holds controllers for notes, obstacles and events/effects and passes the mapping data to them.
+Calls those controller objects on each update to check if there is for example a new note that
+has to be spawned or an effect that should be triggered, depending on the current time value and
+the time values saved in the mapping configs.</p>
+<p>Also handles timing depending on the bpm of the song, as distances and timings change according to the bpm.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>

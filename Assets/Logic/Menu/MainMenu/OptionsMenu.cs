@@ -3,9 +3,9 @@ using System;
 
 namespace MenuMainMenu
 {
-    /**
-     * Options Menu UI script to handle button clicks.
-     **/
+    /// <summary>
+    /// Options Menu UI script to handle button clicks.
+    /// </summary>
     public class OptionsMenu : MonoBehaviour
     {
         private Action _backButtonCallback;

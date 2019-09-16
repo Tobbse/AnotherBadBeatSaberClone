@@ -2,10 +2,10 @@
 
 namespace AudioAnalysis
 {
-    /**
-     * Provides some util functionality for the spectrum analysis.
-     * Currently none of this is actually used.
-     **/
+    /// <summary>
+    // Provides some util functionality for the spectrum analysis.
+    // Currently none of this is actually used.
+    /// </summary>
     public static class SpectrumAnalysisUtils
     {
         public static bool shouldBeExtraPeak(float totalAverageFlux, float currentAverageFlux)

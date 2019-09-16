@@ -6,15 +6,14 @@ using Global;
 
 namespace MenuMainMenu
 {
-    /**
-     * Play Menu UI script to handle button clicks.
-     * The UI contains a 'Load File' button. When that button is clicked, a file browser window appears.
-     * This was done using the external 'SimpleFileBrowser' library.
-     * A song can be and the desired difficulty level can be chosen.
-     * 
-     * Currently the difficulty level determines the threshold level that will be used in the Audio Analysis.
-     * A lower threshold level means that more beats will be detected.
-     **/
+    /// <summary>
+    /// Play Menu UI script to handle button clicks.
+    /// The UI contains a 'Load File' button.When that button is clicked, a file browser window appears.
+    /// This was done using the external 'SimpleFileBrowser' library. A song can be and the desired
+    /// difficulty level can be chosen.
+    /// Currently the difficulty level determines the threshold level that will be used in the Audio Analysis.
+    /// A lower threshold level means that more beats will be detected.
+    /// </summary>
     public class PlayMenu : MonoBehaviour
     {
         public GameObject audioController;

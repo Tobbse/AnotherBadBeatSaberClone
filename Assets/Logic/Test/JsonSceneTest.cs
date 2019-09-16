@@ -4,10 +4,10 @@ using Json;
 
 namespace Test
 {
-    /**
-     * This was used in a test scene, just to quickly test out whether the parsing of a json mapping worked correctly,
-     * as there was quite some debugging necessary.
-     **/
+    /// <summary>
+    /// This was used in a test scene, just to quickly test out whether the parsing of a json mapping worked correctly,
+    /// as there was quite some debugging necessary.
+    /// </summary>
     public class JsonSceneTest : MonoBehaviour
     {
         void Start()

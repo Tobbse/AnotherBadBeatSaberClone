@@ -4,14 +4,14 @@ using GameEffects.SpinnerLightEffects;
 
 namespace GameEffects
 {
-    /**
-    * Effect controller for the Spinner Lights exposing an API to the MainEffectController to control spinning light effects.
-    * 
-    * This controller is more complicated then the other effect controllers. It contains the big and small spinner game objects
-    * and adds various blinking and transition effects to them.
-    * 
-    * It holds all running effects and disposes them when they have been executed.
-    **/
+    /// <summary>
+    /// Effect controller for the Spinner Lights exposing an API to the MainEffectController to control spinning light effects.
+    ///
+    /// This controller is more complicated then the other effect controllers.It contains the big and small spinner game objects
+    /// and adds various blinking and transition effects to them.
+    ///
+    /// It holds all running effects and disposes them when they have been executed.
+    /// </summary>
     public class SpinnerLightController : MonoBehaviour
     {
         public const string SPINNERS_TYPE_BIG = "SPINNERS_TYPE_BIG";

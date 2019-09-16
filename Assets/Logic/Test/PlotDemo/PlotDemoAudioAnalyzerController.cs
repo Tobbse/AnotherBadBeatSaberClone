@@ -8,12 +8,11 @@ using System.Collections.Generic;
 
 namespace TestPlotDemo
 {
-    /**
-     * Audio analysis controller for a test scene, that is not needed anymore.
-     * That scene was needed to visualize the audio analysis when developing it.
-     * 
-     * TODO: Check if this still works.
-     **/
+    /// <summary>
+    /// Audio analysis controller for a test scene, that is not needed anymore.
+    /// That scene was needed to visualize the audio analysis when developing it.
+    /// </summary>
+    // TODO: Check if this still works.
     public class PlotDemoAudioAnalyzerController : MonoBehaviour
     {
         private TrackConfig _analyzerConfig;

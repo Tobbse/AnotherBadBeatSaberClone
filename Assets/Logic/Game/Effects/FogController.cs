@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 namespace GameEffects {
-    /**
-     * This class exposes an API to the MainEffectController to control fog lighting effects.
-     **/
+    /// <summary>
+    /// This class exposes an API to the MainEffectController to control fog lighting effects
+    /// </summary>
     public class FogController : MonoBehaviour
     {
         public MeshRenderer baseFog;

@@ -7,10 +7,10 @@ namespace AudioAnalysis
      **/
     namespace SpectrumConfigs
     {
-        /**
-         * Config that contains band configs with analyzed spectrum data. Summarizes those band configs
-         * and for example provides easier access to the peaks that have been found in the different bands.
-         **/
+        /// <summary>
+        /// Config that contains band configs with analyzed spectrum data.Summarizes those band configs
+        /// and for example provides easier access to the peaks that have been found in the different bands.
+        /// </summary>
         public class AnalyzedSpectrumConfig
         {
             public float[] Spectrum { get; set; }
@@ -20,9 +20,10 @@ namespace AudioAnalysis
             public List<BeatConfig> BandBeatData { get; set; } = new List<BeatConfig>();
         }
 
-        /**
-         * Config that contains data obtained from a specific spectrum that is analyzed in a specific band.
-         **/
+
+        /// <summary>
+        /// Config that contains data obtained from a specific spectrum that is analyzed in a specific band.
+        /// </summary>
         public class BeatConfig
         {
             public float SpectralFlux { get; set; }

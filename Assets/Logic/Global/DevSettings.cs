@@ -1,9 +1,9 @@
 ﻿namespace Global
 {
-    /**
-     * Contains global settings that can be set to manipulate some game states.
-     * This came in very handy during development.
-     **/
+    /// <summary>
+    /// Contains global settings that can be set to manipulate some game states.
+    /// This came in very handy during development.
+    /// </summary>
     public static class DevSettings
     {
         public static bool USE_CACHE = true;  // DEFAULT  TRUE    Toggles cache usage

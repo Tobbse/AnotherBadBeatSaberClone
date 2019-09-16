@@ -4,10 +4,10 @@ using Global;
 
 namespace GameSpawnedObjects
 {
-    /**
-     * The Sabre behavior. This includes hitting, missing as well as slicing them
-     * and creating sliced objects from sliced notes (using an external library) and vibrations.
-     **/
+    /// <summary>
+    /// The Sabre behavior.This includes hitting, missing as well as slicing them
+    /// and creating sliced objects from sliced notes (using an external library) and vibrations.
+    /// </summary>
     public class Sabre : MonoBehaviour
     {
         private const float MIN_ANGLE = 120f;

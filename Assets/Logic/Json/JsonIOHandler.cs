@@ -11,10 +11,9 @@ namespace Json
      **/
     namespace JsonIOHandler
     {
-
-        /**
-         * Writes a json file.
-         **/
+        /// <summary>
+        /// Writes a json file.
+        /// </summary>
         public static class JsonFileWriter
         {
             public static void writeFile(string json, FileInfo fileInfo)

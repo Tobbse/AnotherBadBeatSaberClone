@@ -10,9 +10,9 @@ namespace Json
      **/
     namespace JsonStringBuilders
     {
-        /**
-        * Provides a Json string for an info file.
-        **/
+        /// <summary>
+        /// Provides a Json string for an info file.
+        /// </summary>
         public class JsonHighscoreStringBuilder
         {
             private List<HighscoreData> _highscoreData;

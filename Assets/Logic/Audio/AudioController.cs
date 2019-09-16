@@ -13,22 +13,22 @@ using Global;
 
 namespace Audio
 {
-    /**
-     * Loads an audio file and then triggers the AudioAnalyzerHandler.
-     * First a .mp3 file or a .ogg file  (may also be named .egg for whatever reason, but it's exactly the same)
-     * is loaded. This can unforunately not happen in a thread, because functions from the Unity package are needed
-     * for this, which are not threadsafe. May lead to small ~ 1 second spikes.
-     * 
-     * After that, a Thread is created which handles the audio analysis, so that the main thread is not blocked and
-     * the player can still move and look around while the processing is done.
-     * 
-     * If a beat mapping for the chosen audio file and the chosen difficulty level already exists, that mapping is
-     * loaded from cache and the audio analysis is skipped. This is much faster obviously.
-     * Mappings are saved in the same json format as mappings from bsaber.com. This allows any custom mapping from
-     * external sources to also be loaded, unless they have bpm changes which is not supported and will mess up some
-     * timing.
-     * After the loading is done, the Game scene is loaded.
-     **/
+    /// <summary>
+    /// Loads an audio file and then triggers the AudioAnalyzerHandler.
+    /// First a .mp3 file or a .ogg file  (may also be named.egg for whatever reason, but it's exactly the same)
+    /// is loaded.This can unforunately not happen in a thread, because functions from the Unity package are needed
+    /// for this, which are not threadsafe. May lead to small ~ 1 second spikes.
+    ///
+    /// After that, a Thread is created which handles the audio analysis, so that the main thread is not blocked and
+    /// the player can still move and look around while the processing is done.
+    ///
+    /// If a beat mapping for the chosen audio file and the chosen difficulty level already exists, that mapping is
+    /// loaded from cache and the audio analysis is skipped.This is much faster obviously.
+    /// Mappings are saved in the same json format as mappings from bsaber.com.This allows any custom mapping from
+    /// external sources to also be loaded, unless they have bpm changes which is not supported and will mess up some
+    /// timing.
+    /// After the loading is done, the Game scene is loaded.
+    /// </summary>
     public class AudioController : MonoBehaviour
     {
         public AudioSource testAudioSource;

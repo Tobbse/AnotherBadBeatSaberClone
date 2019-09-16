@@ -2,10 +2,10 @@
 
 namespace AudioProviders
 {
-    /**
-     * Provider for audio samples from an audio clip. Can create stereo samples and get mono samples from that array.
-     * We want mono samples as they are easier to handle.
-     **/
+    /// <summary>
+    /// Provider for audio samples from an audio clip.Can create stereo samples and get mono samples from that array.
+    /// We want mono samples as they are easier to handle.
+    /// </summary>
     public static class AudioSampleProvider
     {
         public static float[] getSamples(AudioClip audioClip)

@@ -2,10 +2,10 @@
 
 namespace GameEffects
 {
-    /**
-     * Effect behavior that is added to fog objects and enables or disables the fog renderer,
-     * depending on whether or not it should currently be active (meaning an effect is running).
-     **/
+    /// <summary>
+    /// Effect behavior that is added to fog objects and enables or disables the fog renderer,
+    /// depending on whether or not it should currently be active(meaning an effect is running).
+    /// </summary>
     public class VolumetricFogEffect : MonoBehaviour
     {
         private int _activeFrames;

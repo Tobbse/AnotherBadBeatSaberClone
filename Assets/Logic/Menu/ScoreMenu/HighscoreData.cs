@@ -1,8 +1,8 @@
 ﻿namespace MenuScoreMenu
 {
-    /**
-     * Data container for highscores.
-     **/
+    /// <summary>
+    /// Data container for highscores.
+    /// </summary>
     // TODO low priority: Add player and track names.
     public class HighscoreData
     {

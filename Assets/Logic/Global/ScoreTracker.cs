@@ -4,10 +4,10 @@ using GameSpawnedObjects;
 
 namespace Global
 {
-    /**
-     * Singleton that keeps track of the player's score as well as multiplier and combo values.
-     * Handles hits and misses.
-     **/
+    /// <summary>
+    /// Singleton that keeps track of the player's score as well as multiplier and combo values.
+    /// Handles hits and misses.
+    /// </summary>
     public class ScoreTracker : ScriptableObject
     {
         private static ScoreTracker Instance;

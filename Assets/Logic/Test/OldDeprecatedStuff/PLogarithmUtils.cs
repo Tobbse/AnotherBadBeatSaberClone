@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace TestOldDeprecatedStuff
 {
-    /**
-     * This is a Util class for logarithmic calculation that I wrote when I decided to use logarithmic scaling when
-     * creating the frequency ranges for the analyzer bands. Decided that wasn't nessecary after all, so it's now unused.
-     **/
+    /// <summary>
+    /// This is a Util class for logarithmic calculation that I wrote when I decided to use logarithmic scaling when
+    /// creating the frequency ranges for the analyzer bands.Decided that wasn't nessecary after all, so it's now unused.
+    /// </summary>
     public static class PLogarithmUtils
     {
         private static IEnumerable<double> Arange(double start, int count)

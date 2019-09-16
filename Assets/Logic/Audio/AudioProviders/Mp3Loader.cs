@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace AudioProviders
 {
-    /**
-     * This class is used to load .mp3 files by using the NLayer library.
-     **/
+    /// <summary>
+    /// This class is used to load .mp3 files by using the NLayer library.
+    /// </summary>
     public static class Mp3Loader
     {
         private static MpegFile mpegFile = null;

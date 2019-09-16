@@ -7,11 +7,11 @@ using MenuScoreMenu;
 
 namespace Json
 {
-    /**
-     * Controller for Json stuff.
-     * Can write and read mapping and info files as well as highscores files by using
-     * other classes in this package.
-     **/
+    /// <summary>
+    /// Controller for Json stuff.
+    /// Can write and read mapping and info files as well as highscores files by using
+    /// other classes in this package.
+    /// </summary>
     public class JsonController
     {
         public const string MAPPING_VERSION = "2.0.0";

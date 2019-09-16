@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace MenuMainMenu
 {
-    /**
-     * Adds slider values to the awesome slider.
-     **/
+    /// <summary>
+    /// Adds slider values to the awesome slider.
+    /// </summary>
     public class ShowSliderValueAwesome : MonoBehaviour
     {
         Text _sliderText;

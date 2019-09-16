@@ -6,16 +6,16 @@ using Global;
 
 namespace GameEffects
 {
-    /**
-     * The main effect controller handling effects like lighting.
-     * It holds all the effect controllers for handling those effects and accesses their APIs when an effect should be triggered.
-     * 
-     * It also contains the event data from the beat mapping, checking if there is a new update available on each update.
-     * 
-     * The choice of effects if random at the moment, as the meaning of the event values from the bsaber-mappings is unknown
-     * and seemingly not documented ANYWHERE in the internet.
-     * Therefore random effeects are chosen with a certain probability for each effect, balancing the effect distribution.
-     **/
+    /// <summary>
+    /// The main effect controller handling effects like lighting.
+    /// It holds all the effect controllers for handling those effects and accesses their APIs when an effect should be triggered.
+    ///
+    /// It also contains the event data from the beat mapping, checking if there is a new update available on each update.
+    ///
+    /// The choice of effects if random at the moment, as the meaning of the event values from the bsaber-mappings is unknown
+    /// and seemingly not documented ANYWHERE in the internet.
+    /// Therefore random effeects are chosen with a certain probability for each effect, balancing the effect distribution.
+    /// </summary>
     public class MainEffectController
     {
         private LaserController _laserController;

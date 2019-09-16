@@ -9,15 +9,15 @@ using GameSpawnedObjects;
 
 namespace Game
 {
-    /**
-     * Contains the main game loop.
-     * Holds controllers for notes, obstacles and events/effects and passes the mapping data to them.
-     * Calls those controller objects on each update to check if there is for example a new note that
-     * has to be spawned or an effect that should be triggered, depending on the current time value and
-     * the time values saved in the mapping configs.
-     * 
-     * Also handles timing depending on the bpm of the song, as distances and timings change according to the bpm.
-     */
+    /// <summary>
+    /// Contains the main game loop.
+    /// Holds controllers for notes, obstacles and events/effects and passes the mapping data to them.
+    /// Calls those controller objects on each update to check if there is for example a new note that
+    /// has to be spawned or an effect that should be triggered, depending on the current time value and
+    /// the time values saved in the mapping configs.
+    ///
+    /// Also handles timing depending on the bpm of the song, as distances and timings change according to the bpm.
+    /// </summary>
     public class GameController : MonoBehaviour
     {
         public const string DIFFICULTY_EASY = "Easy";

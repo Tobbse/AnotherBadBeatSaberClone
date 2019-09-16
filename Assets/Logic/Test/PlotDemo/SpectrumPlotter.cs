@@ -4,14 +4,13 @@ using System.Collections.Generic;
 
 namespace TestPlotDemo
 {
-    /**
-     * A sort of plotting component for a test scene, that is not needed anymore.
-     * That scene was needed to visualize the audio analysis when developing it.
-     * Basically what this does is to spawn a bunch of small cubes from the generated
-     * audio data and visualize the peaks and flux/threshold levels while the song is playing.
-     * 
-     * TODO: Check if this still works.
-     **/
+    /// <summary>
+    /// A sort of plotting component for a test scene, that is not needed anymore.
+    /// That scene was needed to visualize the audio analysis when developing it.
+    /// Basically what this does is to spawn a bunch of small cubes from the generated
+    /// audio data and visualize the peaks and flux/threshold levels while the song is playing.
+    /// </summary>
+    // TODO: Check if this still works.
     public class SpectrumPlotter : MonoBehaviour
     {
         public const string SHOW_PRUNED = "SHOW_PRUNED";

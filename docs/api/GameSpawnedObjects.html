@@ -78,13 +78,21 @@
     <h3 id="classes">Classes
   </h3>
       <h4><a class="xref" href="GameSpawnedObjects.Obstacle.html">Obstacle</a></h4>
-      <section></section>
+      <section><p>Defines the behavior of obstacles.Checks if the obstacle collider intersects with the player collider bounds
+on every update. Has to be done like this, because we don&apos;t want actual collision here, we just want to
+know if there is an intersection to apply damage.
+Also makes sure that the obstacle despawns after a while.</p>
+</section>
       <h4><a class="xref" href="GameSpawnedObjects.Sabre.html">Sabre</a></h4>
-      <section></section>
+      <section><p>The Sabre behavior.This includes hitting, missing as well as slicing them
+and creating sliced objects from sliced notes (using an external library) and vibrations.</p>
+</section>
       <h4><a class="xref" href="GameSpawnedObjects.SlicedObject.html">SlicedObject</a></h4>
-      <section></section>
+      <section><p>An object that was cut and has to despawn after some time. After cutting a block, 2 of these objects will be created.</p>
+</section>
       <h4><a class="xref" href="GameSpawnedObjects.TimedBlock.html">TimedBlock</a></h4>
-      <section></section>
+      <section><p>Behavior for the Note blocks, making sure that they despawn after a while or when they reach a certain position behind the player.</p>
+</section>
 </article>
           </div>
           

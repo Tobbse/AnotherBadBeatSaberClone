@@ -4,9 +4,9 @@ using MenuScoreMenu;
 
 namespace GameSpawnedObjects
 {
-    /**
-     * Behavior for the Note blocks, making sure that they despawn after a while or when they reach a certain position behind the player.
-     **/
+    /// <summary>
+    /// Behavior for the Note blocks, making sure that they despawn after a while or when they reach a certain position behind the player.
+    /// </summary>
     public class TimedBlock : MonoBehaviour
     {
         public const float BLOCK_DAMAGE = 3.0f;

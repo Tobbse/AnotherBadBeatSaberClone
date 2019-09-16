@@ -6,10 +6,10 @@ using AudioAnalysis.SpectrumConfigs;
 
 namespace AudioAnalysis
 {
-    /**
-     * Starts the spectrum analysis of a given audio file. Creates and handles the nessecary objects for the initial and post analysis.
-     * Saves the generated mapping data. Performs a callback when the analysis is done.
-     **/
+    /// <summary>
+    /// Starts the spectrum analysis of a given audio file. Creates and handles the nessecary objects for the initial and post analysis.
+    /// Saves the generated mapping data. Performs a callback when the analysis is done.
+    /// </summary>
     public class AudioAnalyzerHandler
     {
         private List<AnalyzedSpectrumConfig> _spectrumData;

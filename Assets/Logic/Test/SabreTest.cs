@@ -5,9 +5,9 @@ using Global;
 
 namespace Test
 {
-    /**
-     * This spawns a bunch of random notes that can be used in a Saber Test Scene, to evaluate the cutting and slicing functionality.
-     **/
+    /// <summary>
+    /// This spawns a bunch of random notes that can be used in a Saber Test Scene, to evaluate the cutting and slicing functionality.
+    /// </summary>
     public class SabreTest : MonoBehaviour
     {
         public GameObject leftTimedBlock;

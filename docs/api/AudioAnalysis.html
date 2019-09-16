@@ -78,11 +78,24 @@
     <h3 id="classes">Classes
   </h3>
       <h4><a class="xref" href="AudioAnalysis.AudioAnalyzerHandler.html">AudioAnalyzerHandler</a></h4>
-      <section></section>
+      <section><p>Starts the spectrum analysis of a given audio file. Creates and handles the nessecary objects for the initial and post analysis.
+Saves the generated mapping data. Performs a callback when the analysis is done.</p>
+</section>
       <h4><a class="xref" href="AudioAnalysis.PeakDetector.html">PeakDetector</a></h4>
-      <section></section>
+      <section><p>This is the actual Onset Detection class. Audio data is analyzed and beats are found using the Spectral Flux approach.Spectral Flux
+is a value that gives information about how big the increase of energy is compared to the last sample.
+There are several frequency bands for which this analysis is applied.
+First, we iterate over all data to calculate the spectral flux (and the pruned spectral flux, taking the threshold into account).
+Second, we iterate over all spectral flux values and try to determine beats by compared the current flux value to a window of
+previous flux levels. If a certain threshold is exceeded and some conditions are met, there is a peak.</p>
+<p>See the documentation for further information.</p>
+</section>
       <h4><a class="xref" href="AudioAnalysis.PostOnsetAudioAnalyzer.html">PostOnsetAudioAnalyzer</a></h4>
-      <section></section>
+      <section><p>After the initial analysis of the audio data and the creation of the note data, we iterate over those created blocks again.
+Some rule based behavior is used to create double notes and influence the positioning of the blocks, according to variables
+like their cut direction or obstacles next to them.
+In this process, also the timing of notes is changed and notes are deleted if nessecary.</p>
+</section>
       <h4><a class="xref" href="AudioAnalysis.SpectrumAnalysisUtils.html">SpectrumAnalysisUtils</a></h4>
       <section></section>
 </article>

@@ -5,12 +5,12 @@ using Global;
 
 namespace MenuScoreMenu
 {
-    /**
-     * Controller for highscores.
-     * Writes and reads highscores files. Interpretes those files and creatings a ranking out of it.
-     * Used in the scorescreen.
-     * The 10 highest scores are saved. Adds the player's score in the correct spot, if high enough.
-     **/
+    /// <summary>
+    /// Controller for highscores.
+    /// Writes and reads highscores files.Interpretes those files and creatings a ranking out of it.
+    /// Used in the scorescreen.
+    /// The 10 highest scores are saved. Adds the player's score in the correct spot, if high enough.
+    /// </summary>
     public class HighscoreController
     {
         private JsonController _jsonFileHandler;

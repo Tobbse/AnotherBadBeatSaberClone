@@ -6,10 +6,10 @@ using Global;
 
 namespace MenuScoreMenu
 {
-    /**
-     * Score Menu UI script, showing the player's score data and the highscore.
-     * Also triggers resettings of player data and score tracker values for the next song to be played.
-     **/
+    /// <summary>
+    /// Score Menu UI script, showing the player's score data and the highscore.
+    /// Also triggers resettings of player data and score tracker values for the next song to be played.
+    /// </summary>
     public class ScoreMenu : MonoBehaviour
     {
         public TextMeshProUGUI headlineText;

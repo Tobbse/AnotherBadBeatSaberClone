@@ -1,8 +1,8 @@
 ﻿namespace Json
 {
-    /**
-     * Util class to get file and folder paths.
-     **/
+    /// <summary>
+    /// Util class to get file and folder paths.
+    /// </summary>
     public static class JsonFilePathUtils
     {
         private const string BASE_FOLDER = "Assets/Resources/SongData/";

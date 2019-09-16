@@ -4,11 +4,11 @@ using Game;
 
 namespace Test
 {
-    /**
-     * Helper script used in the 'FastGame' scene. Used for development purposes only.
-     * Some settings are set to make the developer's life easier and the audio loading is
-     * triggered immediately, without going to the menu screen.
-     **/
+    /// <summary>
+    /// Helper script used in the 'FastGame' scene.Used for development purposes only.
+    /// Some settings are set to make the developer's life easier and the audio loading is
+    /// triggered immediately, without going to the menu screen.
+    /// </summary>
     public class FastGameAudioLoadingStart : MonoBehaviour
     {
         public GameObject loader;

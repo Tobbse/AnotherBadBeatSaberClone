@@ -11,9 +11,9 @@ namespace AudioAnalysis
      **/
     namespace AudioAnalyzerConfigs
     {
-        /**
-        * Config that contains track data for the song that is being analyzed.
-        **/
+        /// <summary>
+        /// Config that contains track data for the song that is being analyzed.
+        /// </summary>
         public class TrackConfig
         {
             private List<AnalyzerBandConfig> _analyzerConfigs = new List<AnalyzerBandConfig>();
@@ -107,10 +107,10 @@ namespace AudioAnalysis
         }
 
 
-        /**
-         * Config that contains instructions for the audio analysis, like which bands to use (frequency
-         * ranges are defined), or what the threshold levels should be.
-         **/
+        /// <summary>
+        /// Config that contains instructions for the audio analysis, like which bands to use
+        /// (frequency ranges are defined), or what the threshold levels should be.
+        /// </summary>
         public class AnalyzerBandConfig
         {
             public int Band { get; set; }

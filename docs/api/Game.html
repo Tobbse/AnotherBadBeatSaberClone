@@ -78,7 +78,13 @@
     <h3 id="classes">Classes
   </h3>
       <h4><a class="xref" href="Game.GameController.html">GameController</a></h4>
-      <section></section>
+      <section><p>Contains the main game loop.
+Holds controllers for notes, obstacles and events/effects and passes the mapping data to them.
+Calls those controller objects on each update to check if there is for example a new note that
+has to be spawned or an effect that should be triggered, depending on the current time value and
+the time values saved in the mapping configs.</p>
+<p>Also handles timing depending on the bpm of the song, as distances and timings change according to the bpm.</p>
+</section>
 </article>
           </div>
           
