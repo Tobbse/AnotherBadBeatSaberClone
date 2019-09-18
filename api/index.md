@@ -1,3 +1,5 @@
+![](https://github.com/Tobbse/VR_Project/blob/master/Documentation/nitro_screenshot_150919.PNG)
+
 # VR_Project
 This is a Unity C# VR project developed for my Master's degree in Computer Science at the University of Applied Sciences Wedel.
 
@@ -11,3 +13,4 @@ https://github.com/Tobbse/VR_Project/blob/master/Documentation/VR_Project_Docume
 
 The procedural level generation and audio analysis is based on a paper published by Simon Dixon from the Austrian Research Institute for Artificial Intelligence, "Onset Detection Revisited". It can be found here:
 https://www.eecs.qmul.ac.uk/~simond/pub/2006/dafx.pdf
+
