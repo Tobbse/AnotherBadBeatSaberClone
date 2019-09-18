@@ -1,3 +1,5 @@
+![](https://github.com/Tobbse/VR_Project/blob/master/Documentation/nitro_screenshot_150919.PNG)
+
 # VR_Project
 This is a Unity C# VR project developed for my Master's degree in Computer Science at the University of Applied Sciences Wedel.
 
