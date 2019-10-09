@@ -13,7 +13,13 @@
 /Build/
 
 # Some documentation stuff etc.
-./log.txt
+log.txt
+toc.yml
+docfx.json
+_config.yml
+filterConfig.yml
+packages.config
+
 /obj/
 
 # Never ignore Asset meta data
