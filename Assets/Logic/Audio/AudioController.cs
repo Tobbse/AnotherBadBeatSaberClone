@@ -106,6 +106,9 @@ namespace Audio
             else
             {
                 Debug.Log("Analyzing audio data, no mapping has been found or cache has been disabled.");
+
+                _stereoSamples = AudioSampleProvider.getSamples(_audioClip);
+
                 Task audioProcessing = new Task(processAudioData);
                 audioProcessing.Start();
                 audioProcessing.Wait();
@@ -133,7 +136,6 @@ namespace Audio
         public void processAudioData()
         {
             _spectrumProvider = new SpectrumProvider(_trackConfig.ClipSampleRate);
-            _stereoSamples = AudioSampleProvider.getSamples(_audioClip);
 
             float[] monoSamples = AudioSampleProvider.getMonoSamples(_stereoSamples, _channels);
             List<double[]> spectrumsList = _spectrumProvider.getSpectrums(monoSamples);

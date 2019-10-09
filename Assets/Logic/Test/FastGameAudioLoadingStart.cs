@@ -15,8 +15,8 @@ namespace Test
 
         public void Start()
         {
-            string path = "Assets/Resources/Audio/beats.mp3";
             //string path = "Assets/Resources/Audio/trancesystem.mp3";
+            string path = "Assets/Resources/Audio/beats.mp3";
             //string path = "Assets/Resources/Audio/02 - A Subtle Dagger.mp3";
 
             GlobalStorage.getInstance().Difficulty = GameController.DIFFICULTY_EXPERT_PLUS;
