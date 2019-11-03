@@ -1536,7 +1536,7 @@ PrefabInstance:
     - target: {fileID: 4543761014036878844, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.9
+      value: 2.65
       objectReference: {fileID: 0}
     - target: {fileID: 4543761014036878844, guid: 0a5323aedbecf1a4c9cdf65e1deb46c6,
         type: 3}
@@ -5718,7 +5718,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4513922559133304122}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.74
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

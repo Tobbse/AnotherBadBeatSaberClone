@@ -16,7 +16,7 @@ namespace GameSpawnedObjects
         public Collider obstacleCollider;
 
         private Collider _playerCollider;
-        private int lifetimeCycles = 400;
+        private int lifetimeCycles = 650;
 
         private void Start()
         {

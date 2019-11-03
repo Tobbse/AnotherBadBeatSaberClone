@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8206047674415152557}
   - component: {fileID: 8206047674415152558}
   - component: {fileID: 8206047674415152552}
-  - component: {fileID: -5606999893013040741}
+  - component: {fileID: 2943651001025065096}
   m_Layer: 0
-  m_Name: VolumetricFogEffect_5_Blue
+  m_Name: VolumetricFogEffect_2_Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 709bcd1685570304f8a861856a199369, type: 2}
+  - {fileID: 2100000, guid: 23806d12608abe242846f7478cf230e8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,9 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7accb0a8f35eb9343a9840310521066d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphericalFogMaterial: {fileID: 0}
+  sphericalFogMaterial: {fileID: 2100000, guid: 23806d12608abe242846f7478cf230e8,
+    type: 2}
   scaleFactor: 1
---- !u!114 &-5606999893013040741
+--- !u!114 &2943651001025065096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

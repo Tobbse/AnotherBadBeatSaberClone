@@ -91,7 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7accb0a8f35eb9343a9840310521066d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphericalFogMaterial: {fileID: 0}
+  sphericalFogMaterial: {fileID: 2100000, guid: 709bcd1685570304f8a861856a199369,
+    type: 2}
   scaleFactor: 1
 --- !u!114 &-1564087011873479936
 MonoBehaviour:

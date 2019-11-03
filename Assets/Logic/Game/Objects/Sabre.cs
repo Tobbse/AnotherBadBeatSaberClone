@@ -12,6 +12,7 @@ namespace GameSpawnedObjects
     {
         private const float MIN_ANGLE = 120f;
         private const string NO_DIRECTION = "NoDirection";
+        private const byte VIBRATION_STRENGTH = 0x50;
 
         public int blockHitLayer;
         public Transform generated;
@@ -33,7 +34,7 @@ namespace GameSpawnedObjects
             // the written values define the strength of the vibration.
             for (int i = 0; i < 30; i++)
             {
-                _hapticsClip.WriteSample(0x28);
+                _hapticsClip.WriteSample(VIBRATION_STRENGTH);
             }
         }
 
