@@ -2,7 +2,7 @@
 
 # VR_Project
 *UPDATE:
-The whole thing is on hold now as I finished the project. It is not very polished and frankly pretty in a pretty buggy alpha-state due to time limitations (I already stepped over the required amount of Credit Points by quite a lot), but if you're just looking for some inspiration to create your own BeatSaber clone, this will be helpful. I might look into improving it after my thesis, but probably not.*
+The whole thing is on hold now as I finished the project. It is not very polished and frankly in a somewhat buggy alpha-state due to time limitations (I already stepped over the required amount of Credit Points by quite a lot), but if you're just looking for some inspiration to create your own BeatSaber clone, this will most likely be helpful. I might look into improving it after I've finished working on my thesis.*
 
 This is a Unity C# VR project developed for my Master's degree in Computer Science at the University of Applied Sciences Wedel.
 
