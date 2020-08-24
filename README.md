@@ -1,6 +1,6 @@
 ![](https://github.com/Tobbse/VR_Project/blob/master/Documentation/nitro_screenshot_150919.PNG)
 
-# VR_Project
+# AnotherBadBeatSaberClone
 *UPDATE:
 This project is on hold, as I finished the university course that initiated the whole thing. It is not polished at all and frankly in an extremely buggy alpha-state, due to time limitations (I already stepped over the required amount of credit points by quite a lot).
 However, if you're just looking for some inspiration to create your own BeatSaber clone, this will most likely be helpful to get you started. I might look into improving it after I've finished working on my thesis, but probably not.*
